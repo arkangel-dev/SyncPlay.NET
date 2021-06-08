@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace BackendCode {
     class Program {
+
+        [STAThread]
         static void Main(string[] args) {
-            //var spclient = new SyncPlay.Client("syncplay.pl", 8996, "", "", "ck", "1.2.7");
-            var spclient = new SyncPlay.Client("127.0.0.1", 5005, "Sammy", "", "ck", "1.2.7");
-            while (true) {
-                Console.ReadLine();
-            }
+            Application.EnableVisualStyles();
+            Application.Run(new MainForm());
         }
 
     }

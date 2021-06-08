@@ -33,7 +33,8 @@ namespace BackendCode.SyncPlay {
         }
 
         public void SendMessage(string Message) {
-            Common.PrintInColor(Message, ConsoleColor.Green);
+            //Common.PrintInColor(Message, ConsoleColor.Green);
+            Console.WriteLine(Message);
             var bytes = Encoding.ASCII.GetBytes(Message);
             stream.Write(bytes, 0, bytes.Length);
             stream.Flush();
@@ -66,7 +67,8 @@ namespace BackendCode.SyncPlay {
 
         private void NotifySubscribersOnNewMessage(String message) {
             if (String.IsNullOrWhiteSpace(message)) return;
-            Common.PrintInColor(message, ConsoleColor.Yellow);
+            //Common.PrintInColor(message, ConsoleColor.Yellow);
+            Console.WriteLine(message);
             if (OnNewMessage == null) return;
             OnNewMessage(this, message);
         }
