@@ -171,7 +171,18 @@ namespace BackendCode.SyncPlay {
                     var latencyCalculation = ping_key.Value<Double>("latencyCalculation");
                     var clientLatencyCalc = pingService.GetDepartureTimeStamp();
                     var clientRTT = pingService.GetRTT();
-                    client.SendMessage(Packets.CraftPingMessage(clientRTT, clientLatencyCalc, latencyCalculation, true, 0.0f));
+
+                    var sendIgnoreState = false;
+
+                    if (statekey.ContainsKey("ignoringOnTheFly")) {
+                        sendIgnoreState = statekey.Value<JObject>("ignoringOnTheFly").ContainsKey("server");
+                    }
+                    
+
+
+
+
+                    client.SendMessage(Packets.CraftPingMessage(clientRTT, clientLatencyCalc, latencyCalculation, true, 0.0f, serverIgnoreOnFly: sendIgnoreState));
                 }
                 #endregion
 

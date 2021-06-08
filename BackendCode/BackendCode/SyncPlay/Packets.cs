@@ -66,7 +66,19 @@ namespace BackendCode.SyncPlay {
             var sresult = result.ToString(Newtonsoft.Json.Formatting.None) + "\r\n";
             return sresult;
         }
-        public static string CraftPingMessage(double clientRtt, double clientLatencyCalculation, double latencyCalculation, bool paused, float position) {
+        public static string CraftPingMessage(
+            double clientRtt,
+            double clientLatencyCalculation,
+            double latencyCalculation,
+            bool paused,
+            float position,
+            bool serverIgnoreOnFly=false,
+            bool clientIgnoreOnFly=false,
+            double playerPosition = -1,
+            bool? playerPaused = null
+        ) {
+
+
             var result = new JObject(
                 new JProperty("State",
                     new JObject(
@@ -80,6 +92,25 @@ namespace BackendCode.SyncPlay {
                     )
                 )
             );
+            if (clientIgnoreOnFly || serverIgnoreOnFly) {
+
+                var Container = new JObject();
+                if (serverIgnoreOnFly) Container.Add(new JProperty("server", 1));
+                if (clientIgnoreOnFly) Container.Add(new JProperty("client", 1));
+
+                ((JObject)result["State"]).Add(new JProperty("ignoringOnTheFly", Container));
+            }
+
+
+            if (playerPosition != -1 && playerPaused != null) {
+                var container = new JObject();
+                container.Add(new JProperty("position", playerPosition));
+                container.Add(new JProperty("paused", (bool)playerPaused));
+
+                ((JObject)result["State"]).Add(new JProperty("playstate", container));
+            }
+
+
             var sresult = result.ToString(Newtonsoft.Json.Formatting.None) + "\r\n";
             return sresult;
         }
