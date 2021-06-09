@@ -12,6 +12,8 @@ namespace BackendCode.SyncPlay {
         private NetworkClient client;
         private string HelloMessage = "";
         private PingService pingService;
+
+        private float playPosition;
         
         private Dictionary<String, User> UserDictionary;
         private List<MediaFile> Playlist;
@@ -28,6 +30,14 @@ namespace BackendCode.SyncPlay {
         public void SetPause(bool state) {
             this.isPaused = state;
             // TODO : Implement Send Pause Code Here
+        }
+
+        public float GetPlayPosition() {
+            return playPosition;
+        }
+
+        public void SetPlayPosition(float p) {
+            playPosition = p;
         }
 
 
@@ -176,13 +186,14 @@ namespace BackendCode.SyncPlay {
 
                     if (statekey.ContainsKey("ignoringOnTheFly")) {
                         sendIgnoreState = statekey.Value<JObject>("ignoringOnTheFly").ContainsKey("server");
+
                     }
                     
 
 
 
 
-                    client.SendMessage(Packets.CraftPingMessage(clientRTT, clientLatencyCalc, latencyCalculation, true, 0.0f, serverIgnoreOnFly: sendIgnoreState));
+                    client.SendMessage(Packets.CraftPingMessage(clientRTT, clientLatencyCalc, latencyCalculation, serverIgnoreOnFly: sendIgnoreState, clientIgnoreOnFly:false, playerPosition:playPosition, playerPaused:isPaused));
                 }
                 #endregion
 
@@ -194,6 +205,9 @@ namespace BackendCode.SyncPlay {
 
 
         #endregion
+
+
+
 
 
 

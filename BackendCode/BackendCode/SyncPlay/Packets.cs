@@ -70,8 +70,6 @@ namespace BackendCode.SyncPlay {
             double clientRtt,
             double clientLatencyCalculation,
             double latencyCalculation,
-            bool paused,
-            float position,
             bool serverIgnoreOnFly=false,
             bool clientIgnoreOnFly=false,
             double playerPosition = -1,

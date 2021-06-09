@@ -28,6 +28,9 @@
             this.NotReady = new System.Windows.Forms.Button();
             this.Pause = new System.Windows.Forms.Button();
             this.Play = new System.Windows.Forms.Button();
+            this.PlayerPositionBox = new System.Windows.Forms.TextBox();
+            this.MoveBackTenSeconds = new System.Windows.Forms.Button();
+            this.MoveForwardTenSeconds = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // SetFile
@@ -78,12 +81,46 @@
             this.Play.TabIndex = 4;
             this.Play.Text = "Play";
             this.Play.UseVisualStyleBackColor = true;
+            this.Play.Click += new System.EventHandler(this.Play_Click);
+            // 
+            // PlayerPositionBox
+            // 
+            this.PlayerPositionBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PlayerPositionBox.Location = new System.Drawing.Point(142, 448);
+            this.PlayerPositionBox.Name = "PlayerPositionBox";
+            this.PlayerPositionBox.Size = new System.Drawing.Size(157, 28);
+            this.PlayerPositionBox.TabIndex = 5;
+            this.PlayerPositionBox.Text = "00";
+            this.PlayerPositionBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // MoveBackTenSeconds
+            // 
+            this.MoveBackTenSeconds.Location = new System.Drawing.Point(12, 446);
+            this.MoveBackTenSeconds.Name = "MoveBackTenSeconds";
+            this.MoveBackTenSeconds.Size = new System.Drawing.Size(124, 31);
+            this.MoveBackTenSeconds.TabIndex = 6;
+            this.MoveBackTenSeconds.Text = "- 10 Seconds";
+            this.MoveBackTenSeconds.UseVisualStyleBackColor = true;
+            this.MoveBackTenSeconds.Click += new System.EventHandler(this.MoveBackTenSeconds_Click);
+            // 
+            // MoveForwardTenSeconds
+            // 
+            this.MoveForwardTenSeconds.Location = new System.Drawing.Point(305, 446);
+            this.MoveForwardTenSeconds.Name = "MoveForwardTenSeconds";
+            this.MoveForwardTenSeconds.Size = new System.Drawing.Size(124, 31);
+            this.MoveForwardTenSeconds.TabIndex = 7;
+            this.MoveForwardTenSeconds.Text = "+ 10 Seconds";
+            this.MoveForwardTenSeconds.UseVisualStyleBackColor = true;
+            this.MoveForwardTenSeconds.Click += new System.EventHandler(this.MoveForwardTenSeconds_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(854, 489);
+            this.Controls.Add(this.MoveForwardTenSeconds);
+            this.Controls.Add(this.MoveBackTenSeconds);
+            this.Controls.Add(this.PlayerPositionBox);
             this.Controls.Add(this.Play);
             this.Controls.Add(this.Pause);
             this.Controls.Add(this.NotReady);
@@ -92,6 +129,7 @@
             this.Name = "MainForm";
             this.Text = "MainForm";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -102,5 +140,8 @@
         private System.Windows.Forms.Button NotReady;
         private System.Windows.Forms.Button Pause;
         private System.Windows.Forms.Button Play;
+        private System.Windows.Forms.TextBox PlayerPositionBox;
+        private System.Windows.Forms.Button MoveBackTenSeconds;
+        private System.Windows.Forms.Button MoveForwardTenSeconds;
     }
 }
