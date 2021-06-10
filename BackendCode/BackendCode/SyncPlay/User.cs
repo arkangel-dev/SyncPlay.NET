@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BackendCode.SyncPlay {
-    class User {
+    public class User {
+        public string Username;
+        public bool IsReady;
     }
 }

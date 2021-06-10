@@ -70,10 +70,13 @@ namespace BackendCode.SyncPlay {
             double clientRtt,
             double clientLatencyCalculation,
             double latencyCalculation,
-            bool serverIgnoreOnFly=false,
-            bool clientIgnoreOnFly=false,
             double playerPosition = -1,
+            bool serverIgnoreOnFly = false,
+            bool clientIgnoreOnFly = false,
+            bool doSeek = false,
             bool? playerPaused = null
+            
+
         ) {
 
 
@@ -102,6 +105,7 @@ namespace BackendCode.SyncPlay {
 
             if (playerPosition != -1 && playerPaused != null) {
                 var container = new JObject();
+                container.Add(new JProperty("doSeek", doSeek));
                 container.Add(new JProperty("position", playerPosition));
                 container.Add(new JProperty("paused", (bool)playerPaused));
 

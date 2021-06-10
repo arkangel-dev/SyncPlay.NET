@@ -71,7 +71,11 @@
     <Compile Include="SyncPlay\Client.cs" />
     <Compile Include="SyncPlay\Common.cs" />
     <Compile Include="SyncPlay\EventArgs\ChatMessageEventArgs.cs" />
+    <Compile Include="SyncPlay\EventArgs\PlayerStateUpdateEventArgs.cs" />
+    <Compile Include="SyncPlay\EventArgs\SeekPlayerEvent.cs" />
+    <Compile Include="SyncPlay\EventArgs\SetFileEventArgs.cs" />
     <Compile Include="SyncPlay\EventArgs\UserReadyEventArgs.cs" />
+    <Compile Include="SyncPlay\EventArgs\UserRoomStateEventArgs.cs" />
     <Compile Include="SyncPlay\MediaFile.cs" />
     <Compile Include="SyncPlay\Misc\MediaFileInfo.cs" />
     <Compile Include="SyncPlay\NetworkClient.cs" />

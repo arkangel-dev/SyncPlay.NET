@@ -9,80 +9,164 @@ using System.Threading.Tasks;
 
 namespace BackendCode.SyncPlay {
     class Client {
-        private NetworkClient client;
-        private string HelloMessage = "";
+        private NetworkClient nclient;
         private PingService pingService;
-
-        private float playPosition;
-        
         private Dictionary<String, User> UserDictionary;
         private List<MediaFile> Playlist;
+
+        private string HelloMessage = "";
+        private float playPosition;
         
-        private bool isPaused;
+        private bool isPaused = true;
         private bool isReady;
+        private bool clientIgnoreOnFly;
+        private bool Seeked;
+        private bool InitialNotReadyPacketSent = false;
 
         #region Front Facing Accessors
-
+        /// <summary>
+        /// This function will get the pause state of the client
+        /// </summary>
+        /// <returns>Pause state</returns>
         public bool GetPause() {
             return isPaused;
         }
 
+        /// <summary>
+        /// This function set the pause state of the client
+        /// </summary>
+        /// <param name="state">Boolean state</param>
         public void SetPause(bool state) {
+            clientIgnoreOnFly = true;
             this.isPaused = state;
-            // TODO : Implement Send Pause Code Here
         }
 
+        /// <summary>
+        /// This function will get the players supposed position
+        /// </summary>
+        /// <returns>Position in seconds</returns>
         public float GetPlayPosition() {
             return playPosition;
         }
 
+        /// <summary>
+        /// This function will set the players position
+        /// </summary>
+        /// <param name="p">Position in seconds</param>
         public void SetPlayPosition(float p) {
+            clientIgnoreOnFly = true;
+            Seeked = true;
             playPosition = p;
         }
 
+        /// <summary>
+        /// This function will set the position of the player. But only 
+        /// use this function to increment the client player
+        /// </summary>
+        /// <param name="p">Position in seconds</param>
+        public void TimerSetPosition(float p) {
+            playPosition = p;
+        }
 
+        /// <summary>
+        /// This function will get the ready state of the client
+        /// </summary>
+        /// <returns>Ready state</returns>
         public bool GetReadyState() {
             return this.isReady;
         }
 
+        /// <summary>
+        ///  This function will set the ready state of the client
+        /// </summary>
+        /// <param name="state">Ready state in boolean</param>
+        /// <param name="manuallyset">Set this to false if the client pauses</param>
         public void SetReadyState(bool state, bool manuallyset = true) {
             this.isReady = state;
-            client.SendMessage(Packets.CraftSetClientReadiness(state, manuallyset));
+            nclient.SendMessage(Packets.CraftSetClientReadiness(state, manuallyset));
         }
+
+        /// <summary>
+        /// This function will add a file to the playlist and set it as the currently playing file
+        /// </summary>
+        /// <param name="path">Path to the file</param>
         public void AddFileToPlayList(string path) {
             var mfile = MediaFile.OpenFile(path);
             Playlist.Add(mfile);
-            client.SendMessage(Packets.CraftSetFileMessage(mfile.FilePath, mfile.Duration, mfile.Size));
+            nclient.SendMessage(Packets.CraftSetFileMessage(mfile.FilePath, mfile.Duration, mfile.Size));
         }
 
+        /// <summary>
+        /// This is the constructor to the client class
+        /// </summary>
+        /// <param name="serverip">IP or domain of the server</param>
+        /// <param name="port">Port number to connect to</param>
+        /// <param name="username">User to use</param>
+        /// <param name="password">Password to use</param>
+        /// <param name="roomname">Room name to use</param>
+        /// <param name="version">Version of the client</param>
         public Client(String serverip, int port, String username, String password, String roomname, String version) {
-            client = new NetworkClient(serverip, port);
+            nclient = new NetworkClient(serverip, port);
             pingService = new PingService();
-            client.Connect();
+            nclient.Connect();
             HelloMessage = Packets.CraftIdentificationMessage(username, password, roomname, version);
-            client.OnNewMessage += NewIncomingMessage;
-            client.SendMessage(Packets.CraftTLS());
+            nclient.OnNewMessage += NewIncomingMessage;
+            nclient.SendMessage(Packets.CraftTLS());
             UserDictionary = new Dictionary<string, User>();
             Playlist = new List<MediaFile>();
         }
-
         #endregion
 
 
+        // These are the events that will be accessible to external packages...
+        // They contain the events that get triggered when something happens,
+        // like an event from the server
         #region Front Facing Events
-        public delegate void ReadyPacketHandler(Client sender, EventArgs.UserReadyEventArgs e);
         public event ReadyPacketHandler OnNewReadyPacket;
+        public delegate void ReadyPacketHandler(Client sender, EventArgs.UserReadyEventArgs e);
 
-        public delegate void ChatPacketHandler(Client sender, EventArgs.ChatMessageEventArgs e);
         public event ChatPacketHandler OnNewChatMessage;
+        public delegate void ChatPacketHandler(Client sender, EventArgs.ChatMessageEventArgs e);
+
+        public event UserRoomStateHandler OnUserRoomEvent;
+        public delegate void UserRoomStateHandler(Client sender, EventArgs.UserRoomStateEventArgs e);
         #endregion
 
 
-
-
-
-
+        
         #region Back end methods 
+        /// <summary>
+        /// This function will accept username and add said user to the dictionary and return the user object
+        /// It will also activate the event
+        /// </summary>
+        /// <param name="username">Username to add</param>
+        /// <returns></returns>
+        private User AddNewUser(string username) {
+            var user = new User();
+            user.Username = username;
+            this.UserDictionary.Add(username, user);
+            var eventargs = new EventArgs.UserRoomStateEventArgs();
+            eventargs.EventType = EventArgs.UserRoomStateEventArgs.EventTypes.JOINED;
+            eventargs.User = user;
+            OnUserRoomEvent?.Invoke(this, eventargs);
+            return user;
+        }
+
+        /// <summary>
+        /// This function will accept a username and remove them from the user dictionary. It will then activate
+        /// the event
+        /// </summary>
+        /// <param name="username">Username to remove</param>
+        private void RemoveUser(string username) {
+            User u;
+            this.UserDictionary.TryGetValue(username, out u);
+            this.UserDictionary.Remove(username);
+            var eventargs = new EventArgs.UserRoomStateEventArgs();
+            eventargs.EventType = EventArgs.UserRoomStateEventArgs.EventTypes.LEFT;
+            eventargs.User = u;
+            OnUserRoomEvent?.Invoke(this, eventargs);
+        }
+
         private void NewIncomingMessage(NetworkClient sender, string message) {
      
             if (String.IsNullOrWhiteSpace(message)) return;
@@ -91,13 +175,20 @@ namespace BackendCode.SyncPlay {
 
             // This the TLS negotiation packet
             if (jobj.ContainsKey("TLS")) {
-                client.SendMessage(HelloMessage);
+                nclient.SendMessage(HelloMessage);
             }
 
-            // This is the handshake packet
+            // This is a handshake packet
             if (jobj.ContainsKey("Hello")) {
-                client.SendMessage(Packets.CraftSetClientReadiness(false, false));
-                client.SendMessage(Packets.CraftSendList());
+
+                // This handshake is meant for us
+                if (InitialNotReadyPacketSent) {
+                    nclient.SendMessage(Packets.CraftSetClientReadiness(false, false));
+                    nclient.SendMessage(Packets.CraftSendList());
+                    InitialNotReadyPacketSent = true;
+                }
+
+                
             }
 
             // This will get triggered when someone sends a chat message
@@ -117,9 +208,9 @@ namespace BackendCode.SyncPlay {
             }
             #endregion
 
-            #region Set Packets
             // The set packets seems be in charge of making sure that the client updates
             // their properties and append new information to the client
+            #region Set Packets
             if (jobj.ContainsKey("Set")) {
                 var setkey = jobj.Value<JObject>("Set");
 
@@ -147,21 +238,33 @@ namespace BackendCode.SyncPlay {
                 // Set user events indicate that a user has left or joined the room. or the server.
                 #region User State Change Packet
                 if (setkey.ContainsKey("user")) {
-                    var UserInQuestion = (JProperty)setkey["user"].First();
+                    var username = ((JProperty)setkey["user"].First()).Name;
 
 
 
                     // This will get triggered if the user has set a new file
-                    if (UserInQuestion.Contains("file")) {  
-                        var Event = ((JProperty)((JObject)UserInQuestion.Value<JProperty>().Value)
-                                ["event"].First())
-                                .Name;
-                        Common.PrintInColor("The user " + UserInQuestion.Name + " has " + Event, ConsoleColor.Green);
+                    if (((JObject)setkey["user"][username]).ContainsKey("event")) {
+                        var eventKey = (JObject)setkey["user"][username]["event"];
+                        var eventName = ((JProperty)((JToken)eventKey).First()).Name;
+
+
+                        switch (eventName) {
+                            case "joined":
+                                AddNewUser(username);
+                                break;
+
+                            case "left":
+                                RemoveUser(username);
+                                break;
+
+                            default:
+                                throw new NullReferenceException("Cannot find the correct value");
+                        }
                     }
 
-                    if (UserInQuestion.Contains("file")) {
-                        // TODO : Use has set file!
-                    }
+                    //if (userKey.Contains("file")) {
+                    //    // TODO : User has set file!
+                    //}
                 }
                 #endregion
             }
@@ -182,18 +285,29 @@ namespace BackendCode.SyncPlay {
                     var clientLatencyCalc = pingService.GetDepartureTimeStamp();
                     var clientRTT = pingService.GetRTT();
 
-                    var sendIgnoreState = false;
-
-                    if (statekey.ContainsKey("ignoringOnTheFly")) {
-                        sendIgnoreState = statekey.Value<JObject>("ignoringOnTheFly").ContainsKey("server");
-
-                    }
+                    var sendServerIgnoreOnFly = false;
                     
 
+                    if (statekey.ContainsKey("ignoringOnTheFly")) {
+                        sendServerIgnoreOnFly = statekey.Value<JObject>("ignoringOnTheFly").ContainsKey("server");
+                    }
 
 
+                    nclient.SendMessage(
+                        Packets.CraftPingMessage(
+                            clientRTT, 
+                            clientLatencyCalc, 
+                            latencyCalculation, 
+                            serverIgnoreOnFly: sendServerIgnoreOnFly,
+                            clientIgnoreOnFly: clientIgnoreOnFly, 
+                            playerPosition: playPosition, 
+                            playerPaused:isPaused,
+                            doSeek: Seeked
 
-                    client.SendMessage(Packets.CraftPingMessage(clientRTT, clientLatencyCalc, latencyCalculation, serverIgnoreOnFly: sendIgnoreState, clientIgnoreOnFly:false, playerPosition:playPosition, playerPaused:isPaused));
+                        ));
+
+                    if (clientIgnoreOnFly) clientIgnoreOnFly = false;
+                    if (Seeked) Seeked = false;
                 }
                 #endregion
 

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BackendCode.SyncPlay.EventArgs {
-    class UserReadyEventArgs {
+    public class UserReadyEventArgs {
         public User User;
         public bool ManuallyInitiated;
         public bool IsReady;

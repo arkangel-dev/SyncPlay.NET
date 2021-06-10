@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BackendCode.SyncPlay.EventArgs {
-    class ChatMessageEventArgs {
+    public  class ChatMessageEventArgs {
         public User Sender;
         public String Message;
 

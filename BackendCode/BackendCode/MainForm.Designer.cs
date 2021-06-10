@@ -31,6 +31,9 @@
             this.PlayerPositionBox = new System.Windows.Forms.TextBox();
             this.MoveBackTenSeconds = new System.Windows.Forms.Button();
             this.MoveForwardTenSeconds = new System.Windows.Forms.Button();
+            this.DebugWindow = new System.Windows.Forms.TextBox();
+            this.ChatWindow = new System.Windows.Forms.TextBox();
+            this.UserList = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // SetFile
@@ -113,11 +116,39 @@
             this.MoveForwardTenSeconds.UseVisualStyleBackColor = true;
             this.MoveForwardTenSeconds.Click += new System.EventHandler(this.MoveForwardTenSeconds_Click);
             // 
+            // DebugWindow
+            // 
+            this.DebugWindow.Location = new System.Drawing.Point(305, 12);
+            this.DebugWindow.Multiline = true;
+            this.DebugWindow.Name = "DebugWindow";
+            this.DebugWindow.Size = new System.Drawing.Size(537, 185);
+            this.DebugWindow.TabIndex = 9;
+            // 
+            // ChatWindow
+            // 
+            this.ChatWindow.Location = new System.Drawing.Point(305, 203);
+            this.ChatWindow.Multiline = true;
+            this.ChatWindow.Name = "ChatWindow";
+            this.ChatWindow.Size = new System.Drawing.Size(537, 229);
+            this.ChatWindow.TabIndex = 10;
+            // 
+            // UserList
+            // 
+            this.UserList.FormattingEnabled = true;
+            this.UserList.ItemHeight = 16;
+            this.UserList.Location = new System.Drawing.Point(142, 12);
+            this.UserList.Name = "UserList";
+            this.UserList.Size = new System.Drawing.Size(157, 420);
+            this.UserList.TabIndex = 11;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(854, 489);
+            this.Controls.Add(this.UserList);
+            this.Controls.Add(this.ChatWindow);
+            this.Controls.Add(this.DebugWindow);
             this.Controls.Add(this.MoveForwardTenSeconds);
             this.Controls.Add(this.MoveBackTenSeconds);
             this.Controls.Add(this.PlayerPositionBox);
@@ -143,5 +174,8 @@
         private System.Windows.Forms.TextBox PlayerPositionBox;
         private System.Windows.Forms.Button MoveBackTenSeconds;
         private System.Windows.Forms.Button MoveForwardTenSeconds;
+        private System.Windows.Forms.TextBox DebugWindow;
+        private System.Windows.Forms.TextBox ChatWindow;
+        private System.Windows.Forms.ListBox UserList;
     }
 }

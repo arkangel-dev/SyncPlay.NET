@@ -21,7 +21,28 @@ namespace BackendCode {
             InitializeComponent();
 
             spclient = new SyncPlay.Client("127.0.0.1", 5005, "Sammy", "", "ck", "1.2.7");
-            
+            spclient.OnUserRoomEvent += NewUserJoined;
+
+            spclient.OnNewChatMessage += NewChatMessage;
+
+        }
+
+        private void NewChatMessage(SyncPlay.Client sender, SyncPlay.EventArgs.ChatMessageEventArgs e) {
+            this.Invoke(new MethodInvoker(delegate () {
+                ChatWindow.Text += $"{e.Sender.Username} : {e.Message}\n";
+            }));
+        }
+
+        private void NewUserJoined(SyncPlay.Client sender, SyncPlay.EventArgs.UserRoomStateEventArgs e) {
+            if (e.EventType.Equals(SyncPlay.EventArgs.UserRoomStateEventArgs.EventTypes.JOINED)) {
+                this.Invoke(new MethodInvoker(delegate () {
+                    UserList.Items.Add(e.User);
+                }));
+            } else {
+                this.Invoke(new MethodInvoker(delegate () {
+                    UserList.Items.Remove(e.User);
+                }));
+            }
         }
 
         private void SetFile_Click(object sender, EventArgs e) {
@@ -61,7 +82,7 @@ namespace BackendCode {
             while (true) {
                 if (!spclient.GetPause()) {
                     
-                    spclient.SetPlayPosition(spclient.GetPlayPosition() + 1);
+                    spclient.TimerSetPosition(spclient.GetPlayPosition() + 1);
                 }
 
                 var ts = TimeSpan.FromSeconds(spclient.GetPlayPosition());
@@ -69,23 +90,24 @@ namespace BackendCode {
                 var total_mins = (int)ts.TotalMinutes;
                 var total_secs = ts.TotalSeconds - ((int)(ts.TotalMinutes % 60) * 60);
 
-                SetText($"{total_mins}:{total_secs}");
+                SetPlayerPositionText($"{total_mins}:{total_secs}");
                 Thread.Sleep(1000);
             }
         }
 
         delegate void SetTextCallback(string text);
-        private void SetText(string text) {
+        private void SetPlayerPositionText(string text) {
             // InvokeRequired required compares the thread ID of the
             // calling thread to the thread ID of the creating thread.
             // If these threads are different, it returns true.
             if (this.PlayerPositionBox.InvokeRequired) {
-                SetTextCallback d = new SetTextCallback(SetText);
+                SetTextCallback d = new SetTextCallback(SetPlayerPositionText);
                 this.Invoke(d, new object[] { text });
             } else {
                 this.PlayerPositionBox.Text = text;
             }
         }
+
 
     }
 }
