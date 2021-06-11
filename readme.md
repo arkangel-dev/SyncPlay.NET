@@ -18,9 +18,9 @@ SyncPlay.NET is a C# client for the [SyncPlay]() protocol.
 
 - [x] Respond to Pausing
 
-- [ ] Latency calculation
+- [x] Latency calculation
 
-- [ ] Seek to current position when joining a new room
+- [x] Seek to current position when joining a new room
 
 - [ ] Filter out activity from other rooms
 
@@ -42,5 +42,5 @@ SyncPlay.NET is a C# client for the [SyncPlay]() protocol.
 - [x] User join room
 - [x] User left room
 - [x] `ignoreOnTheFly` packets
-- [ ] Room statistics list
+- [x] Room statistics list
 - [x] State ping packets

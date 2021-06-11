@@ -14,14 +14,12 @@ namespace BackendCode.SyncPlay {
         private Dictionary<String, User> UserDictionary;
         private List<MediaFile> Playlist;
 
-
         private string Username = "";
         private string HelloMessage = "";
         private string MOTD = "";
         private string ServerVersion = "";
 
         private float playPosition = 0.0f;
-
         
         private bool isPaused = true;
         private bool isReady = false;
@@ -373,6 +371,7 @@ namespace BackendCode.SyncPlay {
                     if (setByUserString != null) {
                         var setByUser = GetUserFromDictionary(setByUserString);
                         if (playstatekey.Value<Boolean>("paused") != isPaused) {
+
                             isPaused = playstatekey.Value<Boolean>("paused");
                             OnDebugLog(this, isPaused ? "Remote pause requested" : "Remove resume requested");
 
@@ -402,6 +401,7 @@ namespace BackendCode.SyncPlay {
                                 OnPlayerStateChange(this, remoteseekingeventargs);
                             }
                         } else if (Math.Abs(serverPosition - playPosition) > 5) {
+
                             playPosition = serverPosition;
                             OnDebugLog(this, $"Seeking to {Misc.Common.ConvertSecondsToTimeStamp((int)playPosition)} sync with server");
 
