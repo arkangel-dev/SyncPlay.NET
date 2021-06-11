@@ -20,5 +20,9 @@ namespace BackendCode.SyncPlay {
             this.IsReady = false;
             this.Position = 0.0f;
         }
+
+        public override string ToString() {
+            return this.Username;
+        }
     }
 }

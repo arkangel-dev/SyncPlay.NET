@@ -52,9 +52,9 @@ namespace BackendCode.SyncPlay {
                     }
 
                 } catch (IOException e) {
-                    Common.PrintInColor("Stream broken!", ConsoleColor.Red);
-                    Common.PrintInColor(e.Message, ConsoleColor.Red);
-                    Common.PrintInColor(e.StackTrace, ConsoleColor.Red);
+                    Misc.Common.PrintInColor("Stream broken!", ConsoleColor.Red);
+                    Misc.Common.PrintInColor(e.Message, ConsoleColor.Red);
+                    Misc.Common.PrintInColor(e.StackTrace, ConsoleColor.Red);
                     break;
                 }
             }
@@ -66,7 +66,7 @@ namespace BackendCode.SyncPlay {
 
         private void NotifySubscribersOnNewMessage(String message) {
             if (String.IsNullOrWhiteSpace(message)) return;
-            //Common.PrintInColor(message, ConsoleColor.Yellow);
+            //Misc.Common.PrintInColor(message, ConsoleColor.Yellow);
             Console.WriteLine(message);
             if (OnNewMessage == null) return;
             OnNewMessage(this, message);

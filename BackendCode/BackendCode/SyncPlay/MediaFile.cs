@@ -32,15 +32,15 @@ namespace BackendCode.SyncPlay {
                 mfile.Size = (int)new FileInfo(path).Length;
 
 
-                mfile.Duration = (float)Common.GetVideoDuration(path).TotalSeconds;
+                mfile.Duration = (float)Misc.Common.GetVideoDuration(path).TotalSeconds;
                
 
 
                 return mfile;
             } catch (Exception e) {
-                Common.PrintInColor("Warning failed to read file", ConsoleColor.Yellow);
-                Common.PrintInColor(e.Message, ConsoleColor.Yellow);
-                Common.PrintInColor(e.StackTrace, ConsoleColor.Yellow);
+                Misc.Common.PrintInColor("Warning failed to read file", ConsoleColor.Yellow);
+                Misc.Common.PrintInColor(e.Message, ConsoleColor.Yellow);
+                Misc.Common.PrintInColor(e.StackTrace, ConsoleColor.Yellow);
                 return null;
             }
         }

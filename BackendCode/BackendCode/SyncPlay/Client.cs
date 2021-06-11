@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace BackendCode.SyncPlay {
     class Client {
         private NetworkClient nclient;
-        private PingService pingService;
+        private Misc.PingService pingService;
         private Dictionary<String, User> UserDictionary;
         private List<MediaFile> Playlist;
 
@@ -113,7 +113,7 @@ namespace BackendCode.SyncPlay {
         /// <param name="version">Version of the client</param>
         public Client(String serverip, int port, String username, String password, String roomname, String version) {
             nclient = new NetworkClient(serverip, port);
-            pingService = new PingService();
+            pingService = new Misc.PingService();
             nclient.Connect();
             HelloMessage = Packets.CraftIdentificationMessage(username, password, roomname, version);
             nclient.OnNewMessage += NewIncomingMessage;
@@ -269,7 +269,7 @@ namespace BackendCode.SyncPlay {
                 var chatkey = jobj.Value<JObject>("Chat");
                 var username = chatkey.Value<String>("username");
                 var chatmessage = chatkey.Value<String>("message");
-                Common.PrintInColor($"The user {username} said '{chatmessage}'", ConsoleColor.Green);
+                Misc.Common.PrintInColor($"The user {username} said '{chatmessage}'", ConsoleColor.Green);
                 OnDebugLog(this, $"The user {username} said '{chatmessage}'");
                 if (OnNewChatMessage != null) {
                     User s;
@@ -298,7 +298,7 @@ namespace BackendCode.SyncPlay {
                     User userobj;
                     UserDictionary.TryGetValue(agent, out userobj);
                     String statusmessage = readystatus ? $"The user {agent} is ready" : $"The user {agent} is not ready";
-                    Common.PrintInColor(statusmessage, ConsoleColor.Green);
+                    Misc.Common.PrintInColor(statusmessage, ConsoleColor.Green);
                     OnDebugLog(this, statusmessage);
                     if (OnNewReadyPacket != null) {
                         var EventArgs = new EventArgs.UserReadyEventArgs(userobj, manuallyinitiated, readystatus);
@@ -365,50 +365,56 @@ namespace BackendCode.SyncPlay {
                 if (statekey.ContainsKey("playstate") && !clientIgnoreOnFly) {
                     var playstatekey = statekey.Value<JObject>("playstate");
                     var serverPosition = playstatekey.Value<float>("position");
-                    var setByUser = GetUserFromDictionary(playstatekey.Value<string>("setBy"));
+                    var setByUserString = playstatekey.Value<string>("setBy");
+                    
 
-                    if (playstatekey.Value<Boolean>("paused") != isPaused) {
-                        isPaused = playstatekey.Value<Boolean>("paused");
-                        OnDebugLog(this, isPaused ? "Remote pause requested" : "Remove resume requested");
+                    // Check if the setBy user is null. If its null that means 
+                    // the state has not been set yet
+                    if (setByUserString != null) {
+                        var setByUser = GetUserFromDictionary(setByUserString);
+                        if (playstatekey.Value<Boolean>("paused") != isPaused) {
+                            isPaused = playstatekey.Value<Boolean>("paused");
+                            OnDebugLog(this, isPaused ? "Remote pause requested" : "Remove resume requested");
 
-                        // Create an even args object to notify the player that it needs to change its pause state
-                        // because someone paused or unpaused
-                        var remotepauseeventargs = new EventArgs.RemoteStateChangeEventArgs();
-                        remotepauseeventargs.Agent = setByUser;
-                        remotepauseeventargs.Paused = isPaused;
-                        remotepauseeventargs.Position = serverPosition;
-                        remotepauseeventargs.Seeked = false;
-                        OnPlayerStateChange(this, remotepauseeventargs);
-                    }
-
-                    if (playstatekey.ContainsKey("doSeek")) {
-                        if ((bool)playstatekey["doSeek"]) {
-
-                            playPosition = serverPosition;
-                            OnDebugLog(this, $"Seeking to {Common.ConvertSecondsToTimeStamp((int)playPosition)}");
-
-                            // Create an even args object to notify the player that it needs to seek because someone on the
-                            // server side seeked
-                            var remoteseekingeventargs = new EventArgs.RemoteStateChangeEventArgs();
-                            remoteseekingeventargs.Agent = setByUser;
-                            remoteseekingeventargs.Paused = isPaused;
-                            remoteseekingeventargs.Position = serverPosition;
-                            remoteseekingeventargs.Seeked = true;
-                            OnPlayerStateChange(this, remoteseekingeventargs);
+                            // Create an even args object to notify the player that it needs to change its pause state
+                            // because someone paused or unpaused
+                            var remotepauseeventargs = new EventArgs.RemoteStateChangeEventArgs();
+                            remotepauseeventargs.Agent = setByUser;
+                            remotepauseeventargs.Paused = isPaused;
+                            remotepauseeventargs.Position = serverPosition;
+                            remotepauseeventargs.Seeked = false;
+                            OnPlayerStateChange(this, remotepauseeventargs);
                         }
-                    } else if (Math.Abs(serverPosition - playPosition) > 5) {
-                        playPosition = serverPosition;
-                        OnDebugLog(this, $"Seeking to {Common.ConvertSecondsToTimeStamp((int)playPosition)} sync with server");
 
-                        // Create an event args object to notify the player that it needs to seek to sync with the
-                        // other users
-                        var syncseekingeventargs = new EventArgs.RemoteStateChangeEventArgs();
-                        syncseekingeventargs.Agent = setByUser;
-                        syncseekingeventargs.Paused = isPaused;
-                        syncseekingeventargs.Position = serverPosition;
-                        syncseekingeventargs.Seeked = true;
-                        OnPlayerStateChange(this, syncseekingeventargs);
-                        
+                        if (playstatekey.ContainsKey("doSeek")) {
+                            if ((bool)playstatekey["doSeek"]) {
+
+                                playPosition = serverPosition;
+                                OnDebugLog(this, $"Seeking to {Misc.Common.ConvertSecondsToTimeStamp((int)playPosition)}");
+
+                                // Create an even args object to notify the player that it needs to seek because someone on the
+                                // server side seeked
+                                var remoteseekingeventargs = new EventArgs.RemoteStateChangeEventArgs();
+                                remoteseekingeventargs.Agent = setByUser;
+                                remoteseekingeventargs.Paused = isPaused;
+                                remoteseekingeventargs.Position = serverPosition;
+                                remoteseekingeventargs.Seeked = true;
+                                OnPlayerStateChange(this, remoteseekingeventargs);
+                            }
+                        } else if (Math.Abs(serverPosition - playPosition) > 5) {
+                            playPosition = serverPosition;
+                            OnDebugLog(this, $"Seeking to {Misc.Common.ConvertSecondsToTimeStamp((int)playPosition)} sync with server");
+
+                            // Create an event args object to notify the player that it needs to seek to sync with the
+                            // other users
+                            var syncseekingeventargs = new EventArgs.RemoteStateChangeEventArgs();
+                            syncseekingeventargs.Agent = setByUser;
+                            syncseekingeventargs.Paused = isPaused;
+                            syncseekingeventargs.Position = serverPosition;
+                            syncseekingeventargs.Seeked = true;
+                            OnPlayerStateChange(this, syncseekingeventargs);
+
+                        }
                     }
                 }
                 #endregion

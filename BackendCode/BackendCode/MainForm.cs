@@ -91,7 +91,7 @@ namespace BackendCode {
                     spclient.TimerSetPosition(spclient.GetPlayPosition() + 1);
                 }
 
-                SetPlayerPositionText(SyncPlay.Common.ConvertSecondsToTimeStamp((int)spclient.GetPlayPosition()));
+                SetPlayerPositionText(SyncPlay.Misc.Common.ConvertSecondsToTimeStamp((int)spclient.GetPlayPosition()));
                 Thread.Sleep(1000);
             }
         }
