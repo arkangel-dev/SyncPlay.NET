@@ -5,8 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BackendCode.SyncPlay.EventArgs {
-    public class SetFileEventArgs {
+    public class LocalSetFileEventArgs {
         public MediaFile File;
-        public User Agent;
     }
 }

@@ -33,7 +33,6 @@ namespace BackendCode.SyncPlay {
         }
 
         public void SendMessage(string Message) {
-            //Common.PrintInColor(Message, ConsoleColor.Green);
             Console.WriteLine(Message);
             var bytes = Encoding.ASCII.GetBytes(Message);
             stream.Write(bytes, 0, bytes.Length);

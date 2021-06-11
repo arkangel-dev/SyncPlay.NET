@@ -6,7 +6,14 @@ using System.Threading.Tasks;
 
 namespace BackendCode.SyncPlay {
     public interface MediaPlayerInterface {
-        event ChatPacketHandler OnNewChatMessage;
-        delegate void ChatPacketHandler(EventArgs.ChatMessageEventArgs e);
+        event PlayerStateChangeHandler OnPlayerStateChange;
+        delegate void PlayerStateChangeHandler(EventArgs.LocalStateChangeEventArgs e);
+
+        event PlayerFileChangeHandler OnPlayerFileChange;
+        delegate void PlayerFileChangeHandler(EventArgs.LocalSetFileEventArgs e);
+
+        void Pause();
+        void Play();
+        void SetPosition(float f);
     }
 }

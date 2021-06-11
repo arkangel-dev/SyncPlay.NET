@@ -5,11 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BackendCode.SyncPlay.EventArgs {
-    public class PlayerStateUpdateEventArgs {
+    public class RemoteStateChangeEventArgs {
+        public User Agent;
+        public bool Seeked;
         public bool Paused;
         public float Position;
 
-        public PlayerStateUpdateEventArgs(bool paused, float position) {
+
+        public RemoteStateChangeEventArgs() {
+
+        }
+
+        public RemoteStateChangeEventArgs(bool paused, float position) {
             Paused = paused;
             Position = position;
         }

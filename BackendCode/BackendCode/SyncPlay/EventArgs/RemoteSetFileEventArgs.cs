@@ -5,13 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BackendCode.SyncPlay.EventArgs {
-    public class SeekPlayerEvent {
+    public class RemoteSetFileEventArgs {
+        public MediaFile File;
         public User Agent;
-        public float Position;
-
-        public SeekPlayerEvent(User agent, float position) {
-            Agent = agent;
-            Position = position;
-        }
     }
 }

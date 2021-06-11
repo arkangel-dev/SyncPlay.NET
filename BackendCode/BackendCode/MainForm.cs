@@ -21,10 +21,17 @@ namespace BackendCode {
             InitializeComponent();
 
             spclient = new SyncPlay.Client("127.0.0.1", 5005, "Sammy", "", "ck", "1.2.7");
+
             spclient.OnUserRoomEvent += NewUserJoined;
-
             spclient.OnNewChatMessage += NewChatMessage;
+            spclient.OnDebugLog += DebugLogEvent;
 
+        }
+
+        private void DebugLogEvent(SyncPlay.Client sender, string message) {
+            this.Invoke(new MethodInvoker(delegate () {
+                DebugWindow.Text += message + "\n";
+            }));
         }
 
         private void NewChatMessage(SyncPlay.Client sender, SyncPlay.EventArgs.ChatMessageEventArgs e) {
@@ -81,25 +88,16 @@ namespace BackendCode {
         public void SyncPlayPositionLoop() {
             while (true) {
                 if (!spclient.GetPause()) {
-                    
                     spclient.TimerSetPosition(spclient.GetPlayPosition() + 1);
                 }
 
-                var ts = TimeSpan.FromSeconds(spclient.GetPlayPosition());
-
-                var total_mins = (int)ts.TotalMinutes;
-                var total_secs = ts.TotalSeconds - ((int)(ts.TotalMinutes % 60) * 60);
-
-                SetPlayerPositionText($"{total_mins}:{total_secs}");
+                SetPlayerPositionText(SyncPlay.Common.ConvertSecondsToTimeStamp((int)spclient.GetPlayPosition()));
                 Thread.Sleep(1000);
             }
         }
 
         delegate void SetTextCallback(string text);
         private void SetPlayerPositionText(string text) {
-            // InvokeRequired required compares the thread ID of the
-            // calling thread to the thread ID of the creating thread.
-            // If these threads are different, it returns true.
             if (this.PlayerPositionBox.InvokeRequired) {
                 SetTextCallback d = new SetTextCallback(SetPlayerPositionText);
                 this.Invoke(d, new object[] { text });
