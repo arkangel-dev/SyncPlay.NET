@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -31,6 +32,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DirectShowLib, Version=2.1.0.1599, Culture=neutral, processorArchitecture=MSIL">
@@ -77,6 +79,7 @@
     <Compile Include="SyncPlay\EventArgs\UserReadyEventArgs.cs" />
     <Compile Include="SyncPlay\EventArgs\UserRoomStateEventArgs.cs" />
     <Compile Include="SyncPlay\MediaFile.cs" />
+    <Compile Include="SyncPlay\MediaPlayerInterface.cs" />
     <Compile Include="SyncPlay\Misc\MediaFileInfo.cs" />
     <Compile Include="SyncPlay\NetworkClient.cs" />
     <Compile Include="SyncPlay\Packets.cs" />

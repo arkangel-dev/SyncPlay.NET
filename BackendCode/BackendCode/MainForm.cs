@@ -39,7 +39,7 @@ namespace BackendCode {
                     UserList.Items.Add(e.User);
                 }));
             } else {
-                this.Invoke(new MethodInvoker(delegate () {
+                 this.Invoke(new MethodInvoker(delegate () {
                     UserList.Items.Remove(e.User);
                 }));
             }

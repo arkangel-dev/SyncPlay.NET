@@ -14,14 +14,19 @@ namespace BackendCode.SyncPlay {
         private Dictionary<String, User> UserDictionary;
         private List<MediaFile> Playlist;
 
+
+        private string Username = "";
         private string HelloMessage = "";
-        private float playPosition;
+        private string MOTD = "";
+        private string ServerVersion = "";
+
+        private float playPosition = 0.0f;
+
         
         private bool isPaused = true;
-        private bool isReady;
-        private bool clientIgnoreOnFly;
-        private bool Seeked;
-        private bool InitialNotReadyPacketSent = false;
+        private bool isReady = false;
+        private bool Seeked = false;
+        private bool clientIgnoreOnFly = false;
 
         #region Front Facing Accessors
         /// <summary>
@@ -122,12 +127,22 @@ namespace BackendCode.SyncPlay {
         // They contain the events that get triggered when something happens,
         // like an event from the server
         #region Front Facing Events
+
+        /// <summary>
+        /// This event will be triggered when someones ready state has been changed
+        /// </summary>
         public event ReadyPacketHandler OnNewReadyPacket;
         public delegate void ReadyPacketHandler(Client sender, EventArgs.UserReadyEventArgs e);
 
+        /// <summary>
+        /// This even will be triggered when someone sends a new text message
+        /// </summary>
         public event ChatPacketHandler OnNewChatMessage;
         public delegate void ChatPacketHandler(Client sender, EventArgs.ChatMessageEventArgs e);
 
+        /// <summary>
+        /// This will be triggered when a user leaves or joins a room
+        /// </summary>
         public event UserRoomStateHandler OnUserRoomEvent;
         public delegate void UserRoomStateHandler(Client sender, EventArgs.UserRoomStateEventArgs e);
         #endregion
@@ -167,6 +182,17 @@ namespace BackendCode.SyncPlay {
             OnUserRoomEvent?.Invoke(this, eventargs);
         }
 
+        private User GetUserFromDictionary(string username) {
+            User u;
+            if (UserDictionary.TryGetValue(username, out u)) {
+                return u;
+            } else {
+                u = new User();
+                u.Username = username;
+                return u;
+            }
+        }
+
         private void NewIncomingMessage(NetworkClient sender, string message) {
      
             if (String.IsNullOrWhiteSpace(message)) return;
@@ -181,14 +207,40 @@ namespace BackendCode.SyncPlay {
             // This is a handshake packet
             if (jobj.ContainsKey("Hello")) {
 
-                // This handshake is meant for us
-                if (InitialNotReadyPacketSent) {
-                    nclient.SendMessage(Packets.CraftSetClientReadiness(false, false));
-                    nclient.SendMessage(Packets.CraftSendList());
-                    InitialNotReadyPacketSent = true;
-                }
 
-                
+                nclient.SendMessage(Packets.CraftSetClientReadiness(false, false));
+                nclient.SendMessage(Packets.CraftSendList());
+                this.Username = (String)jobj["Hello"]["username"];
+                this.MOTD = (String)jobj["Hello"]["motd"];
+                this.ServerVersion = (String)jobj["Hello"]["realVersion"];
+
+                var LocalUser = AddNewUser(this.Username);
+                LocalUser.IsReady = false;
+            }
+
+            if (jobj.ContainsKey("List")) {
+                foreach (var room in jobj.Children()) {
+                    foreach (var user in room.Children()) {
+
+                        var currentUser = GetUserFromDictionary(
+                            
+                            ((JProperty) user.First()).Name
+                        );
+                        currentUser.Room = ((JProperty)room).Name;
+                        currentUser.Position = user.Value<float>("position");
+                        currentUser.IsReady = user.Value<bool>("isReady");
+
+                        if (user.Value<JObject>("file") != null) {
+
+                            currentUser.File = MediaFile.Generate(
+                                user["file"].Value<String>("name"),
+                                user["file"].Value<float>("duration"),
+                                user["file"].Value<int>("size")
+                            );
+                        }
+
+                    }
+                }
             }
 
             // This will get triggered when someone sends a chat message
@@ -242,7 +294,7 @@ namespace BackendCode.SyncPlay {
 
 
 
-                    // This will get triggered if the user has set a new file
+                    
                     if (((JObject)setkey["user"][username]).ContainsKey("event")) {
                         var eventKey = (JObject)setkey["user"][username]["event"];
                         var eventName = ((JProperty)((JToken)eventKey).First()).Name;
@@ -275,23 +327,45 @@ namespace BackendCode.SyncPlay {
             if (jobj.ContainsKey("State")) {
                 var statekey = jobj.Value<JObject>("State");
 
+
+                #region Play State Packets
+                if (statekey.ContainsKey("playstate") && !clientIgnoreOnFly) {
+                    var playstatekey = statekey.Value<JObject>("playstate");
+                    var serverposition_feed = playstatekey.Value<float>("position");
+
+                    if (playstatekey.Value<Boolean>("paused") != isPaused) {
+                        isPaused = playstatekey.Value<Boolean>("paused");
+                        // TODO : Create an event to remote pausing
+                    }
+
+                    if (playstatekey.ContainsKey("doSeek")) {
+                        playPosition = serverposition_feed;
+                        // TODO : Create an event to notify remote seeking
+                    } else {
+                        if (Math.Abs(serverposition_feed - playPosition) > 5) {
+                            playPosition = serverposition_feed;
+                            // TODO : Create an event to notify position syncing
+                        }
+                    }
+                }
+                #endregion
+
                 // Ping packets are used to make sure that the client is not dead. If the server doesn't
                 // get ping responses for more than 14 pings, it will drop the connection
                 #region Ping packets
                 if (statekey.ContainsKey("ping")) {
                     var ping_key = statekey.Value<JObject>("ping");
+
                     pingService.SetArrivalTimeStamp(ping_key.Value<Double>("clientLatencyCalculation"));
+
                     var latencyCalculation = ping_key.Value<Double>("latencyCalculation");
                     var clientLatencyCalc = pingService.GetDepartureTimeStamp();
                     var clientRTT = pingService.GetRTT();
-
                     var sendServerIgnoreOnFly = false;
-                    
-
+                 
                     if (statekey.ContainsKey("ignoringOnTheFly")) {
                         sendServerIgnoreOnFly = statekey.Value<JObject>("ignoringOnTheFly").ContainsKey("server");
                     }
-
 
                     nclient.SendMessage(
                         Packets.CraftPingMessage(
