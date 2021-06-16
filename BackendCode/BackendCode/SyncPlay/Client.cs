@@ -13,6 +13,7 @@ namespace BackendCode.SyncPlay {
         private Misc.PingService pingService;
         private Dictionary<String, User> UserDictionary;
         private List<MediaFile> Playlist;
+        private MediaPlayerInterface Player;
 
         private string Username = "";
         private string HelloMessage = "";
@@ -109,7 +110,7 @@ namespace BackendCode.SyncPlay {
         /// <param name="password">Password to use</param>
         /// <param name="roomname">Room name to use</param>
         /// <param name="version">Version of the client</param>
-        public Client(String serverip, int port, String username, String password, String roomname, String version) {
+        public Client(String serverip, int port, String username, String password, String roomname, String version, MediaPlayerInterface player) {
             nclient = new NetworkClient(serverip, port);
             pingService = new Misc.PingService();
             nclient.Connect();
@@ -118,6 +119,17 @@ namespace BackendCode.SyncPlay {
             nclient.SendMessage(Packets.CraftTLS());
             UserDictionary = new Dictionary<string, User>();
             Playlist = new List<MediaFile>();
+            Player = player;
+            new Thread(() => { IncrementPosition(); }).Start();
+
+            player.OnPauseStateChange += SetPause;
+            player.OnSeek += SetPlayPosition;
+            player.StartPlayerInstance();
+
+
+            
+
+            Console.WriteLine("Hello");
         }
         #endregion
 
@@ -166,8 +178,19 @@ namespace BackendCode.SyncPlay {
         #endregion
 
 
-        
+
         #region Back end methods 
+
+
+        public void IncrementPosition() {
+            while (true) {
+                if (!GetPause()) {
+                    TimerSetPosition(GetPlayPosition() + 1);
+                }
+                Thread.Sleep(1000);
+            }
+        }
+
         /// <summary>
         /// This function will accept username and add said user to the dictionary and return the user object
         /// It will also activate the event
@@ -297,7 +320,9 @@ namespace BackendCode.SyncPlay {
                     UserDictionary.TryGetValue(agent, out userobj);
                     String statusmessage = readystatus ? $"The user {agent} is ready" : $"The user {agent} is not ready";
                     Misc.Common.PrintInColor(statusmessage, ConsoleColor.Green);
-                    OnDebugLog(this, statusmessage);
+
+
+                    OnDebugLog?.Invoke(this, statusmessage);
                     if (OnNewReadyPacket != null) {
                         var EventArgs = new EventArgs.UserReadyEventArgs(userobj, manuallyinitiated, readystatus);
                         OnNewReadyPacket(this, EventArgs);
@@ -373,7 +398,7 @@ namespace BackendCode.SyncPlay {
                         if (playstatekey.Value<Boolean>("paused") != isPaused) {
 
                             isPaused = playstatekey.Value<Boolean>("paused");
-                            OnDebugLog(this, isPaused ? "Remote pause requested" : "Remove resume requested");
+                            OnDebugLog?.Invoke(this, isPaused ? "Remote pause requested" : "Remove resume requested");
 
                             // Create an even args object to notify the player that it needs to change its pause state
                             // because someone paused or unpaused
@@ -382,28 +407,34 @@ namespace BackendCode.SyncPlay {
                             remotepauseeventargs.Paused = isPaused;
                             remotepauseeventargs.Position = serverPosition;
                             remotepauseeventargs.Seeked = false;
-                            OnPlayerStateChange(this, remotepauseeventargs);
+
+                            Player.SetPauseState(isPaused);
+                            OnPlayerStateChange?.Invoke(this, remotepauseeventargs);
                         }
 
                         if (playstatekey.ContainsKey("doSeek")) {
-                            if ((bool)playstatekey["doSeek"]) {
+                            if (playstatekey["doSeek"] != null) {
+                                if ((bool)playstatekey["doSeek"]) {
 
-                                playPosition = serverPosition;
-                                OnDebugLog(this, $"Seeking to {Misc.Common.ConvertSecondsToTimeStamp((int)playPosition)}");
+                                    playPosition = serverPosition;
+                                    OnDebugLog(this, $"Seeking to {Misc.Common.ConvertSecondsToTimeStamp((int)playPosition)}");
 
-                                // Create an even args object to notify the player that it needs to seek because someone on the
-                                // server side seeked
-                                var remoteseekingeventargs = new EventArgs.RemoteStateChangeEventArgs();
-                                remoteseekingeventargs.Agent = setByUser;
-                                remoteseekingeventargs.Paused = isPaused;
-                                remoteseekingeventargs.Position = serverPosition;
-                                remoteseekingeventargs.Seeked = true;
-                                OnPlayerStateChange(this, remoteseekingeventargs);
+                                    // Create an even args object to notify the player that it needs to seek because someone on the
+                                    // server side seeked
+                                    var remoteseekingeventargs = new EventArgs.RemoteStateChangeEventArgs();
+                                    remoteseekingeventargs.Agent = setByUser;
+                                    remoteseekingeventargs.Paused = isPaused;
+                                    remoteseekingeventargs.Position = serverPosition;
+                                    remoteseekingeventargs.Seeked = true;
+
+                                    Player.SetPosition(serverPosition);
+                                    OnPlayerStateChange?.Invoke(this, remoteseekingeventargs);
+                                }
                             }
                         } else if (Math.Abs(serverPosition - playPosition) > 5) {
 
                             playPosition = serverPosition;
-                            OnDebugLog(this, $"Seeking to {Misc.Common.ConvertSecondsToTimeStamp((int)playPosition)} sync with server");
+                            OnDebugLog?.Invoke(this, $"Seeking to {Misc.Common.ConvertSecondsToTimeStamp((int)playPosition)} sync with server");
 
                             // Create an event args object to notify the player that it needs to seek to sync with the
                             // other users
@@ -412,8 +443,12 @@ namespace BackendCode.SyncPlay {
                             syncseekingeventargs.Paused = isPaused;
                             syncseekingeventargs.Position = serverPosition;
                             syncseekingeventargs.Seeked = true;
-                            OnPlayerStateChange(this, syncseekingeventargs);
 
+                            Player.SetPosition(serverPosition);
+                            OnPlayerStateChange?.Invoke(this, syncseekingeventargs);
+
+
+                            
                         }
                     }
                 }

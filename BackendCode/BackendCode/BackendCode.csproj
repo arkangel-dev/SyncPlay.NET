@@ -71,6 +71,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SyncPlay\Client.cs" />
+    <Compile Include="SyncPlay\MediaPlayers\VLCMediaPlayer\Connector.cs" />
     <Compile Include="SyncPlay\Misc\Common.cs" />
     <Compile Include="SyncPlay\EventArgs\ChatMessageEventArgs.cs" />
     <Compile Include="SyncPlay\EventArgs\LocalSetFileEventArgs.cs" />
@@ -97,8 +98,6 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SyncPlay\MediaPlayers\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

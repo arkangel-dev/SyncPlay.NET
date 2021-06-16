@@ -20,7 +20,7 @@ namespace BackendCode {
         public MainForm() {
             InitializeComponent();
 
-            spclient = new SyncPlay.Client("127.0.0.1", 5005, "Sammy", "", "ck", "1.2.7");
+            spclient = new SyncPlay.Client("127.0.0.1", 5005, "Sammy", "", "ck", "1.2.7", VLC);
 
             spclient.OnUserRoomEvent += NewUserJoined;
             spclient.OnNewChatMessage += NewChatMessage;
@@ -87,10 +87,6 @@ namespace BackendCode {
 
         public void SyncPlayPositionLoop() {
             while (true) {
-                if (!spclient.GetPause()) {
-                    spclient.TimerSetPosition(spclient.GetPlayPosition() + 1);
-                }
-
                 SetPlayerPositionText(SyncPlay.Misc.Common.ConvertSecondsToTimeStamp((int)spclient.GetPlayPosition()));
                 Thread.Sleep(1000);
             }
@@ -107,5 +103,53 @@ namespace BackendCode {
         }
 
 
+        #region VLC Player Interface Test
+        SyncPlay.MediaPlayers.VLCMediaPlayer.Connector VLC = new SyncPlay.MediaPlayers.VLCMediaPlayer.Connector();
+
+        private void VLCStartServer_Click(object sender, EventArgs e) {
+            VLC.StartPlayerInstance();
+            //VLC.OnVLCMessage += VLC_OnVLCMessage;
+            VLC.OnPauseStateChange += VLC_OnPauseStateChange;
+            VLC.OnSeek += VLC_OnSeek;
+            VLC.OnDebugMessage += VLC_OnDebugMessage;
+            
+        }
+
+        private void VLC_OnDebugMessage(string s) {
+            WriteToUIConsole("[DEBUG] " + s);
+        }
+
+        private void VLC_OnSeek(float position) {
+            WriteToUIConsole($"Player has seeked to the poition {position} seconds");
+        }
+
+        private void VLC_OnPauseStateChange(bool paused) {
+            WriteToUIConsole(paused ? "Player Paused!" : "Player Played!");
+        }
+
+
+
+        private void WriteToUIConsole(string s) {
+            this.Invoke(new MethodInvoker(() => {
+                VLCServerOutput.Text += s + "\n";
+                VLCServerOutput.SelectionStart = VLCServerOutput.Text.Length;
+                VLCServerOutput.ScrollToCaret();
+
+            }));
+        }
+
+        private void VLCPlay_Click(object sender, EventArgs e) {
+            VLC.Play();
+        }
+
+        private void VLCPause_Click(object sender, EventArgs e) {
+            VLC.Pause();
+        }
+
+        #endregion
+
+        private void MainForm_Load(object sender, EventArgs e) {
+
+        }
     }
 }
