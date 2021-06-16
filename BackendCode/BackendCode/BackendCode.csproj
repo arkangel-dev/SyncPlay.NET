@@ -87,6 +87,7 @@
     <Compile Include="SyncPlay\Misc\Packets.cs" />
     <Compile Include="SyncPlay\PingService.cs" />
     <Compile Include="SyncPlay\Security.cs" />
+    <Compile Include="SyncPlay\SyncPlayWrapper.cs" />
     <Compile Include="SyncPlay\User.cs" />
   </ItemGroup>
   <ItemGroup>

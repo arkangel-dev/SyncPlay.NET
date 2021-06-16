@@ -13,34 +13,34 @@ namespace BackendCode {
     public partial class MainForm : Form {
 
 
-        SyncPlay.Client spclient;
+        SyncPlay.SyncPlayWrapper spwrapper;
         bool SyncThreadStarted = false;
 
 
         public MainForm() {
             InitializeComponent();
 
-            spclient = new SyncPlay.Client("127.0.0.1", 5005, "Sammy", "", "ck", "1.2.7", VLC);
+            spwrapper = new SyncPlay.SyncPlayWrapper("127.0.0.1", 5005, "Sammy", "", "ck", VLC);
 
-            spclient.OnUserRoomEvent += NewUserJoined;
-            spclient.OnNewChatMessage += NewChatMessage;
-            spclient.OnDebugLog += DebugLogEvent;
+            spwrapper.SClient.OnUserRoomEvent += NewUserJoined;
+            spwrapper.SClient.OnNewChatMessage += NewChatMessage;
+            spwrapper.SClient.OnDebugLog += DebugLogEvent;
 
         }
 
-        private void DebugLogEvent(SyncPlay.Client sender, string message) {
+        private void DebugLogEvent(SyncPlay.SyncPlayClient sender, string message) {
             this.Invoke(new MethodInvoker(delegate () {
                 DebugWindow.Text += message + "\n";
             }));
         }
 
-        private void NewChatMessage(SyncPlay.Client sender, SyncPlay.EventArgs.ChatMessageEventArgs e) {
+        private void NewChatMessage(SyncPlay.SyncPlayClient sender, SyncPlay.EventArgs.ChatMessageEventArgs e) {
             this.Invoke(new MethodInvoker(delegate () {
                 ChatWindow.Text += $"{e.Sender.Username} : {e.Message}\n";
             }));
         }
 
-        private void NewUserJoined(SyncPlay.Client sender, SyncPlay.EventArgs.UserRoomStateEventArgs e) {
+        private void NewUserJoined(SyncPlay.SyncPlayClient sender, SyncPlay.EventArgs.UserRoomStateEventArgs e) {
             if (e.EventType.Equals(SyncPlay.EventArgs.UserRoomStateEventArgs.EventTypes.JOINED)) {
                 this.Invoke(new MethodInvoker(delegate () {
                     UserList.Items.Add(e.User);
@@ -53,22 +53,22 @@ namespace BackendCode {
         }
 
         private void SetFile_Click(object sender, EventArgs e) {
-            spclient.AddFileToPlayList("D:\\GitHub\\SyncPlayWPF\\BackendCode\\BackendCode\\bin\\Debug\\DoYouLoveMe.mp4");
+            spwrapper.SClient.AddFileToPlayList("D:\\GitHub\\SyncPlayWPF\\BackendCode\\BackendCode\\bin\\Debug\\DoYouLoveMe.mp4");
         }
 
         private void Ready_Click(object sender, EventArgs e) {
-            spclient.SetReadyState(true);
+            spwrapper.SClient.SetReadyState(true);
         }
 
         private void NotReady_Click(object sender, EventArgs e) {
-            spclient.SetReadyState(false);
+            spwrapper.SClient.SetReadyState(false);
         }
 
         private void Pause_Click(object sender, EventArgs e) {
-            spclient.SetPause(true);
+            spwrapper.SClient.SetPause(true);
         }
         private void Play_Click(object sender, EventArgs e) {
-            spclient.SetPause(false);
+            spwrapper.SClient.SetPause(false);
 
             if (!SyncThreadStarted) {
                 SyncThreadStarted = true;
@@ -78,16 +78,16 @@ namespace BackendCode {
         }
 
         private void MoveBackTenSeconds_Click(object sender, EventArgs e) {
-            spclient.SetPlayPosition(spclient.GetPlayPosition() - 10);
+            spwrapper.SClient.SetPlayPosition(spwrapper.SClient.GetPlayPosition() - 10);
         }
 
         private void MoveForwardTenSeconds_Click(object sender, EventArgs e) {
-            spclient.SetPlayPosition(spclient.GetPlayPosition() + 10);
+            spwrapper.SClient.SetPlayPosition(spwrapper.SClient.GetPlayPosition() + 10);
         }
 
         public void SyncPlayPositionLoop() {
             while (true) {
-                SetPlayerPositionText(SyncPlay.Misc.Common.ConvertSecondsToTimeStamp((int)spclient.GetPlayPosition()));
+                SetPlayerPositionText(SyncPlay.Misc.Common.ConvertSecondsToTimeStamp((int)spwrapper.SClient.GetPlayPosition()));
                 Thread.Sleep(1000);
             }
         }
