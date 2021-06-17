@@ -330,13 +330,9 @@ namespace BackendCode.SyncPlay {
                 if (setkey.ContainsKey("user")) {
                     var username = ((JProperty)setkey["user"].First()).Name;
 
-
-
-                    
                     if (((JObject)setkey["user"][username]).ContainsKey("event")) {
                         var eventKey = (JObject)setkey["user"][username]["event"];
                         var eventName = ((JProperty)((JToken)eventKey).First()).Name;
-
 
                         switch (eventName) {
                             case "joined":
