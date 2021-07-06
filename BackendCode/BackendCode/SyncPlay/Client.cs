@@ -118,12 +118,7 @@ namespace BackendCode.SyncPlay {
             nclient.SendMessage(Packets.CraftTLS());
             UserDictionary = new Dictionary<string, User>();
             Playlist = new List<MediaFile>();
-
             new Thread(() => { IncrementPosition(); }).Start();
-
- 
-
-            Console.WriteLine("Hello");
         }
         #endregion
 

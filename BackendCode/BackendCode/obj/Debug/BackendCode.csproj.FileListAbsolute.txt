@@ -3,7 +3,6 @@ D:\GitHub\SyncPlayWPF\BackendCode\BackendCode\bin\Debug\BackendCode.exe
 D:\GitHub\SyncPlayWPF\BackendCode\BackendCode\bin\Debug\BackendCode.pdb
 D:\GitHub\SyncPlayWPF\BackendCode\BackendCode\bin\Debug\Newtonsoft.Json.dll
 D:\GitHub\SyncPlayWPF\BackendCode\BackendCode\bin\Debug\Newtonsoft.Json.xml
-D:\GitHub\SyncPlayWPF\BackendCode\BackendCode\obj\Debug\BackendCode.csprojAssemblyReference.cache
 D:\GitHub\SyncPlayWPF\BackendCode\BackendCode\obj\Debug\BackendCode.csproj.CopyComplete
 D:\GitHub\SyncPlayWPF\BackendCode\BackendCode\obj\Debug\BackendCode.exe
 D:\GitHub\SyncPlayWPF\BackendCode\BackendCode\obj\Debug\BackendCode.pdb
@@ -20,3 +19,5 @@ D:\GitHub\SyncPlayWPF\BackendCode\BackendCode\bin\Debug\Microsoft.WindowsAPICode
 D:\GitHub\SyncPlayWPF\BackendCode\BackendCode\bin\Debug\Microsoft.WindowsAPICodePack.ShellExtensions.xml
 D:\GitHub\SyncPlayWPF\BackendCode\BackendCode\obj\Debug\BackendCode.MainForm.resources
 D:\GitHub\SyncPlayWPF\BackendCode\BackendCode\obj\Debug\BackendCode.csproj.GenerateResource.cache
+D:\GitHub\SyncPlayWPF\BackendCode\BackendCode\obj\Debug\BackendCode.csproj.AssemblyReference.cache
+D:\GitHub\SyncPlayWPF\BackendCode\BackendCode\obj\Debug\BackendCode.csproj.CoreCompileInputs.cache
