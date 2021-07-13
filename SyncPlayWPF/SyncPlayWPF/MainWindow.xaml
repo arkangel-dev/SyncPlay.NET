@@ -1,0 +1,72 @@
+﻿<Window x:Class="SyncPlayWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SyncPlayWPF"
+        xmlns:custom="clr-namespace:SyncPlayWPF.CustomControls"
+        mc:Ignorable="d"
+        Title="SyncPlay.NET" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen"
+        SnapsToDevicePixels="True"
+        ResizeMode="CanResize">
+    <Window.Resources>
+        <ResourceDictionary Source="Themes/Generic.xaml"/>
+    </Window.Resources>
+    <Window.Style>
+        <Style TargetType="Window">
+            <Setter Property="WindowChrome.WindowChrome">
+                <Setter.Value>
+                    <WindowChrome
+                        CaptionHeight="0"
+                        CornerRadius="0"
+                        GlassFrameThickness="0"
+                        NonClientFrameEdges="None"
+                        ResizeBorderThickness="1" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Style>
+    <Grid>
+        <Grid.Style>
+            <Style TargetType="{x:Type Grid}">
+                <Setter Property="Margin" Value="6"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding WindowState, RelativeSource={RelativeSource AncestorType=Window}}" Value="Normal">
+                        <Setter Property="Margin" Value="0"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Style>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Title bar -->
+        <Grid Grid.Row="0" UIElement.MouseDown="WindowDrag" Opacity="0.85" Background="{StaticResource DarkMode_AccentColorA}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="35"/>
+                <ColumnDefinition Width="35"/>
+                <ColumnDefinition Width="35"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Column="0" Style="{StaticResource DarkMode_TitleBarText}">SyncPlay.NET</Label>
+            <custom:ImageButton 
+                Grid.Column="1" 
+                Image="{StaticResource MinimizeButton}"
+                Style="{StaticResource TitleBarButtons}"/>
+            <custom:ImageButton 
+                Grid.Column="2" 
+                Image="{StaticResource RestoreWindowButton}"
+                Style="{StaticResource TitleBarButtons}"/>
+            <custom:ImageButton
+                Grid.Column="3" 
+                ImageBackgroundClickBrush="#FFABAB"
+                BackgroundClickBrush="#FC4B4B"
+                Image="{StaticResource CloseWindowButton}"
+                Style="{StaticResource TitleBarButtons}"/>
+        </Grid>
+    </Grid>
+</Window>

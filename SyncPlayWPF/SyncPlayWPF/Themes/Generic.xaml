@@ -1,0 +1,109 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:SyncPlayWPF"
+    xmlns:custom="clr-namespace:SyncPlayWPF.CustomControls">
+
+
+    <!-- Images-->
+    <BitmapImage x:Key="MinimizeButton" UriSource="/ImageLib/minus-line.png"/>
+    <BitmapImage x:Key="CloseWindowButton" UriSource="/ImageLib/close-line.png"/>
+    <BitmapImage x:Key="RestoreWindowButton" UriSource="/ImageLib/restore-window-line.png"/>
+
+    <!-- Colors -->
+    <SolidColorBrush x:Key="DarkMode_AccentColorA" Color="#27272B"/>
+    <SolidColorBrush x:Key="DarkMode_AccentColorB" Color="#9D9D9D"/>
+    <SolidColorBrush x:Key="DarkMode_TextColorA" Color="#FFF"/>
+    <SolidColorBrush x:Key="DarkMode_ImageButtonImgHover" Color="#CBCBCB"/>
+    <SolidColorBrush x:Key="DarkMode_ImageButtonImgClick" Color="#A3D5EC"/>
+    <SolidColorBrush x:Key="DarkMode_ImageButtonHover" Color="#595959"/>
+    <SolidColorBrush x:Key="DarkMode_ImageButtonClick" Color="#769AAB"/>
+
+
+
+
+    <!-- Stylez -->
+    <Style x:Key="DarkMode_TitleBarText" TargetType="Label">
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="FontFamily" Value="Open Sans"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="{StaticResource DarkMode_TextColorA}"/>
+    </Style>
+
+    <!-- Control templates -->
+    
+
+
+    <!-- Custom Controls -->
+    
+    <!-- Image buttons-->
+    <Style TargetType="{x:Type custom:ImageButton}" x:Key="TitleBarButtons" BasedOn="{StaticResource {x:Type custom:ImageButton}}">
+        <Setter Property="ImageHeight" Value="15"/>
+        <Setter Property="ImageWidth" Value="15"/>
+        <Setter Property="ImageBackgroundBrush" Value="{StaticResource DarkMode_AccentColorB}"/>
+        <Setter Property="BackgroundHoverBrush" Value="{StaticResource DarkMode_ImageButtonHover}"/>
+        <Setter Property="BackgroundClickBrush" Value="{StaticResource DarkMode_ImageButtonClick}"/>
+        <Setter Property="ImageBackgroundHoverBrush" Value="{StaticResource DarkMode_ImageButtonImgHover}"/>
+        <Setter Property="ImageBackgroundClickBrush" Value="{StaticResource DarkMode_ImageButtonImgClick}"/>
+        <Setter Property="BackgroundBrush" Value="Transparent"/>
+    </Style>
+
+    <Style TargetType="{x:Type custom:ImageButton}">
+        <Setter Property="Background" Value="{StaticResource DarkMode_AccentColorA}"/>
+        <Setter Property="ImageHeight" Value="18"/>
+        <Setter Property="ImageWidth" Value="18"/>
+        <Setter Property="MinWidth" Value="32.5"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border
+                        Name="MainBorder"
+
+                        Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Width}"
+                        Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Height}">
+
+                        <Rectangle 
+                            Name="ImageRec"
+                            Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ImageHeight}" 
+                            Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ImageWidth}">
+                            <Rectangle.OpacityMask>
+                                <ImageBrush Stretch="Uniform" ImageSource="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Image}"/>
+                            </Rectangle.OpacityMask>
+
+                            <Rectangle.Style>
+                                <Style TargetType="{x:Type Rectangle}">
+                                    <Setter Property="Fill" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ImageBackgroundBrush}"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="True">
+                                            <Setter Property="Fill" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ImageBackgroundClickBrush}"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ElementName=MainBorder, Path=IsMouseOver}" Value="True">
+                                            <Setter Property="Fill" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ImageBackgroundHoverBrush}"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Rectangle.Style>
+
+                        </Rectangle>
+                        <Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=BackgroundBrush}"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="True">
+                                        <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=BackgroundClickBrush}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ElementName=MainBorder, Path=IsMouseOver}" Value="True">
+                                        <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=BackgroundHoverBrush}"/>
+                                    </DataTrigger>
+                                    
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+ 
+    </Style>
+
+</ResourceDictionary>
