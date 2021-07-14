@@ -63,17 +63,26 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converters\TextBoxValueToBoolean.cs" />
     <Compile Include="CustomControls\ImageButton.cs" />
+    <Compile Include="CustomControls\PromptingLabel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\NewSessionPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Pages\NewSessionPage.xaml.cs">
+      <DependentUpon>NewSessionPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -106,6 +115,22 @@
     <Resource Include="ImageLib\close-line.png" />
     <Resource Include="ImageLib\minus-line.png" />
     <Resource Include="ImageLib\restore-window-line.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\symphony-pos\WpfPageTransitions\WpfPageTransitions.csproj">
+      <Project>{22a46d61-1d40-43a9-802c-b9d43dadd9ec}</Project>
+      <Name>WpfPageTransitions</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Pages\SessionPages\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ImageLib\SyncplayOriginal_Logo.png" />
+    <Resource Include="ImageLib\SyncplayOriginal_NewLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ImageLib\NewSessionBackDrop.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

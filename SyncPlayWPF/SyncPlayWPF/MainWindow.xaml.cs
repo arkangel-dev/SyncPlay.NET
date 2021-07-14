@@ -20,6 +20,8 @@ namespace SyncPlayWPF {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
+
+            RootPageTransition.ShowPage(new Pages.NewSessionPage());
         }
 
         private void WindowDrag(object sender, MouseButtonEventArgs e) {

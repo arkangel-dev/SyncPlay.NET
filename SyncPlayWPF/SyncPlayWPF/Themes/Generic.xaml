@@ -2,24 +2,60 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:SyncPlayWPF"
-    xmlns:custom="clr-namespace:SyncPlayWPF.CustomControls">
+    xmlns:custom="clr-namespace:SyncPlayWPF.CustomControls"
+    xmlns:dataconverters="clr-namespace:SyncPlayWPF.Converters">
 
+    <!-- Dataconverters -->
+    <dataconverters:TextBoxValueToBoolean x:Key="TextBoxValueToBoolean"/>
 
     <!-- Images-->
     <BitmapImage x:Key="MinimizeButton" UriSource="/ImageLib/minus-line.png"/>
     <BitmapImage x:Key="CloseWindowButton" UriSource="/ImageLib/close-line.png"/>
     <BitmapImage x:Key="RestoreWindowButton" UriSource="/ImageLib/restore-window-line.png"/>
-
+    <BitmapImage x:Key="SyncPlayLogoNew" UriSource="/ImageLib/SyncplayOriginal_NewLogo.png"/>
+    <BitmapImage x:Key="SyncPlayLogoClassic" UriSource="/ImageLib/SyncplayOriginal_Logo.png"/>
+    <BitmapImage x:Key="NewSessionBackDrop" UriSource="/ImageLib/NewSessionBackDrop.png"/>
+  
     <!-- Colors -->
-    <SolidColorBrush x:Key="DarkMode_AccentColorA" Color="#27272B"/>
-    <SolidColorBrush x:Key="DarkMode_AccentColorB" Color="#9D9D9D"/>
-    <SolidColorBrush x:Key="DarkMode_TextColorA" Color="#FFF"/>
+    <SolidColorBrush x:Key="DarkMode_AccentColorA" Color="#2B2B2B"/>
+    <SolidColorBrush x:Key="DarkMode_AccentColorB" Color="#A6878787"/>
+    <SolidColorBrush x:Key="DarkMode_AccentColorC" Color="#3B3B3B"/>
+    <SolidColorBrush x:Key="DarkMode_AccentColorD" Color="#9E2B2B2B"/>
+    <SolidColorBrush x:Key="DarkMode_TextColorA" Color="#C8C8C8"/>
+    <SolidColorBrush x:Key="DarkMode_TextColorB" Color="#E1C6C6C6"/>
+    <SolidColorBrush x:Key="DarkMode_TextColorC" Color="#68AAAAAA"/>
     <SolidColorBrush x:Key="DarkMode_ImageButtonImgHover" Color="#CBCBCB"/>
     <SolidColorBrush x:Key="DarkMode_ImageButtonImgClick" Color="#A3D5EC"/>
     <SolidColorBrush x:Key="DarkMode_ImageButtonHover" Color="#595959"/>
     <SolidColorBrush x:Key="DarkMode_ImageButtonClick" Color="#769AAB"/>
 
 
+    <LinearGradientBrush x:Key="DarkMode_ContrastedGradient">
+        <GradientStop Color="#ffc206" Offset="0"/>
+        <GradientStop Color="#ff5f41" Offset="0.5"/>
+        <GradientStop Color="#ff1e67" Offset="1"/>
+        <LinearGradientBrush.Transform>
+            <RotateTransform Angle="45"/>
+        </LinearGradientBrush.Transform>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="DarkMode_ContrastedHoverGradient">
+        <GradientStop Color="#FFCD34" Offset="0"/>
+        <GradientStop Color="#FF846D" Offset="0.5"/>
+        <GradientStop Color="#FF4F88" Offset="1"/>
+        <LinearGradientBrush.Transform>
+            <RotateTransform Angle="45"/>
+        </LinearGradientBrush.Transform>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="DarkMode_ContrastedClickGradient">
+        <GradientStop Color="#FFDB6D" Offset="0"/>
+        <GradientStop Color="#FFBFB3" Offset="0.5"/>
+        <GradientStop Color="#FFA3C1" Offset="1"/>
+        <LinearGradientBrush.Transform>
+            <RotateTransform Angle="45"/>
+        </LinearGradientBrush.Transform>
+    </LinearGradientBrush>
 
 
     <!-- Stylez -->
@@ -34,7 +70,7 @@
     
 
 
-    <!-- Custom Controls -->
+    <!-- Custom Controls and Styles -->
     
     <!-- Image buttons-->
     <Style TargetType="{x:Type custom:ImageButton}" x:Key="TitleBarButtons" BasedOn="{StaticResource {x:Type custom:ImageButton}}">
@@ -47,7 +83,6 @@
         <Setter Property="ImageBackgroundClickBrush" Value="{StaticResource DarkMode_ImageButtonImgClick}"/>
         <Setter Property="BackgroundBrush" Value="Transparent"/>
     </Style>
-
     <Style TargetType="{x:Type custom:ImageButton}">
         <Setter Property="Background" Value="{StaticResource DarkMode_AccentColorA}"/>
         <Setter Property="ImageHeight" Value="18"/>
@@ -56,9 +91,11 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
+                    <!-- The control template consists of only one rectangle within a
+                    border. The border will change its color as well with the hover and onclick
+                    events. The rectangle will contain the actual logo. -->
                     <Border
                         Name="MainBorder"
-
                         Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Width}"
                         Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Height}">
 
@@ -70,6 +107,7 @@
                                 <ImageBrush Stretch="Uniform" ImageSource="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Image}"/>
                             </Rectangle.OpacityMask>
 
+                            <!-- Style triggers for the on hover and is clicking events -->
                             <Rectangle.Style>
                                 <Style TargetType="{x:Type Rectangle}">
                                     <Setter Property="Fill" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ImageBackgroundBrush}"/>
@@ -85,6 +123,8 @@
                             </Rectangle.Style>
 
                         </Rectangle>
+
+                        <!-- Style triggers for the on hover and is clicking events -->
                         <Border.Style>
                             <Style TargetType="{x:Type Border}">
                                 <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=BackgroundBrush}"/>
@@ -95,7 +135,7 @@
                                     <DataTrigger Binding="{Binding ElementName=MainBorder, Path=IsMouseOver}" Value="True">
                                         <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=BackgroundHoverBrush}"/>
                                     </DataTrigger>
-                                    
+
                                 </Style.Triggers>
                             </Style>
                         </Border.Style>
@@ -103,7 +143,99 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
- 
-    </Style>
 
+    </Style>
+    
+    <!-- Buttons -->
+    <Style TargetType="{x:Type Button}" x:Key="SignificantActionButton">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border 
+                        Name="MainBorder"
+                        CornerRadius="15"
+                        Height="30">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="15" ShadowDepth="0" Opacity="0.5"/>
+                        </Border.Effect>
+                        <TextBlock 
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            FontWeight="DemiBold"
+                            Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}"/>
+                        <Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="Background" Value="{StaticResource DarkMode_ContrastedGradient}"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource DarkMode_ContrastedHoverGradient}"/>
+                                    </Trigger>
+                                    <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource DarkMode_ContrastedClickGradient}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <!-- Prompting Labels -->
+    <Style TargetType="{x:Type custom:PromptingLabel}">
+
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Template">
+            
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type custom:PromptingLabel}">
+                    <Grid Margin="3,6,3,6">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="23"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBox
+                            Margin="10,0,0,0"
+                            Grid.Row="0"
+                            BorderThickness="0"
+                            FontSize="13"
+                            Name="UserInputBox"
+                            Background="Transparent"
+                            Foreground="{StaticResource DarkMode_TextColorB}">
+                            
+                        </TextBox>
+                        <TextBlock 
+                            Grid.Row="0"
+                            Margin="10,0,0,0"
+                            FontSize="13"
+                            IsHitTestVisible="False"
+                            Focusable="False"
+                            FontWeight="Normal"
+                            Foreground="{StaticResource DarkMode_TextColorC}"
+                            Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PromptingText}"
+                            >
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=UserInputBox, Path=Text, Converter={StaticResource TextBoxValueToBoolean}}" Value="True">
+                                            <Setter Property="Visibility" Value="Hidden"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ElementName=UserInputBox, Path=IsFocused}" Value="True">
+                                            <Setter Property="Visibility" Value="Hidden"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <Border 
+                            SnapsToDevicePixels="True"
+                            Grid.Row="1" 
+                            Height="1"
+                            Background="{StaticResource DarkMode_AccentColorC}"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

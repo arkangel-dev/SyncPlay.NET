@@ -50,20 +50,20 @@ namespace SyncPlayWPF.CustomControls {
 
         // Image Property
         public static readonly DependencyProperty ImageProperty = DependencyProperty.Register("Image", typeof(BitmapImage), typeof(ImageButton), new PropertyMetadata(default(BitmapImage)));
-        
+
         // Height and Width of the image
         public static readonly DependencyProperty ImageWidthProperty = DependencyProperty.Register("ImageWidth", typeof(float), typeof(ImageButton), new PropertyMetadata(0.0F));
         public static readonly DependencyProperty ImageHeightProperty = DependencyProperty.Register("ImageHeight", typeof(float), typeof(ImageButton), new PropertyMetadata(0.0F));
-        
+
         // Image colors
-        public static readonly DependencyProperty ImageBackgroundBrushProperty = DependencyProperty.Register("ImageBackgroundBrush", typeof(Brush), typeof(ImageButton), new PropertyMetadata(default(Brush)));
-        public static readonly DependencyProperty ImageBackgroundBrushHoverProperty = DependencyProperty.Register("ImageBackgroundHoverBrush", typeof(Brush), typeof(ImageButton), new PropertyMetadata(default(Brush)));
-        public static readonly DependencyProperty ImageBackgroundBrushClickProperty = DependencyProperty.Register("ImageBackgroundClickBrush", typeof(Brush), typeof(ImageButton), new PropertyMetadata(default(Brush)));
+        public static readonly DependencyProperty ImageBackgroundBrushProperty= DependencyProperty.Register("ImageBackgroundBrush", typeof(Brush), typeof(ImageButton), new PropertyMetadata(default(Brush)));
+        public static readonly DependencyProperty ImageBackgroundHoverBrushProperty = DependencyProperty.Register("ImageBackgroundHoverBrush", typeof(Brush), typeof(ImageButton), new PropertyMetadata(default(Brush)));
+        public static readonly DependencyProperty ImageBackgroundClickBrushProperty = DependencyProperty.Register("ImageBackgroundClickBrush", typeof(Brush), typeof(ImageButton), new PropertyMetadata(default(Brush)));
 
         // Background colors
         public static readonly DependencyProperty BackgroundBrushProperty = DependencyProperty.Register("BackgroundBrush", typeof(Brush), typeof(ImageButton), new PropertyMetadata(default(Brush)));
-        public static readonly DependencyProperty BackgroundBrushHoverProperty = DependencyProperty.Register("BackgroundHoverBrush", typeof(Brush), typeof(ImageButton), new PropertyMetadata(default(Brush)));
-        public static readonly DependencyProperty BackgroundBrushClickProperty = DependencyProperty.Register("BackgroundClickBrush", typeof(Brush), typeof(ImageButton), new PropertyMetadata(default(Brush)));
+        public static readonly DependencyProperty BackgroundHoverBrushProperty = DependencyProperty.Register("BackgroundHoverBrush", typeof(Brush), typeof(ImageButton), new PropertyMetadata(default(Brush)));
+        public static readonly DependencyProperty BackgroundClickBrushProperty = DependencyProperty.Register("BackgroundClickBrush", typeof(Brush), typeof(ImageButton), new PropertyMetadata(default(Brush)));
 
         // Text Colors
         public static readonly DependencyProperty TextForegroundBrushProperty = DependencyProperty.Register("TextForegroundBrush", typeof(Brush), typeof(ImageButton), new PropertyMetadata(default(Brush)));
@@ -90,13 +90,13 @@ namespace SyncPlayWPF.CustomControls {
         }
 
         public Brush ImageBackgroundHoverBrush {
-            get { return (Brush)GetValue(ImageBackgroundBrushHoverProperty); }
-            set { SetValue(ImageBackgroundBrushHoverProperty, value); }
+            get { return (Brush)GetValue(ImageBackgroundHoverBrushProperty); }
+            set { SetValue(ImageBackgroundHoverBrushProperty, value); }
         }
 
         public Brush ImageBackgroundClickBrush {
-            get { return (Brush)GetValue(ImageBackgroundBrushClickProperty); }
-            set { SetValue(ImageBackgroundBrushClickProperty, value); }
+            get { return (Brush)GetValue(ImageBackgroundClickBrushProperty); }
+            set { SetValue(ImageBackgroundClickBrushProperty, value); }
         }
 
         public Brush BackgroundBrush {
@@ -105,13 +105,13 @@ namespace SyncPlayWPF.CustomControls {
         }
 
         public Brush BackgroundHoverBrush {
-            get { return (Brush)GetValue(BackgroundBrushHoverProperty); }
-            set { SetValue(BackgroundBrushHoverProperty, value); }
+            get { return (Brush)GetValue(BackgroundHoverBrushProperty); }
+            set { SetValue(BackgroundHoverBrushProperty, value); }
         }
 
         public Brush BackgroundClickBrush {
-            get { return (Brush)GetValue(BackgroundBrushClickProperty); }
-            set { SetValue(BackgroundBrushClickProperty, value); }
+            get { return (Brush)GetValue(BackgroundClickBrushProperty); }
+            set { SetValue(BackgroundClickBrushProperty, value); }
         }
 
         public Brush TextForegroundBrush {

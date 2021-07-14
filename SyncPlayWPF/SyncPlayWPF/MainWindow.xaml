@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SyncPlayWPF"
         xmlns:custom="clr-namespace:SyncPlayWPF.CustomControls"
+        xmlns:wpft="clr-namespace:WpfPageTransitions;assembly=WpfPageTransitions"
         mc:Ignorable="d"
-        Title="SyncPlay.NET" Height="450" Width="800"
+        Title="SyncPlay.NET" Height="500" Width="800"
         WindowStartupLocation="CenterScreen"
         SnapsToDevicePixels="True"
         ResizeMode="CanResize">
@@ -22,7 +23,7 @@
                         CornerRadius="0"
                         GlassFrameThickness="0"
                         NonClientFrameEdges="None"
-                        ResizeBorderThickness="1" />
+                        ResizeBorderThickness="2" />
                 </Setter.Value>
             </Setter>
         </Style>
@@ -44,7 +45,7 @@
         </Grid.RowDefinitions>
 
         <!-- Title bar -->
-        <Grid Grid.Row="0" UIElement.MouseDown="WindowDrag" Opacity="0.85" Background="{StaticResource DarkMode_AccentColorA}">
+        <Grid Grid.Row="0" UIElement.MouseDown="WindowDrag" Background="{StaticResource DarkMode_AccentColorA}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="35"/>
@@ -52,7 +53,7 @@
                 <ColumnDefinition Width="35"/>
             </Grid.ColumnDefinitions>
 
-            <Label Grid.Column="0" Style="{StaticResource DarkMode_TitleBarText}">SyncPlay.NET</Label>
+            <Label Margin="5,0,0,0" Grid.Column="0" Style="{StaticResource DarkMode_TitleBarText}">SyncPlay.NET</Label>
             <custom:ImageButton 
                 Grid.Column="1" 
                 Image="{StaticResource MinimizeButton}"
@@ -67,6 +68,16 @@
                 BackgroundClickBrush="#FC4B4B"
                 Image="{StaticResource CloseWindowButton}"
                 Style="{StaticResource TitleBarButtons}"/>
+        </Grid>
+
+        <!-- The actual Main Window -->
+        <Grid Grid.Row="1">
+            <Grid.Style>
+                <Style TargetType="{x:Type Grid}">
+                    <Setter Property="Background" Value="{StaticResource DarkMode_AccentColorC}"/>
+                </Style>
+            </Grid.Style>
+            <wpft:PageTransition Name="RootPageTransition" TransitionType="Fade"/>
         </Grid>
     </Grid>
 </Window>
