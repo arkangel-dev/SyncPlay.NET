@@ -1,7 +1,6 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:SyncPlayWPF"
     xmlns:custom="clr-namespace:SyncPlayWPF.CustomControls"
     xmlns:dataconverters="clr-namespace:SyncPlayWPF.Converters">
 
@@ -15,15 +14,23 @@
     <BitmapImage x:Key="SyncPlayLogoNew" UriSource="/ImageLib/SyncplayOriginal_NewLogo.png"/>
     <BitmapImage x:Key="SyncPlayLogoClassic" UriSource="/ImageLib/SyncplayOriginal_Logo.png"/>
     <BitmapImage x:Key="NewSessionBackDrop" UriSource="/ImageLib/NewSessionBackDrop.png"/>
-  
+    <BitmapImage x:Key="GithubOctocat" UriSource="/ImageLib/github-octocat.png"/>
+    <BitmapImage x:Key="TwitterBird" UriSource="/ImageLib/twitter_logo.png"/>
+    <BitmapImage x:Key="WebsiteLogo" UriSource="/ImageLib/url_icon.png"/>
+
     <!-- Colors -->
     <SolidColorBrush x:Key="DarkMode_AccentColorA" Color="#2B2B2B"/>
     <SolidColorBrush x:Key="DarkMode_AccentColorB" Color="#A6878787"/>
     <SolidColorBrush x:Key="DarkMode_AccentColorC" Color="#3B3B3B"/>
     <SolidColorBrush x:Key="DarkMode_AccentColorD" Color="#9E2B2B2B"/>
+    <SolidColorBrush x:Key="DarkMode_AccentColorE" Color="#FF676767"/>
+    
     <SolidColorBrush x:Key="DarkMode_TextColorA" Color="#C8C8C8"/>
     <SolidColorBrush x:Key="DarkMode_TextColorB" Color="#E1C6C6C6"/>
     <SolidColorBrush x:Key="DarkMode_TextColorC" Color="#68AAAAAA"/>
+    <SolidColorBrush x:Key="DarkMode_TextColorD" Color="#515151"/>
+    <SolidColorBrush x:Key="DarkMode_TextColorDHover" Color="#747474"/>
+    
     <SolidColorBrush x:Key="DarkMode_ImageButtonImgHover" Color="#CBCBCB"/>
     <SolidColorBrush x:Key="DarkMode_ImageButtonImgClick" Color="#A3D5EC"/>
     <SolidColorBrush x:Key="DarkMode_ImageButtonHover" Color="#595959"/>
@@ -71,7 +78,7 @@
 
 
     <!-- Custom Controls and Styles -->
-    
+
     <!-- Image buttons-->
     <Style TargetType="{x:Type custom:ImageButton}" x:Key="TitleBarButtons" BasedOn="{StaticResource {x:Type custom:ImageButton}}">
         <Setter Property="ImageHeight" Value="15"/>
@@ -145,8 +152,51 @@
         </Setter>
 
     </Style>
+    <Style TargetType="{x:Type custom:ImageButton}" x:Key="ImageSilhouette">
+        <Setter Property="ImageWidth" Value="25"/>
+        <Setter Property="ImageHeight" Value="25"/>
+        <Setter Property="Margin" Value="10"/>
+        <Setter Property="ImageBackgroundBrush" Value="{StaticResource DarkMode_AccentColorA}"/>
+        <Setter Property="ImageBackgroundHoverBrush" Value="{StaticResource DarkMode_AccentColorC}"/>
+        <Setter Property="ImageBackgroundClickBrush" Value="{StaticResource DarkMode_AccentColorD}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type custom:ImageButton}">
+                    <Border
+                        Height="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ImageHeight}"
+                        Width="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ImageWidth}">
+                        <Border.OpacityMask>
+                            <ImageBrush
+                                ImageSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Image}"
+                                Stretch="Uniform"
+                                RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Border.OpacityMask>
+                        <Border.Effect>
+                            <DropShadowEffect
+                                BlurRadius="10"
+                                ShadowDepth="1"/>
+                        </Border.Effect>
+                        <Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ImageBackgroundBrush}"/>
+                                <Style.Triggers>
+                                    
+                                    <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="True">
+                                        <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ImageBackgroundHoverBrush}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="True">
+                                        <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ImageBackgroundClickBrush}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     
-    <!-- Buttons -->
+    <!-- Normal Button -->
     <Style TargetType="{x:Type Button}" x:Key="SignificantActionButton">
         <Setter Property="Template">
             <Setter.Value>
@@ -181,11 +231,96 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style TargetType="{x:Type Button}" x:Key="SignificantSecondaryActionButton">
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border 
+                        Name="MainBorder"
+                        CornerRadius="15"
+                        Height="30">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="6" ShadowDepth="0" Opacity="1"/>
+                        </Border.Effect>
+                        <TextBlock
+                            x:Name="ButtonLabel"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            FontWeight="DemiBold"
+                            
+                            Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="Foreground" Value="{StaticResource DarkMode_ContrastedGradient}"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="True">
+                                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Foreground}"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="True">
+                                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Foreground}"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="BorderBrush" Value="{StaticResource DarkMode_ContrastedGradient}"/>
+                                <Setter Property="BorderThickness" Value="1"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource DarkMode_ContrastedHoverGradient}"/>
+                                        <Setter Property="BorderThickness" Value="0"/>
+                                    </Trigger>
+                                    <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource DarkMode_ContrastedClickGradient}"/>
+                                        <Setter Property="BorderThickness" Value="0"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     
+    <!-- Link Button -->
+    <Style TargetType="{x:Type custom:LinkButton}" x:Key="LinkButton">
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type custom:LinkButton}">
+                    <Border
+                        x:Name="ContainerBorder">
+                        <TextBlock 
+                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Content}" 
+                            HorizontalAlignment="Center" 
+                            TextDecorations="Underline">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="Foreground" Value="{StaticResource DarkMode_TextColorD}"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsMouseOver}" Value="True">
+                                            <Setter Property="Foreground" Value="{StaticResource DarkMode_TextColorDHover}"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!-- Prompting Labels -->
     <Style TargetType="{x:Type custom:PromptingLabel}">
 
         <Setter Property="Focusable" Value="False"/>
+        <Setter Property="FocusedUnderlineBrush" Value="{StaticResource DarkMode_AccentColorB}"/>
+        <Setter Property="HoverUnderlineBrush" Value="{StaticResource DarkMode_AccentColorE}"/>
         <Setter Property="Template">
             
             <Setter.Value>
@@ -202,7 +337,8 @@
                             FontSize="13"
                             Name="UserInputBox"
                             Background="Transparent"
-                            Foreground="{StaticResource DarkMode_TextColorB}">
+                            Foreground="{StaticResource DarkMode_TextColorB}"
+                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Text}">
                             
                         </TextBox>
                         <TextBlock 
@@ -213,8 +349,7 @@
                             Focusable="False"
                             FontWeight="Normal"
                             Foreground="{StaticResource DarkMode_TextColorC}"
-                            Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PromptingText}"
-                            >
+                            Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PromptingText}">
                             <TextBlock.Style>
                                 <Style TargetType="{x:Type TextBlock}">
                                     <Style.Triggers>
@@ -230,12 +365,120 @@
                         </TextBlock>
                         <Border 
                             SnapsToDevicePixels="True"
-                            Grid.Row="1" 
-                            Height="1"
-                            Background="{StaticResource DarkMode_AccentColorC}"/>
+                            Name="Underline"
+                            Grid.Row="1"
+                            BorderThickness="0">
+                            <Border.Style>
+                                <Style TargetType="{x:Type Border}">
+                                    <Setter Property="Background" Value="{StaticResource DarkMode_AccentColorC}"/>
+                                    <Setter Property="Height" Value="1"/>
+                                    <Setter Property="Margin" Value="0,1,0,0"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=UserInputBox, Path=IsMouseOver}" Value="True">
+                                            <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=HoverUnderlineBrush}"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ElementName=UserInputBox, Path=IsFocused}" Value="True">
+                                            <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FocusedUnderlineBrush}"/>
+                                            <Setter Property="Height" Value="2"/>
+                                            <Setter Property="Margin" Value="0,0,0,0"/>
+                                        </DataTrigger>
+                                        
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                        </Border>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
+    <Style TargetType="{x:Type custom:PromptingPasswordBox}">
+
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="FocusedUnderlineBrush" Value="{StaticResource DarkMode_AccentColorB}"/>
+        <Setter Property="HoverUnderlineBrush" Value="{StaticResource DarkMode_AccentColorE}"/>
+        <Setter Property="Template">
+
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type custom:PromptingPasswordBox}">
+                    <Grid Margin="3,6,3,6">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="23"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <PasswordBox
+                            Margin="10,0,0,0"
+                            Grid.Row="0"
+                            BorderThickness="0"
+                            FontSize="13"
+                            Name="UserInputBox"
+                            Background="Transparent"
+                            Foreground="{StaticResource DarkMode_TextColorB}">
+                        </PasswordBox>
+                        <TextBlock 
+                            Grid.Row="0"
+                            Margin="10,0,0,0"
+                            FontSize="13"
+                            IsHitTestVisible="False"
+                            Focusable="False"
+                            FontWeight="Normal"
+                            Foreground="{StaticResource DarkMode_TextColorC}"
+                            Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PromptingText}">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=FieldCompleted}" Value="True">
+                                            <Setter Property="Visibility" Value="Hidden"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ElementName=UserInputBox, Path=IsFocused}" Value="True">
+                                            <Setter Property="Visibility" Value="Hidden"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <Border 
+                            SnapsToDevicePixels="True"
+                            Name="Underline"
+                            Grid.Row="1"
+                            BorderThickness="0">
+                            <Border.Style>
+                                <Style TargetType="{x:Type Border}">
+                                    <Setter Property="Background" Value="{StaticResource DarkMode_AccentColorC}"/>
+                                    <Setter Property="Height" Value="1"/>
+                                    <Setter Property="Margin" Value="0,1,0,0"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=UserInputBox, Path=IsMouseOver}" Value="True">
+                                            <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=HoverUnderlineBrush}"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ElementName=UserInputBox, Path=IsFocused}" Value="True">
+                                            <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FocusedUnderlineBrush}"/>
+                                            <Setter Property="Height" Value="2"/>
+                                            <Setter Property="Margin" Value="0,0,0,0"/>
+                                        </DataTrigger>
+
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+
+    <!--<Style TargetType="{x:Type local:PromptingPasswordBox}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:PromptingPasswordBox}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>-->
 </ResourceDictionary>

@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:SyncPlayWPF.Pages"
              xmlns:custom="clr-namespace:SyncPlayWPF.CustomControls"
              mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="800">
+             d:DesignHeight="800" d:DesignWidth="500">
 
     <UserControl.Resources>
         <ResourceDictionary Source="../Themes/Generic.xaml"/>
@@ -21,11 +21,16 @@
                 </Setter>
             </Style>
         </Grid.Style>
-    
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
         <Border
-            Width="500"
-            Height="370"
-            CornerRadius="10"
+            Width="350"
+            Height="450"
+            CornerRadius="15"
             Background="{StaticResource DarkMode_AccentColorD}">
             <Border.Effect>
                 <DropShadowEffect
@@ -38,33 +43,57 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="auto"/>
+                   
                 </Grid.RowDefinitions>
                 <Image RenderOptions.BitmapScalingMode="HighQuality" Source="{StaticResource SyncPlayLogoClassic}" Width="90"/>
                 <Label Grid.Row="1" HorizontalAlignment="Center" FontWeight="DemiBold" Foreground="{StaticResource DarkMode_TextColorA}" FontSize="25">SyncPlay.NET</Label>
 
-                <Grid Grid.Row="2" Margin="30, 10, 30, 0">
+                <Grid Grid.Row="2" Margin="30, 30, 30, 0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
-                    <custom:PromptingLabel Grid.Row="0" PromptingText="Server Address and Port"/>
-                    <custom:PromptingLabel Grid.Row="1" PromptingText="Username"/>
-                    <custom:PromptingLabel Grid.Row="2" PromptingText="Password"/>
-                    <custom:PromptingLabel Grid.Row="3" PromptingText="Room Name"/>
+                    <custom:PromptingLabel Grid.Row="0" PromptingText="Server Address" FocusedUnderlineBrush="{StaticResource DarkMode_ContrastedGradient}"/>
+                    <custom:PromptingLabel Grid.Row="1" PromptingText="Username" FocusedUnderlineBrush="{StaticResource DarkMode_ContrastedGradient}"/>
+                    <!--<custom:PromptingLabel Grid.Row="2" PromptingText="Password" FocusedUnderlineBrush="{StaticResource DarkMode_ContrastedGradient}"/>-->
+                    <custom:PromptingPasswordBox Grid.Row="2" PromptingText="Password" FocusedUnderlineBrush="{StaticResource DarkMode_ContrastedGradient}"/>
+                    <custom:PromptingLabel Grid.Row="3" PromptingText="Room Name" FocusedUnderlineBrush="{StaticResource DarkMode_ContrastedGradient}"/>
 
                 </Grid>
 
-                <Grid Grid.Row="3" Height="30" Margin="0,0,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Button Content="Connect to Server" Width="150" Style="{StaticResource SignificantActionButton}"/>
+                <Grid Grid.Row="3" Margin="0,0,0,0" VerticalAlignment="Bottom">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Button Grid.Row="0" Content="Join Room" Width="150" Style="{StaticResource SignificantActionButton}" Margin="0,0,0,10"/>
+                    <custom:LinkButton Grid.Row="1" Content="Show More Settings" Width="150" Style="{StaticResource LinkButton}"/>
                 </Grid>
             </Grid>
         </Border>
-        
+
+        <Grid Grid.Row="1" Margin="0,-25,0,0" HorizontalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+            <custom:ImageButton
+                Grid.Column="0"
+                Style="{StaticResource ImageSilhouette}"
+                Image="{StaticResource GithubOctocat}"/>
+            <custom:ImageButton
+                Grid.Column="1"
+                Style="{StaticResource ImageSilhouette}"
+                Image="{StaticResource TwitterBird}"/>
+            <custom:ImageButton
+                Grid.Column="2"
+                Style="{StaticResource ImageSilhouette}"
+                Image="{StaticResource WebsiteLogo}"/>
+        </Grid>
         
     </Grid>
 </UserControl>

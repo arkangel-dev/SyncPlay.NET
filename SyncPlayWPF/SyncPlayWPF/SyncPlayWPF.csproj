@@ -65,7 +65,9 @@
     </Compile>
     <Compile Include="Converters\TextBoxValueToBoolean.cs" />
     <Compile Include="CustomControls\ImageButton.cs" />
+    <Compile Include="CustomControls\LinkButton.cs" />
     <Compile Include="CustomControls\PromptingLabel.cs" />
+    <Compile Include="CustomControls\PromptingPasswordBox.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -131,6 +133,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ImageLib\NewSessionBackDrop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ImageLib\github-octocat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ImageLib\twitter_logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ImageLib\url_icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

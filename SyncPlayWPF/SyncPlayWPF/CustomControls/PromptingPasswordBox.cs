@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -40,18 +41,38 @@ namespace SyncPlayWPF.CustomControls {
     /// Step 2)
     /// Go ahead and use your control in the XAML file.
     ///
-    ///     <MyNamespace:PromptingLabel/>
+    ///     <MyNamespace:PromptingPasswordBox/>
     ///
     /// </summary>
-    public class PromptingLabel : TextBox {
-        static PromptingLabel() {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(PromptingLabel), new FrameworkPropertyMetadata(typeof(PromptingLabel)));
+    public class PromptingPasswordBox : Control {
+        static PromptingPasswordBox() {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(PromptingPasswordBox), new FrameworkPropertyMetadata(typeof(PromptingPasswordBox)));
+
+
+            
         }
 
-        public static readonly DependencyProperty PromptingTextProperty = DependencyProperty.Register("PromptingText", typeof(string), typeof(PromptingLabel), new PropertyMetadata(""));
-        public static readonly DependencyProperty FocusedUnderlineBrushProperty = DependencyProperty.Register("FocusedUnderlineBrush", typeof(Brush), typeof(PromptingLabel), new PropertyMetadata(default(Brush)));
-        public static readonly DependencyProperty HoverUnderlineBrushProperty = DependencyProperty.Register("HoverUnderlineBrush", typeof(Brush), typeof(PromptingLabel), new PropertyMetadata(default(Brush)));
+        public override void OnApplyTemplate() {
+            var PasswordBox = GetTemplateChild("UserInputBox") as PasswordBox;
+            PasswordBox.PasswordChanged += PasswordChanged;
+        }
 
+        private void PasswordChanged(object sender, RoutedEventArgs e) {
+            var password = ((PasswordBox)sender).Password;
+            Console.WriteLine(password);
+            this.FieldCompleted = !String.IsNullOrEmpty(password);
+        }
+
+        public static readonly DependencyProperty FieldCompletedProperty = DependencyProperty.Register("FieldCompleted", typeof(bool), typeof(PromptingPasswordBox), new PropertyMetadata(false));
+        public static readonly DependencyProperty PromptingTextProperty = DependencyProperty.Register("PromptingText", typeof(string), typeof(PromptingPasswordBox), new PropertyMetadata(""));
+        public static readonly DependencyProperty FocusedUnderlineBrushProperty = DependencyProperty.Register("FocusedUnderlineBrush", typeof(Brush), typeof(PromptingPasswordBox), new PropertyMetadata(default(Brush)));
+        public static readonly DependencyProperty HoverUnderlineBrushProperty = DependencyProperty.Register("HoverUnderlineBrush", typeof(Brush), typeof(PromptingPasswordBox), new PropertyMetadata(default(Brush)));
+        public static readonly DependencyProperty ActualPasswordProperty = DependencyProperty.Register("ActualPassword", typeof(SecureString), typeof(PromptingPasswordBox), new PropertyMetadata(default(SecureString)));
+        
+        public bool FieldCompleted {
+            get { return (bool)GetValue(FieldCompletedProperty); }
+            set { SetValue(FieldCompletedProperty, value); }
+        }
         public string PromptingText {
             get { return (string)GetValue(PromptingTextProperty); }
             set { SetValue(PromptingTextProperty, value); }
@@ -65,6 +86,11 @@ namespace SyncPlayWPF.CustomControls {
         public Brush HoverUnderlineBrush {
             get { return (Brush)GetValue(HoverUnderlineBrushProperty); }
             set { SetValue(HoverUnderlineBrushProperty, value); }
+        }
+
+        public Brush ActualPassword {
+            get { return (Brush)GetValue(ActualPasswordProperty); }
+            set { SetValue(ActualPasswordProperty, value); }
         }
     }
 }

@@ -40,31 +40,33 @@ namespace SyncPlayWPF.CustomControls {
     /// Step 2)
     /// Go ahead and use your control in the XAML file.
     ///
-    ///     <MyNamespace:PromptingLabel/>
+    ///     <MyNamespace:LinkButton/>
     ///
     /// </summary>
-    public class PromptingLabel : TextBox {
-        static PromptingLabel() {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(PromptingLabel), new FrameworkPropertyMetadata(typeof(PromptingLabel)));
+    public class LinkButton : Button {
+        static LinkButton() {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(LinkButton), new FrameworkPropertyMetadata(typeof(LinkButton)));
         }
 
-        public static readonly DependencyProperty PromptingTextProperty = DependencyProperty.Register("PromptingText", typeof(string), typeof(PromptingLabel), new PropertyMetadata(""));
-        public static readonly DependencyProperty FocusedUnderlineBrushProperty = DependencyProperty.Register("FocusedUnderlineBrush", typeof(Brush), typeof(PromptingLabel), new PropertyMetadata(default(Brush)));
-        public static readonly DependencyProperty HoverUnderlineBrushProperty = DependencyProperty.Register("HoverUnderlineBrush", typeof(Brush), typeof(PromptingLabel), new PropertyMetadata(default(Brush)));
+        public static readonly DependencyProperty ForegroundBrushProperty = DependencyProperty.Register("ForegroundBrush", typeof(Brush), typeof(LinkButton), new PropertyMetadata(default(Brush)));
+        public static readonly DependencyProperty ForegroundHoverBrushProperty = DependencyProperty.Register("ForegroundHoverBrush", typeof(Brush), typeof(LinkButton), new PropertyMetadata(default(Brush)));
+        public static readonly DependencyProperty ForegroundClickBrushProperty = DependencyProperty.Register("ForegroundClickBrush", typeof(Brush), typeof(LinkButton), new PropertyMetadata(default(Brush)));
 
-        public string PromptingText {
-            get { return (string)GetValue(PromptingTextProperty); }
-            set { SetValue(PromptingTextProperty, value); }
+
+        public Brush ForegroundBrush {
+            get { return (Brush)GetValue(ForegroundBrushProperty); }
+            set { SetValue(ForegroundBrushProperty, value); }
         }
 
-        public Brush FocusedUnderlineBrush {
-            get { return (Brush)GetValue(FocusedUnderlineBrushProperty); }
-            set { SetValue(FocusedUnderlineBrushProperty, value); }
+        public Brush ForegroundHoverBrush {
+            get { return (Brush)GetValue(ForegroundHoverBrushProperty); }
+            set { SetValue(ForegroundHoverBrushProperty, value); }
         }
 
-        public Brush HoverUnderlineBrush {
-            get { return (Brush)GetValue(HoverUnderlineBrushProperty); }
-            set { SetValue(HoverUnderlineBrushProperty, value); }
+        public Brush ForegroundClickBrush {
+            get { return (Brush)GetValue(ForegroundClickBrushProperty); }
+            set { SetValue(ForegroundClickBrushProperty, value); }
         }
+
     }
 }
