@@ -659,7 +659,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
-                    <Border Width="auto" HorizontalAlignment="Left" Name="ContainerBorder" Margin="15,1,15,1">
+                    <Border Width="auto" Background="Transparent" HorizontalAlignment="Left" Name="ContainerBorder" Margin="15,1,15,1">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="50"/>
