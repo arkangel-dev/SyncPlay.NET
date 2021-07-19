@@ -63,8 +63,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converters\PercentageConverter.cs" />
     <Compile Include="Converters\TextBoxValueToBoolean.cs" />
     <Compile Include="CustomControls\ImageButton.cs" />
+    <Compile Include="CustomControls\ChatMessage.cs" />
     <Compile Include="CustomControls\LinkButton.cs" />
     <Compile Include="CustomControls\PromptingLabel.cs" />
     <Compile Include="CustomControls\PromptingPasswordBox.cs" />
@@ -76,6 +78,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\SessionLandingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SessionPages\ChatSession.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -84,6 +94,12 @@
   <ItemGroup>
     <Compile Include="Pages\NewSessionPage.xaml.cs">
       <DependentUpon>NewSessionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SessionLandingPage.xaml.cs">
+      <DependentUpon>SessionLandingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SessionPages\ChatSession.xaml.cs">
+      <DependentUpon>ChatSession.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -125,7 +141,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Pages\SessionPages\" />
+    <Resource Include="ImageLib\emoji.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ImageLib\SyncplayOriginal_Logo.png" />
@@ -142,6 +158,27 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ImageLib\url_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ImageLib\chat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ImageLib\about.png" />
+    <Resource Include="ImageLib\media.png" />
+    <Resource Include="ImageLib\settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ImageLib\send.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ImageLib\gif.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ImageLib\collapse.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ImageLib\toggle_off.png" />
+    <Resource Include="ImageLib\toggle_on.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

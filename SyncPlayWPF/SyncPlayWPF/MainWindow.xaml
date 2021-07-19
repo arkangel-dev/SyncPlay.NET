@@ -53,7 +53,12 @@
                 <ColumnDefinition Width="35"/>
             </Grid.ColumnDefinitions>
 
-            <Label Margin="5,0,0,0" Grid.Column="0" Style="{StaticResource DarkMode_TitleBarText}">SyncPlay.NET</Label>
+            <Label 
+                Margin="5,0,0,0"
+                Grid.Column="0"
+                Style="{StaticResource DarkMode_TitleBarText}"
+                Foreground="{StaticResource DarkMode_ScaleGradient}"
+                FontWeight="DemiBold">SyncPlay.NET</Label>
             <custom:ImageButton 
                 Grid.Column="1" 
                 Image="{StaticResource MinimizeButton}"
