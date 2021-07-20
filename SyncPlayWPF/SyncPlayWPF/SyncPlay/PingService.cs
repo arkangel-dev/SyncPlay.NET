@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BackendCode.SyncPlay.Misc {
+namespace SyncPlay {
     class PingService {
         double RTT;
         double LastTimeStamp;

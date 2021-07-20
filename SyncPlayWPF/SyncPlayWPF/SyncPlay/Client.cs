@@ -7,10 +7,10 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BackendCode.SyncPlay {
+namespace SyncPlay {
     public class SyncPlayClient {
         private NetworkClient nclient;
-        private Misc.PingService pingService;
+        private PingService pingService;
         private Dictionary<String, User> UserDictionary;
         private List<MediaFile> Playlist;
 

@@ -8,5 +8,7 @@ namespace SyncPlayWPF.Common {
     public class Shared {
         public static WpfPageTransitions.PageTransition WindowPageTransition;
         public static WpfPageTransitions.PageTransition LandingPageTransition;
+
+        
     }
 }

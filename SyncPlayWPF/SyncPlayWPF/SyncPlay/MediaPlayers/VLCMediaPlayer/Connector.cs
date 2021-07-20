@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BackendCode.SyncPlay.MediaPlayers.VLCMediaPlayer  {
+namespace SyncPlay.MediaPlayers.VLCMediaPlayer  {
     class Connector : MediaPlayerInterface {
 
 

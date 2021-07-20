@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BackendCode.SyncPlay {
+namespace SyncPlay {
     public class SyncPlayWrapper {
         public SyncPlayClient SClient;
         public MediaPlayerInterface Player;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BackendCode.SyncPlay {
+namespace SyncPlay {
     public interface MediaPlayerInterface {
 
         void StartPlayerInstance();

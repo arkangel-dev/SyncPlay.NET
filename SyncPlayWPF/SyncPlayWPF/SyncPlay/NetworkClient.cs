@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BackendCode.SyncPlay {
+namespace SyncPlay {
     public class NetworkClient {
         private TcpClient client;
         private NetworkStream stream;

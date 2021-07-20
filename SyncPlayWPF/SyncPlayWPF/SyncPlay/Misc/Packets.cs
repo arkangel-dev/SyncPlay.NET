@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
-namespace BackendCode.SyncPlay {
+namespace SyncPlay {
     public class Packets {
         public static string CraftSetFileMessage(String filename, float duration, int size) {
             var result = new JObject(

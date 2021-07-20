@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BackendCode.SyncPlay.EventArgs {
+namespace SyncPlay.EventArgs {
     public class LocalStateChangeEventArgs {
         public float Positon;
         public bool isPaused;

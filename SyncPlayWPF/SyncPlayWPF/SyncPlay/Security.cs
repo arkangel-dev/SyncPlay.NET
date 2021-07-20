@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BackendCode.SyncPlay {
+namespace SyncPlay {
     public static class Security {
         public static string ToMD5(this string input) {
             // Use input string to calculate MD5 hash
