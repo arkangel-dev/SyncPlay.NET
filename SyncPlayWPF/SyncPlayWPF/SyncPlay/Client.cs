@@ -111,7 +111,7 @@ namespace SyncPlay {
         /// <param name="version">Version of the client</param>
         public SyncPlayClient(String serverip, int port, String username, String password, String roomname, String version) {
             nclient = new NetworkClient(serverip, port);
-            pingService = new Misc.PingService();
+            pingService = new PingService();
             nclient.Connect();
             HelloMessage = Packets.CraftIdentificationMessage(username, password, roomname, version);
             nclient.OnNewMessage += NewIncomingMessage;
