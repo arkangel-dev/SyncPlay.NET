@@ -23,8 +23,19 @@ namespace SyncPlayWPF.Pages {
         }
 
         private void JoinRoom_Clicked(object sender, RoutedEventArgs e) {
-            Common.Shared.WindowPageTransition.ShowPage(new Pages.SessionLandingPage());
 
+            var serverIp = ServerAddressField.Text.Split(':')[0];
+            var serverPort = Int32.Parse(ServerAddressField.Text.Split(':')[1]);
+            var username = UsernameField.Text;
+            var password = PasswordField.ActualPassword;
+            var roomName = RoomNameField.Text;
+
+            Console.WriteLine($"Server  : {serverIp}:{serverPort}\n" +
+                $"Username  : {username}\n" +
+                $"Password  : {password}\n" +
+                $"Room Name : {roomName}");
+
+            Common.Shared.WindowPageTransition.ShowPage(new Pages.SessionLandingPage());
             
         }
     }

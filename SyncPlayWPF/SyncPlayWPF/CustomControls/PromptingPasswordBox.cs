@@ -48,9 +48,11 @@ namespace SyncPlayWPF.CustomControls {
         static PromptingPasswordBox() {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(PromptingPasswordBox), new FrameworkPropertyMetadata(typeof(PromptingPasswordBox)));
 
-
             
+
+
         }
+
 
         public override void OnApplyTemplate() {
             var PasswordBox = GetTemplateChild("UserInputBox") as PasswordBox;
@@ -58,16 +60,15 @@ namespace SyncPlayWPF.CustomControls {
         }
 
         private void PasswordChanged(object sender, RoutedEventArgs e) {
-            var password = ((PasswordBox)sender).Password;
-            Console.WriteLine(password);
-            this.FieldCompleted = !String.IsNullOrEmpty(password);
+            this.ActualPassword = ((PasswordBox)sender).Password;
+            this.FieldCompleted = !String.IsNullOrEmpty(this.ActualPassword);
         }
 
         public static readonly DependencyProperty FieldCompletedProperty = DependencyProperty.Register("FieldCompleted", typeof(bool), typeof(PromptingPasswordBox), new PropertyMetadata(false));
         public static readonly DependencyProperty PromptingTextProperty = DependencyProperty.Register("PromptingText", typeof(string), typeof(PromptingPasswordBox), new PropertyMetadata(""));
         public static readonly DependencyProperty FocusedUnderlineBrushProperty = DependencyProperty.Register("FocusedUnderlineBrush", typeof(Brush), typeof(PromptingPasswordBox), new PropertyMetadata(default(Brush)));
         public static readonly DependencyProperty HoverUnderlineBrushProperty = DependencyProperty.Register("HoverUnderlineBrush", typeof(Brush), typeof(PromptingPasswordBox), new PropertyMetadata(default(Brush)));
-        public static readonly DependencyProperty ActualPasswordProperty = DependencyProperty.Register("ActualPassword", typeof(SecureString), typeof(PromptingPasswordBox), new PropertyMetadata(default(SecureString)));
+        public static readonly DependencyProperty ActualPasswordProperty = DependencyProperty.Register("ActualPassword", typeof(string), typeof(PromptingPasswordBox), new PropertyMetadata(default(SecureString)));
         
         public bool FieldCompleted {
             get { return (bool)GetValue(FieldCompletedProperty); }
@@ -88,8 +89,8 @@ namespace SyncPlayWPF.CustomControls {
             set { SetValue(HoverUnderlineBrushProperty, value); }
         }
 
-        public Brush ActualPassword {
-            get { return (Brush)GetValue(ActualPasswordProperty); }
+        public string ActualPassword {
+            get { return (string)GetValue(ActualPasswordProperty); }
             set { SetValue(ActualPasswordProperty, value); }
         }
     }
