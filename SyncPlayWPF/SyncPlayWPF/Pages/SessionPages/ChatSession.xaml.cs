@@ -20,6 +20,29 @@ namespace SyncPlayWPF.Pages.SessionPages {
     public partial class ChatSession : UserControl {
         public ChatSession() {
             InitializeComponent();
+
+            this.Loaded += OnPageLoad;
+        }
+
+        private void OnPageLoad(object sender, RoutedEventArgs e) {
+            Common.Shared.Wrapper.SyncPlayClient.OnNewChatMessage += NewChatMessage;
+        }
+
+        private void NewChatMessage(SyncPlay.SyncPlayClient sender, SyncPlay.EventArgs.ChatMessageEventArgs e) {
+            Console.WriteLine("NEW MESSAGE!");
+            Dispatcher.Invoke(() => {
+                var msgballoon = new CustomControls.ChatMessage();
+                msgballoon.Style = (Style)this.FindResource("IncomingMessage");
+                msgballoon.MessageSender = e.Sender.Username;
+                msgballoon.MessageContent = e.Message;
+                msgballoon.MessageTime = DateTime.Now.ToString("hh:mm tt");
+
+                var text = new TextBlock();
+                text.Text = e.Message;
+
+                MessageStack.Children.Add(msgballoon);
+            });
+            
         }
     }
 }

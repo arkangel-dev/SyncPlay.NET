@@ -33,7 +33,7 @@ namespace SyncPlay {
         }
 
         public void SendMessage(string Message) {
-            Console.WriteLine(Message);
+            //Console.WriteLine(Message);
             var bytes = Encoding.ASCII.GetBytes(Message);
             stream.Write(bytes, 0, bytes.Length);
             stream.Flush();
@@ -67,7 +67,7 @@ namespace SyncPlay {
         private void NotifySubscribersOnNewMessage(String message) {
             if (String.IsNullOrWhiteSpace(message)) return;
             //Misc.Common.PrintInColor(message, ConsoleColor.Yellow);
-            Console.WriteLine(message);
+            //Console.WriteLine(message);
             if (OnNewMessage == null) return;
             OnNewMessage(this, message);
         }

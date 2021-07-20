@@ -26,6 +26,8 @@ namespace SyncPlay {
         private bool Seeked = false;
         private bool clientIgnoreOnFly = false;
 
+        //TODO: Fix the issue where the client has no idea what users were in the session before joining. This crashing every time one of them sends a message.
+
         #region Front Facing Accessors
         /// <summary>
         /// This function will get the pause state of the client
@@ -40,7 +42,7 @@ namespace SyncPlay {
         /// </summary>
         /// <param name="state">Boolean state</param>
         public void SetPause(bool state) {
-            OnDebugLog(this, state ? "Client Paused" : "Client Resumed");
+            OnDebugLog?.Invoke(this, state ? "Client Paused" : "Client Resumed");
             clientIgnoreOnFly = true;
             this.isPaused = state;
         }
@@ -280,10 +282,10 @@ namespace SyncPlay {
                 var username = chatkey.Value<String>("username");
                 var chatmessage = chatkey.Value<String>("message");
                 Misc.Common.PrintInColor($"The user {username} said '{chatmessage}'", ConsoleColor.Green);
-                OnDebugLog(this, $"The user {username} said '{chatmessage}'");
+                OnDebugLog?.Invoke(this, $"The user {username} said '{chatmessage}'");
                 if (OnNewChatMessage != null) {
                     User s;
-                    UserDictionary.TryGetValue(username, out s);
+                    if (!UserDictionary.TryGetValue(username, out s)) throw new Exception($"Cannot find user {username}");
                     var args = new EventArgs.ChatMessageEventArgs(s, chatmessage);
                     OnNewChatMessage(this, args);
                 }
@@ -331,12 +333,12 @@ namespace SyncPlay {
 
                         switch (eventName) {
                             case "joined":
-                                OnDebugLog(this, $"The user {username} has joined the room");
+                                OnDebugLog?.Invoke(this, $"The user {username} has joined the room");
                                 AddNewUser(username);
                                 break;
 
                             case "left":
-                                OnDebugLog(this, $"The user {username} has left the room");
+                                OnDebugLog?.Invoke(this, $"The user {username} has left the room");
                                 RemoveUser(username);
                                 break;
 
@@ -356,7 +358,7 @@ namespace SyncPlay {
                         filesetargs.File = user.File;
 
                         OnFileSet?.Invoke(this, filesetargs);
-                        OnDebugLog(this, $"The user {username} has loaded the file {filename}");
+                        OnDebugLog?.Invoke(this, $"The user {username} has loaded the file {filename}");
                     }
                 }
                 #endregion
@@ -403,7 +405,7 @@ namespace SyncPlay {
                                     if ((bool)playstatekey["doSeek"]) {
 
                                         playPosition = serverPosition;
-                                        OnDebugLog(this, $"Seeking to {Misc.Common.ConvertSecondsToTimeStamp((int)playPosition)}");
+                                        OnDebugLog?.Invoke(this, $"Seeking to {Misc.Common.ConvertSecondsToTimeStamp((int)playPosition)}");
 
                                         // Create an even args object to notify the player that it needs to seek because someone on the
                                         // server side seeked

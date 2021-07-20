@@ -36,7 +36,14 @@ namespace SyncPlayWPF.Pages {
                 $"Room Name : {roomName}");
 
             Common.Shared.WindowPageTransition.ShowPage(new Pages.SessionLandingPage());
-            
+            Common.Shared.Wrapper = new SyncPlay.SyncPlayWrapper(
+                serverIp,
+                serverPort,
+                username,
+                password,
+                roomName,
+                new SyncPlay.MediaPlayers.VLCMediaPlayer.Connector());
+
         }
     }
 }
