@@ -1,5 +1,5 @@
 
-![](https://img.shields.io/badge/Compatible%20With%20Latest%20Server-Yep-green) ![](https://img.shields.io/badge/Minimal%20Compatible%20Version-1.2.8-green)  ![](https://img.shields.io/badge/Production%20State-Not%20Ready-orange) ![](https://img.shields.io/badge/Building-Yes-green) 
+![](https://img.shields.io/badge/Minimal%20Compatible%20Version-1.2.8-green)![](https://img.shields.io/badge/Building-Yes-green)![](https://img.shields.io/badge/Production%20State-Useable-yellow)
 
 <p align="center">
 	<img src="readme.assets/main.png" width="40%"
