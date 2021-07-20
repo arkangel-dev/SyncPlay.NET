@@ -96,6 +96,24 @@
             <RotateTransform Angle="45"/>
         </LinearGradientBrush.Transform>
     </LinearGradientBrush>
+    
+    <LinearGradientBrush x:Key="DarkMode_ScaleHoverGradient">
+        <GradientStop Color="#DEAA00" Offset="0"/>
+        <GradientStop Color="#DE5A40" Offset="0.5"/>
+        <GradientStop Color="#EC2163" Offset="1"/>
+        <LinearGradientBrush.Transform>
+            <RotateTransform Angle="45"/>
+        </LinearGradientBrush.Transform>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="DarkMode_ScaleDisabledGradient">
+        <GradientStop Color="#4C3A00" Offset="0"/>
+        <GradientStop Color="#6D2D20" Offset="0.5"/>
+        <GradientStop Color="#670F2C" Offset="1"/>
+        <LinearGradientBrush.Transform>
+            <RotateTransform Angle="45"/>
+        </LinearGradientBrush.Transform>
+    </LinearGradientBrush>
 
 
     <!-- Stylez -->
@@ -706,9 +724,30 @@
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Background" Value="{StaticResource DarkMode_AccentColorE}" TargetName="ToggleContainer"/>
-                        </Trigger>
+                        <!--<Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Background" Value="{StaticResource DarkMode_ScaleHoverGradient}" TargetName="ToggleContainer"/>
+                        </Trigger>-->
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="true"/>
+                                <Condition Property="IsChecked" Value="true"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter Property="Background" Value="{StaticResource DarkMode_ScaleDisabledGradient}" TargetName="ToggleContainer"/>
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="true"/>
+                                <Condition Property="IsChecked" Value="false"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter Property="Background" Value="{StaticResource DarkMode_ScaleHoverGradient}" TargetName="ToggleContainer"/>
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -1015,5 +1054,77 @@
             </Setter.Value>
         </Setter>
     </Style>
+        
+    <!-- Media File Control -->
+    <Style TargetType="{x:Type custom:MediaFileControl}">
+        <Setter Property="User" Value="UserNameNotDefined"/>
+        <Setter Property="FileName" Value="FileNameNotDefined"/>
+        <Setter Property="FileDuration" Value="FileDurationNotDefined"/>
+        <Setter Property="FileSize" Value="FileSizeNotDefined"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type custom:MediaFileControl}">
+                    <Border 
+                        Background="{StaticResource DarkMode_AccentColorA}"
+                        Margin="10,5,0,5"
+                        CornerRadius="10">
 
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="12" ShadowDepth="0" Opacity="0.5"/>
+                        </Border.Effect>
+
+                        <Grid 
+                            Margin="15, 10, 10, 10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            
+                            
+
+                            <TextBlock 
+                                Grid.Row="0"
+                                FontSize="13"
+                                Margin="0,0,0,3"
+                                FontWeight="DemiBold"
+                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=User}"
+                                Foreground="{StaticResource DarkMode_ContrastedGradient}"/>
+
+                            <TextBlock
+                                Grid.Row="1"
+                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=FileName}"
+                                Foreground="{StaticResource DarkMode_TextColorA}"/>
+
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Margin="10,0,0,0"
+                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=FileSize}"
+                                Foreground="{StaticResource DarkMode_TextColorC}"/>
+
+                            <TextBlock
+                                Margin="0,2,0,0"
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=FileDuration}"
+                                Foreground="{StaticResource DarkMode_TextColorC}"/>
+
+
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+
+
+     
 </ResourceDictionary>

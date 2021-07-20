@@ -79,7 +79,11 @@
         <Grid Grid.Row="1">
             <Grid.Style>
                 <Style TargetType="{x:Type Grid}">
-                    <Setter Property="Background" Value="{StaticResource DarkMode_AccentColorC}"/>
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <ImageBrush ImageSource="{StaticResource NewSessionBackDrop}" Stretch="UniformToFill"/>
+                        </Setter.Value>
+                    </Setter>
                 </Style>
             </Grid.Style>
             <wpft:PageTransition Name="RootPageTransition" TransitionType="Fade"/>

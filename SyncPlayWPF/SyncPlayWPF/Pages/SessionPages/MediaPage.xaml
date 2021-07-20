@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="SyncPlayWPF.Pages.SessionPages.MediaPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SyncPlayWPF.Pages.SessionPages"
+             xmlns:custom="clr-namespace:SyncPlayWPF.CustomControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary Source="../../Themes/Generic.xaml"/>
+    </UserControl.Resources>
+    <Grid>
+
+        <ScrollViewer Margin="15,10,5,5">
+            <StackPanel>
+                <custom:MediaFileControl
+                    FileDuration="20 minutes 12 seconds"
+                    FileName="The Office (US) - S06E04 - Niagara (1) SDTV"
+                    FileSize="204 MB"
+                    User="Sammy"/>
+
+                <custom:MediaFileControl
+                    FileDuration="20 minutes 12 seconds"
+                    FileName="The Office (US) - S06E04 - Niagara (1) SDTV"
+                    FileSize="204 MB"
+                    User="Jimmy"/>
+
+                <custom:MediaFileControl
+                    FileDuration="20 minutes 12 seconds"
+                    FileName="The Office (US) - S06E04 - Niagara (1) SDTV"
+                    FileSize="204 MB"
+                    User="Catto"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

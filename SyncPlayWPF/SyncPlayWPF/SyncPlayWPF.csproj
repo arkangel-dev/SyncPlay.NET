@@ -8,12 +8,14 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>SyncPlayWPF</RootNamespace>
     <AssemblyName>SyncPlayWPF</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <LangVersion>latest</LangVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -24,6 +26,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,10 +36,28 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DirectShowLib, Version=2.1.0.1599, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DirectShowLib.1.0.0\lib\DirectShowLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAPICodePack-Core.1.1.0.0\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAPICodePack-Shell.1.1.0.0\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.ShellExtensions, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAPICodePack-Shell.1.1.0.0\lib\Microsoft.WindowsAPICodePack.ShellExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -55,6 +76,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CustomControls\MediaFileControl.cs" />
+    <Compile Include="SyncPlay\Client.cs" />
+    <Compile Include="SyncPlay\EventArgs\ChatMessageEventArgs.cs" />
+    <Compile Include="SyncPlay\EventArgs\LocalSetFileEventArgs.cs" />
+    <Compile Include="SyncPlay\EventArgs\LocalStateChangeEventArgs.cs" />
+    <Compile Include="SyncPlay\EventArgs\RemoteSetFileEventArgs.cs" />
+    <Compile Include="SyncPlay\EventArgs\RemoteStateChangeEventArgs.cs" />
+    <Compile Include="SyncPlay\EventArgs\UserReadyEventArgs.cs" />
+    <Compile Include="SyncPlay\EventArgs\UserRoomStateEventArgs.cs" />
+    <Compile Include="SyncPlay\MediaFile.cs" />
+    <Compile Include="SyncPlay\MediaPlayerInterface.cs" />
+    <Compile Include="SyncPlay\MediaPlayers\VLCMediaPlayer\Connector.cs" />
+    <Compile Include="SyncPlay\Misc\Common.cs" />
+    <Compile Include="SyncPlay\Misc\MediaFileInfo.cs" />
+    <Compile Include="SyncPlay\Misc\Packets.cs" />
+    <Compile Include="SyncPlay\NetworkClient.cs" />
+    <Compile Include="SyncPlay\PingService.cs" />
+    <Compile Include="SyncPlay\Security.cs" />
+    <Compile Include="SyncPlay\SyncPlayWrapper.cs" />
+    <Compile Include="SyncPlay\User.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -63,6 +104,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Common\Shared.cs" />
     <Compile Include="Converters\PercentageConverter.cs" />
     <Compile Include="Converters\TextBoxValueToBoolean.cs" />
     <Compile Include="CustomControls\ImageButton.cs" />
@@ -118,6 +160,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

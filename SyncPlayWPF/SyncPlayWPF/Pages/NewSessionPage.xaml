@@ -55,11 +55,10 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
-                    <custom:PromptingLabel Grid.Row="0" PromptingText="Server Address" FocusedUnderlineBrush="{StaticResource DarkMode_ContrastedGradient}"/>
-                    <custom:PromptingLabel Grid.Row="1" PromptingText="Username" FocusedUnderlineBrush="{StaticResource DarkMode_ContrastedGradient}"/>
-                    <!--<custom:PromptingLabel Grid.Row="2" PromptingText="Password" FocusedUnderlineBrush="{StaticResource DarkMode_ContrastedGradient}"/>-->
-                    <custom:PromptingPasswordBox Grid.Row="2" PromptingText="Password" FocusedUnderlineBrush="{StaticResource DarkMode_ContrastedGradient}"/>
-                    <custom:PromptingLabel Grid.Row="3" PromptingText="Room Name" FocusedUnderlineBrush="{StaticResource DarkMode_ContrastedGradient}"/>
+                    <custom:PromptingLabel Grid.Row="0" x:Name="ServerAddressField" PromptingText="Server Address" FocusedUnderlineBrush="{StaticResource DarkMode_ContrastedGradient}"/>
+                    <custom:PromptingLabel Grid.Row="1" x:Name="UsernameField" PromptingText="Username" FocusedUnderlineBrush="{StaticResource DarkMode_ContrastedGradient}"/>
+                    <custom:PromptingPasswordBox Grid.Row="2" x:Name="PasswordField" PromptingText="Password" FocusedUnderlineBrush="{StaticResource DarkMode_ContrastedGradient}"/>
+                    <custom:PromptingLabel Grid.Row="3" x:Name="RoomNameField" PromptingText="Room Name" FocusedUnderlineBrush="{StaticResource DarkMode_ContrastedGradient}"/>
 
                 </Grid>
 
@@ -68,8 +67,8 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
-                    <Button Grid.Row="0" Content="Join Room" Width="150" Style="{StaticResource SignificantActionButton}" Margin="0,0,0,10"/>
-                    <custom:LinkButton Grid.Row="1" Content="Show More Settings" Width="150" Style="{StaticResource LinkButton}"/>
+                    <Button Grid.Row="0" Content="Join Room" Width="150" Style="{StaticResource SignificantActionButton}" Margin="0,0,0,10" Click="JoinRoom_Clicked"/>
+                    <custom:LinkButton x:Name="JoinRoomButton" Grid.Row="1" Content="Show More Settings" Width="150" Style="{StaticResource LinkButton}"/>
                 </Grid>
             </Grid>
         </Border>

@@ -21,5 +21,11 @@ namespace SyncPlayWPF.Pages {
         public NewSessionPage() {
             InitializeComponent();
         }
+
+        private void JoinRoom_Clicked(object sender, RoutedEventArgs e) {
+            Common.Shared.WindowPageTransition.ShowPage(new Pages.SessionLandingPage());
+
+            
+        }
     }
 }
