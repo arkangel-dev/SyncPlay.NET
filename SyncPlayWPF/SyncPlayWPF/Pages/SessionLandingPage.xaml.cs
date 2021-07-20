@@ -28,5 +28,9 @@ namespace SyncPlayWPF.Pages {
         private void ShowChatWindow() {
             SessionPageWindow.ShowPage(Common.Shared.ChatPageSingleton);
         }
+
+        private void CheckBox_Click(object sender, RoutedEventArgs e) {
+            Common.Shared.Wrapper.SyncPlayClient.SetReadyState((bool)ReadyToggle.IsChecked);
+        }
     }
 }

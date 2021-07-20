@@ -103,10 +103,12 @@
 
                         <CheckBox 
                             Grid.Column="3"
+                            x:Name="ReadyToggle"
                             Style="{StaticResource GenericCheckbox}"
                             Content="I am ready to watch"
                             HorizontalAlignment="Right"
-                            VerticalAlignment="Center"/>
+                            VerticalAlignment="Center"
+                            Click="CheckBox_Click"/>
                     </Grid>
                 </Border>
             </Grid>

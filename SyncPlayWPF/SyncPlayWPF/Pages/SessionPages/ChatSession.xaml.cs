@@ -32,7 +32,6 @@ namespace SyncPlayWPF.Pages.SessionPages {
         }
 
         private void NewChatEvent(SyncPlay.SyncPlayClient sender, SyncPlay.EventArgs.ChatInfoMessageArgs e) {
-            Console.WriteLine("_________-----__" + e.Message);
             Dispatcher.Invoke(() => {
                 if (!LastAdditionWasChatInfo) {
                     var spacer = new Border();
