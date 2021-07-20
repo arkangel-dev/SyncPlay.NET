@@ -20,21 +20,48 @@ namespace SyncPlayWPF.Pages.SessionPages {
     public partial class ChatSession : UserControl {
         public ChatSession() {
             InitializeComponent();
-
             this.Loaded += OnPageLoad;
         }
 
+        private bool LastAdditionWasChatInfo = false;
+        private SyncPlay.User LastSender = null;
+
         private void OnPageLoad(object sender, RoutedEventArgs e) {
             Common.Shared.Wrapper.SyncPlayClient.OnNewChatMessage += NewChatMessage;
+            Common.Shared.Wrapper.SyncPlayClient.OnChatInfoEvent += NewChatEvent;
+        }
+
+        private void NewChatEvent(SyncPlay.SyncPlayClient sender, SyncPlay.EventArgs.ChatInfoMessageArgs e) {
+            Console.WriteLine("_________-----__" + e.Message);
+            Dispatcher.Invoke(() => {
+                if (!LastAdditionWasChatInfo) {
+                    var spacer = new Border();
+                    spacer.Style = (Style)this.FindResource("ChatInfoSpacer");
+                    LastAdditionWasChatInfo = true;
+                    MessageStack.Children.Add(spacer);
+                }
+                var msgblock = new TextBlock();
+                msgblock.Text = e.Message;
+                msgblock.Style = (Style)this.FindResource("ChatInfo");
+                MessageStack.Children.Add(msgblock);
+            });
         }
 
         private void NewChatMessage(SyncPlay.SyncPlayClient sender, SyncPlay.EventArgs.ChatMessageEventArgs e) {
             Dispatcher.Invoke(() => {
+                if (LastAdditionWasChatInfo) {
+                    var spacer = new Border();
+                    spacer.Style = (Style)this.FindResource("ChatInfoSpacer");
+                    LastAdditionWasChatInfo = false;
+                }
                 var msgballoon = new CustomControls.ChatMessage();
                 msgballoon.Style = e.LocallySentMessage ? (Style)this.FindResource("OutgoingMessage") : (Style)this.FindResource("IncomingMessage");
                 msgballoon.MessageSender = e.Sender.Username;
                 msgballoon.MessageContent = e.Message;
+                msgballoon.IsInitialMessage = LastSender == null || LastSender != e.Sender;
                 msgballoon.MessageTime = DateTime.Now.ToString("hh:mm tt");
+
+                LastSender = e.Sender;
 
                 var text = new TextBlock();
                 text.Text = e.Message;

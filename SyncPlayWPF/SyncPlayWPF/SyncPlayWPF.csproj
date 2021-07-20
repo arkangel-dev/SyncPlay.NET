@@ -77,6 +77,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CustomControls\MediaFileControl.cs" />
+    <Compile Include="SyncPlay\EventArgs\ChatInfoMessageArgs.cs" />
     <Compile Include="SyncPlay\SyncPlayClient.cs" />
     <Compile Include="SyncPlay\EventArgs\ChatMessageEventArgs.cs" />
     <Compile Include="SyncPlay\EventArgs\LocalSetFileEventArgs.cs" />

@@ -19,7 +19,7 @@
         <!-- Chat Messages -->
         <ScrollViewer Style="{StaticResource FavsScrollViewer}">
             <StackPanel Grid.Row="0" Margin="20,10,10,10" x:Name="MessageStack">
-         
+                
             </StackPanel>
         </ScrollViewer>
 

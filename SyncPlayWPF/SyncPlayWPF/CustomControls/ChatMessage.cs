@@ -66,8 +66,8 @@ namespace SyncPlayWPF.CustomControls {
             get { return (string)GetValue(MessageSenderProperty); }
             set { SetValue(MessageSenderProperty, value); }
         }
-        public string IsInitialMessage {
-            get { return (string)GetValue(IsInitialMessageProperty); }
+        public bool IsInitialMessage {
+            get { return (bool)GetValue(IsInitialMessageProperty); }
             set { SetValue(IsInitialMessageProperty, value); }
         }
     }
