@@ -5,13 +5,25 @@
 	<img src="readme.assets/main.png" width="40%"
 </p>
 
-SyncPlay.NET is a C# client for the [SyncPlay](https://github.com/Syncplay/syncplay) protocol with a user interface made from WPF. As for the compatible players, currently only VLC media player is compatible. As for the interface between SyncPlay.NET and VLC media player, the command line remote control is used. 
+SyncPlay.NET is a C# client for the [SyncPlay](https://github.com/Syncplay/syncplay) protocol which allows multiple media players to sync their play state and position so viewers from different devices can watch a media file together. Similar to the original SyncPlay client SyncPlay.NET will also support chat functionality with additional support for other chat clients. As for the compatible players, currently only VLC media player is compatible.
 
-> **Warning :** Please note that SyncPlay.NET should be used with caution because it cannot be guaranteed to work as well as the original client written by the SyncPlay team. Another thing to note is that this requires .NET Framework 4.7 or newer
+> **Warning :** Please note that SyncPlay.NET should be used with caution because it cannot be guaranteed to work as well as the original client written by the SyncPlay team. Download the official version of SyncPlay from https://syncplay.pl/download/
 
- 
 
-## Screenshot
+
+## Why does this exist?
+
+The original version of SyncPlay works pretty well. So why did I make this? Well, Jim was being an a**hole about the official SyncPlay client having a nice dark mode on Linux and Windows not having a similar dark mode.
+
+
+
+## License 
+
+This project, the Syncplay released binaries, and all the files included in this repository unless stated otherwise in the header of the file,  are licensed under the [Apache License, version 2.0](https://www.apache.org/licenses/LICENSE-2.0.html). A copy of this license is included in the LICENSE file of this  repository.
+
+
+
+## Screenshots
 
 
 
