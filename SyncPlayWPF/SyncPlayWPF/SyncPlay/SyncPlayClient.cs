@@ -224,9 +224,7 @@ namespace SyncPlay {
             if (UserDictionary.TryGetValue(username, out u)) {
                 return u;
             } else {
-                u = new User();
-                u.Username = username;
-                return u;
+                return this.AddNewUser(username);      
             }
         }
 
@@ -252,6 +250,7 @@ namespace SyncPlay {
                 LocalUser.IsReady = false;
             }
 
+            // Parse through a list of all the users and what they're playing...
             if (jobj.ContainsKey("List")) {
                 foreach (var room in jobj.Children()) {
                     foreach (var user in room.Children()) {
