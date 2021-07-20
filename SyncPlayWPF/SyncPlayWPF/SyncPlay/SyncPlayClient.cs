@@ -26,8 +26,7 @@ namespace SyncPlay {
         private bool Seeked = false;
         private bool clientIgnoreOnFly = false;
 
-        //TODO: Fix the issue where the client has no idea what users were in the session before joining. This crashing every time one of them sends a message.
-
+        
         #region Front Facing Accessors
         /// <summary>
         /// This function will get the pause state of the client
@@ -100,6 +99,10 @@ namespace SyncPlay {
             var mfile = MediaFile.OpenFile(path);
             Playlist.Add(mfile);
             nclient.SendMessage(Packets.CraftSetFileMessage(mfile.FilePath, mfile.Duration, mfile.Size));
+        }
+
+        public void SendChatMessage(string message) {
+            nclient.SendMessage(Packets.CraftOutgoingChatMessage(message));
         }
 
         /// <summary>
@@ -286,6 +289,7 @@ namespace SyncPlay {
                     User s;
                     if (!UserDictionary.TryGetValue(username, out s)) throw new Exception($"Cannot find user {username}");
                     var args = new EventArgs.ChatMessageEventArgs(s, chatmessage);
+                    args.LocallySentMessage = username.Equals(this.Username);
                     OnNewChatMessage(this, args);
                 }
             }

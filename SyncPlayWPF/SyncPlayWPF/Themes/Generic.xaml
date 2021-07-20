@@ -564,7 +564,7 @@
                                 TextWrapping="WrapWithOverflow"
                                 Background="Transparent"
                                 Foreground="{StaticResource DarkMode_TextColorF}"
-                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Text}"
+                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Text,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 Width="{Binding Path=ActualWidth, ElementName=ContainerGrid}"
                                 MaxWidth="{Binding Path=ActualWidth, ElementName=ContainerGrid}">
 

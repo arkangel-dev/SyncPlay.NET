@@ -21,7 +21,12 @@ namespace SyncPlayWPF.Pages {
         public SessionLandingPage() {
             InitializeComponent();
 
-            SessionPageWindow.ShowPage(new Pages.SessionPages.ChatSession());
+            Common.Shared.ChatPageSingleton = new Pages.SessionPages.ChatSession();
+            ShowChatWindow();
+        }
+
+        private void ShowChatWindow() {
+            SessionPageWindow.ShowPage(Common.Shared.ChatPageSingleton);
         }
     }
 }

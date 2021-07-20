@@ -133,6 +133,17 @@ namespace SyncPlay {
             var sresult = result.ToString(Newtonsoft.Json.Formatting.None) + "\r\n";
             return sresult;
         }
+
+        public static string CraftOutgoingChatMessage(string message) {
+            var result = new JObject(
+                    new JProperty("Chat", message)
+                );
+            var sresult = result.ToString(Newtonsoft.Json.Formatting.None) + "\r\n";
+            return sresult;
+        }
+
+
+
         public static string CraftSendList() {
             var result = new JObject(
                 new JProperty("List", null)

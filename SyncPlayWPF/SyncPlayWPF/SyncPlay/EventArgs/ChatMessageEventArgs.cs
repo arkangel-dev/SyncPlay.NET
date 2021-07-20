@@ -8,6 +8,7 @@ namespace SyncPlay.EventArgs {
     public  class ChatMessageEventArgs {
         public User Sender;
         public String Message;
+        public bool LocallySentMessage;
 
         public ChatMessageEventArgs(User _sender, String _message) {
             Sender = _sender;

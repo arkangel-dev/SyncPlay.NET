@@ -29,10 +29,9 @@ namespace SyncPlayWPF.Pages.SessionPages {
         }
 
         private void NewChatMessage(SyncPlay.SyncPlayClient sender, SyncPlay.EventArgs.ChatMessageEventArgs e) {
-            Console.WriteLine("NEW MESSAGE!");
             Dispatcher.Invoke(() => {
                 var msgballoon = new CustomControls.ChatMessage();
-                msgballoon.Style = (Style)this.FindResource("IncomingMessage");
+                msgballoon.Style = e.LocallySentMessage ? (Style)this.FindResource("OutgoingMessage") : (Style)this.FindResource("IncomingMessage");
                 msgballoon.MessageSender = e.Sender.Username;
                 msgballoon.MessageContent = e.Message;
                 msgballoon.MessageTime = DateTime.Now.ToString("hh:mm tt");
@@ -42,7 +41,25 @@ namespace SyncPlayWPF.Pages.SessionPages {
 
                 MessageStack.Children.Add(msgballoon);
             });
-            
+        }
+
+        private void SendMessageButtonClick(object sender, RoutedEventArgs e) {
+            SendMessage();
+        }
+
+        private void SendMessage() {
+            if (!String.IsNullOrWhiteSpace(MessageBlockField.Text)) {
+                Common.Shared.Wrapper.SyncPlayClient.SendChatMessage(MessageBlockField.Text);
+            } else {
+                Console.WriteLine("Ignored Blank Message");
+            }
+            MessageBlockField.Text = "";
+        }
+
+        private void SendMessageEnterClick(object sender, KeyEventArgs e) {
+            if (e.Key == Key.Enter) {
+                SendMessage();
+            }
         }
     }
 }
