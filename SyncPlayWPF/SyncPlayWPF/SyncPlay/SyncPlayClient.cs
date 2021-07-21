@@ -253,6 +253,12 @@ namespace SyncPlay {
 
             // This the TLS negotiation packet
             if (jobj.ContainsKey("TLS")) {
+
+                var tlskey = jobj.Value<JObject>("TLS");
+                if (tlskey.Value<String>("startTLS").Equals("true")) {
+                    this.nclient.ActivateTLS();
+                }
+
                 nclient.SendMessage(HelloMessage);
             }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Security;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -10,18 +11,19 @@ using System.Threading.Tasks;
 namespace SyncPlay {
     public class NetworkClient {
         private TcpClient client;
+        private SslStream SSL;
         private NetworkStream stream;
-        private string ServerIP;
+        private string Host;
         private int Port;
 
         public NetworkClient(String server, int port) {
-            ServerIP = server;
+            Host = server;
             Port = port;
         }
 
         public bool Connect() {
             try {
-                client = new TcpClient(ServerIP, Port);
+                client = new TcpClient(Host, Port);
                 stream = client.GetStream();
                 var recievethread = new Thread(ProcessIncoming);
                 recievethread.Start();
@@ -32,18 +34,36 @@ namespace SyncPlay {
             }
         }
 
+        public void ActivateTLS() {
+            this.SSL = new SslStream(stream);
+            this.SSL.AuthenticateAsClient(this.Host);
+        }
+
         public void SendMessage(string Message) {
             //Console.WriteLine(Message);
-            var bytes = Encoding.ASCII.GetBytes(Message);
-            stream.Write(bytes, 0, bytes.Length);
-            stream.Flush();
+            if (SSL == null) {
+                var bytes = Encoding.ASCII.GetBytes(Message);
+                stream.Write(bytes, 0, bytes.Length);
+                stream.Flush();
+            } else {
+                var bytes = Encoding.ASCII.GetBytes(Message);
+                SSL.Write(bytes, 0, bytes.Length);
+                SSL.Flush();
+            }
         }
 
         private void ProcessIncoming() {
             while (stream != null) {
                 try {
                     var msgbytes = new byte[1024];
-                    var length = stream.Read(msgbytes, 0, msgbytes.Length);
+
+                    var length = 0;
+                    if (SSL != null) {
+                        length = SSL.Read(msgbytes, 0, msgbytes.Length);
+                    } else {
+                        length = stream.Read(msgbytes, 0, msgbytes.Length);
+                    }
+                    
                     var parts = Encoding.ASCII.GetString(msgbytes, 0, length)
                         .Split(new string[] { "\r\n" }, StringSplitOptions.None);
 
