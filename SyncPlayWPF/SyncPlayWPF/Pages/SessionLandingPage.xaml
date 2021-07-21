@@ -93,6 +93,7 @@
                         </Grid.ColumnDefinitions>
 
                         <custom:ImageButton
+                            Click="ToggleSidePanel"
                             Grid.Column="0"
                             Image="{StaticResource CollapseButton}"
                             Style="{StaticResource ImageSilhouette}"

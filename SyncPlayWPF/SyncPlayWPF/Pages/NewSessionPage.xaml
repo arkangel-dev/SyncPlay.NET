@@ -55,7 +55,7 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
-                    <custom:PromptingLabel Text="localhost:5005" Grid.Row="0" x:Name="ServerAddressField" PromptingText="Server Address" FocusedUnderlineBrush="{StaticResource DarkMode_ContrastedGradient}"/>
+                    <custom:PromptingLabel Text="syncplay.pl:8995" Grid.Row="0" x:Name="ServerAddressField" PromptingText="Server Address" FocusedUnderlineBrush="{StaticResource DarkMode_ContrastedGradient}"/>
                     <custom:PromptingLabel Text="sammy" Grid.Row="1" x:Name="UsernameField" PromptingText="Username" FocusedUnderlineBrush="{StaticResource DarkMode_ContrastedGradient}"/>
                     <custom:PromptingPasswordBox Grid.Row="2" x:Name="PasswordField" PromptingText="Password" FocusedUnderlineBrush="{StaticResource DarkMode_ContrastedGradient}"/>
                     <custom:PromptingLabel Text="ck" Grid.Row="3" x:Name="RoomNameField" PromptingText="Room Name" FocusedUnderlineBrush="{StaticResource DarkMode_ContrastedGradient}"/>

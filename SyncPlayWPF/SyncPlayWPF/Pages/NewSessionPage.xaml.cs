@@ -30,12 +30,12 @@ namespace SyncPlayWPF.Pages {
             var password = PasswordField.ActualPassword;
             var roomName = RoomNameField.Text;
 
-            Console.WriteLine($"Server  : {serverIp}:{serverPort}\n" +
+            Console.WriteLine(
+                $"Server  : {serverIp}:{serverPort}\n" +
                 $"Username  : {username}\n" +
                 $"Password  : {password}\n" +
                 $"Room Name : {roomName}");
 
-            Common.Shared.WindowPageTransition.ShowPage(new Pages.SessionLandingPage());
             Common.Shared.Wrapper = new SyncPlay.SyncPlayWrapper(
                 serverIp,
                 serverPort,
@@ -43,6 +43,9 @@ namespace SyncPlayWPF.Pages {
                 password,
                 roomName,
                 new SyncPlay.MediaPlayers.VLCMediaPlayer.Connector());
+
+            Common.Shared.WindowPageTransition.ShowPage(new Pages.SessionLandingPage());
+            
 
         }
     }

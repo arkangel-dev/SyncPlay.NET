@@ -86,7 +86,9 @@
                     </Setter>
                 </Style>
             </Grid.Style>
+            
             <wpft:PageTransition Name="RootPageTransition" TransitionType="Fade"/>
+            <wpft:PageTransition Name="MasterOverlayTransition" IsHitTestVisible="False" TransitionType="Fade"/>
         </Grid>
     </Grid>
 </Window>

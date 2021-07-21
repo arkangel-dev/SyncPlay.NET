@@ -22,9 +22,18 @@ namespace SyncPlayWPF {
             InitializeComponent();
 
             Common.Shared.WindowPageTransition = RootPageTransition;
+            Common.Shared.MasterOverrideTransition = MasterOverlayTransition;
 
             //RootPageTransition.ShowPage(new Pages.SessionLandingPage());
             RootPageTransition.ShowPage(new Pages.NewSessionPage());
+
+            Application.Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
+        }
+
+        private void Current_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e) {
+            Console.WriteLine("Exception thrown!");
+            Common.Shared.ThrowException(e.Exception);
+            e.Handled = true;
         }
 
         private void WindowDrag(object sender, MouseButtonEventArgs e) {

@@ -1,0 +1,103 @@
+﻿<UserControl x:Class="SyncPlayWPF.Pages.ApplicationPages.ExceptionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SyncPlayWPF.Pages.ApplicationPages"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary Source="../../Themes/Generic.xaml"/>
+    </UserControl.Resources>
+    <Border Background="{StaticResource DarkMode_AccentColorJ}">
+
+        <Grid Margin="25, 10, 25, 10" x:Name="ContainerGrid">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock 
+                Grid.Row="0"
+                Text="ಠ╭╮ಠ"
+                FontSize="50"
+                Margin="10,0,0,0"
+                Foreground="{StaticResource DarkMode_TextColorA}">
+                <TextBlock.Effect>
+                    <DropShadowEffect BlurRadius="10" ShadowDepth="0" Opacity="1"/>
+                </TextBlock.Effect>
+            </TextBlock>
+
+            <TextBlock
+                Grid.Row="1"
+                Text="Whoops. It would seem that you have come across an excpetion. So you have two options. You can ignore the exception and continue with normal usage, or you can submit the following stack trace and help us to make SyncPlay.NET better"
+                TextWrapping="WrapWithOverflow"
+                FontSize="15"
+                Margin="0,10,0,0"
+                Foreground="{StaticResource DarkMode_TextColorF}"/>
+
+            <Border
+                Background="{StaticResource DarkMode_AccentColorE}"
+                CornerRadius="10"
+                Margin="0,15,0,0"
+                Width="{Binding ElementName=ContainerGrid, Path=ActualWidth, Converter={StaticResource PercentageConverter}, ConverterParameter='0.9'}"
+                Padding="10"
+                Grid.Row="2">
+
+                <ScrollViewer Style="{StaticResource FavsScrollViewer}">
+                <TextBox
+                    x:Name="ExceptionDetails"
+                    Background="Transparent"
+                    Margin="0,0,10,0"
+                    Foreground="Black"
+                    BorderThickness="0"
+                    Text="Test Exception&#x0a;
+        at SyncPlayWPF.Pages.SessionLandingPage.ToggleSidePanel(Object sender, RoutedEventArgs e) in D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\Pages\SessionLandingPage.xaml.cs:line 37&#x0a;
+        at System.Windows.RoutedEventHandlerInfo.InvokeHandler(Object target, RoutedEventArgs routedEventArgs)&#x0a;
+        at System.Windows.EventRoute.InvokeHandlersImpl(Object source, RoutedEventArgs args, Boolean reRaised)&#x0a;
+        at System.Windows.UIElement.RaiseEventImpl(DependencyObject sender, RoutedEventArgs args)&#x0a;
+        at System.Windows.UIElement.RaiseEvent(RoutedEventArgs e)&#x0a;
+        at System.Windows.Controls.Primitives.ButtonBase.OnClick()&#x0a;
+        at System.Windows.Controls.Button.OnClick()&#x0a;
+        at System.Windows.Controls.Primitives.ButtonBase.OnMouseLeftButtonUp(MouseButtonEventArgs e)&#x0a;
+        at System.Windows.UIElement.OnMouseLeftButtonUpThunk(Object sender, MouseButtonEventArgs e)&#x0a;
+        at System.Windows.Input.MouseButtonEventArgs.InvokeEventHandler(Delegate genericHandler, Object genericTarget)&#x0a;
+        at System.Windows.RoutedEventArgs.InvokeHandler(Delegate handler, Object target)&#x0a;
+        at System.Windows.RoutedEventHandlerInfo.InvokeHandler(Object target, RoutedEventArgs routedEventArgs)&#x0a;
+        at System.Windows.EventRoute.InvokeHandlersImpl(Object source, RoutedEventArgs args, Boolean reRaised)&#x0a;
+        at System.Windows.UIElement.ReRaiseEventAs(DependencyObject sender, RoutedEventArgs args, RoutedEvent newEvent)&#x0a;
+        at System.Windows.UIElement.OnMouseUpThunk(Object sender, MouseButtonEventArgs e)&#x0a;
+        at System.Windows.Input.MouseButtonEventArgs.InvokeEventHandler(Delegate genericHandler, Object genericTarget)&#x0a;
+        at System.Windows.RoutedEventArgs.InvokeHandler(Delegate handler, Object target)&#x0a;
+        at System.Windows.RoutedEventHandlerInfo.InvokeHandler(Object target, RoutedEventArgs routedEventArgs)&#x0a;
+        at System.Windows.EventRoute.InvokeHandlersImpl(Object source, RoutedEventArgs args, Boolean reRaised)&#x0a;
+        at System.Windows.UIElement.RaiseEventImpl(DependencyObject sender, RoutedEventArgs args)&#x0a;
+        at System.Windows.UIElement.RaiseTrustedEvent(RoutedEventArgs args)&#x0a;
+        at System.Windows.UIElement.RaiseEvent(RoutedEventArgs args, Boolean trusted)&#x0a;
+        at System.Windows.Input.InputManager.ProcessStagingArea()&#x0a;
+        at System.Windows.Input.InputManager.ProcessInput(InputEventArgs input)&#x0a;
+        at System.Windows.Input.InputProviderSite.ReportInput(InputReport inputReport)&#x0a;
+        at System.Windows.Interop.HwndMouseInputProvider.ReportInput(IntPtr hwnd, InputMode mode, Int32 timestamp, RawMouseActions actions, Int32 x, Int32 y, Int32 wheel)&#x0a;
+        at System.Windows.Interop.HwndMouseInputProvider.FilterMessage(IntPtr hwnd, WindowMessage msg, IntPtr wParam, IntPtr lParam, Boolean handled)&#x0a;
+        at System.Windows.Interop.HwndSource.InputFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean handled)&#x0a;
+        at MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean handled)&#x0a;
+        at MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)&#x0a;
+        at System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)&#x0a;
+        at System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler)"/>
+                </ScrollViewer>
+            </Border>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center" >
+                <Button Margin="2,6,2,0" Style="{StaticResource GenericPrimaryActionButton}" Width="125" Content="Submit Exception"/>
+                <Button Margin="2,6,2,0" Style="{StaticResource GenericPrimaryActionButton}" Width="125" Content="Submit new Issue"/>
+                <Button Margin="2,6,2,0" Style="{StaticResource GenericPrimaryActionButton}" Width="125" Content="Close"/>
+            </StackPanel>
+
+        </Grid>
+
+    </Border>
+
+</UserControl>

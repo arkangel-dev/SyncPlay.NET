@@ -43,6 +43,7 @@
 
     <SolidColorBrush x:Key="DarkMode_AccentColorH" Color="#B93B3B3B"/>
     <SolidColorBrush x:Key="DarkMode_AccentColorI" Color="#B9282828"/>
+    <SolidColorBrush x:Key="DarkMode_AccentColorJ" Color="#F43E3E3E"/>
 
 
 
@@ -435,7 +436,69 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
+    <Style TargetType="{x:Type Button}" x:Key="GenericPrimaryActionButton">
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="Margin" Value="1,2,1,2"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border 
+                        Name="MainBorder"
+                        CornerRadius="10"
+                        Height="30"
+                        Margin="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Margin}">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="6" ShadowDepth="0" Opacity="0.25"/>
+                        </Border.Effect>
+                        <TextBlock
+                            x:Name="ButtonLabel"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            FontWeight="DemiBold"
+                            FontSize="10"
+                            
+                            Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="Foreground" Value="{StaticResource DarkMode_TextColorE}"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="True">
+                                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Foreground}"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="True">
+                                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Foreground}"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="BorderBrush" Value="{StaticResource DarkMode_TextColorE}"/>
+                                <Setter Property="Padding" Value="5,0,5,0"/>
+                                <Setter Property="BorderThickness" Value="1"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource DarkMode_ContrastedHoverGradient}"/>
+                                        <Setter Property="BorderThickness" Value="0"/>
+                                        <Setter Property="Padding" Value="16,0,16,0"/>
+                                    </Trigger>
+                                    <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource DarkMode_ContrastedClickGradient}"/>
+                                        <Setter Property="BorderThickness" Value="0"/>
+                                        <Setter Property="Padding" Value="16,0,16,0"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!-- Link Button -->
     <Style TargetType="{x:Type custom:LinkButton}" x:Key="LinkButton">
         <Setter Property="FontSize" Value="12"/>

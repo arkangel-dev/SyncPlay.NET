@@ -32,5 +32,9 @@ namespace SyncPlayWPF.Pages {
         private void CheckBox_Click(object sender, RoutedEventArgs e) {
             Common.Shared.Wrapper.SyncPlayClient.SetReadyState((bool)ReadyToggle.IsChecked);
         }
+
+        private void ToggleSidePanel(object sender, RoutedEventArgs e) {
+            throw new Exception("Test Exception");
+        }
     }
 }

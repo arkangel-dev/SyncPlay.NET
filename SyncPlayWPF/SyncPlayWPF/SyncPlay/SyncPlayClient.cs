@@ -120,7 +120,9 @@ namespace SyncPlay {
         public SyncPlayClient(String serverip, int port, String username, String password, String roomname, String version) {
             nclient = new NetworkClient(serverip, port);
             pingService = new PingService();
-            nclient.Connect();
+            if (!nclient.Connect()) {
+                throw new Exception("Failed to connect to server");
+            }
             HelloMessage = Packets.CraftIdentificationMessage(username, password, roomname, version);
             nclient.OnNewMessage += NewIncomingMessage;
             nclient.SendMessage(Packets.CraftTLS());

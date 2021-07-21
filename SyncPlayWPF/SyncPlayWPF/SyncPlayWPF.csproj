@@ -77,6 +77,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CustomControls\MediaFileControl.cs" />
+    <Compile Include="Pages\ApplicationPages\ExceptionView.xaml.cs">
+      <DependentUpon>ExceptionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SyncPlay\EventArgs\ChatInfoMessageArgs.cs" />
     <Compile Include="SyncPlay\SyncPlayClient.cs" />
     <Compile Include="SyncPlay\EventArgs\ChatMessageEventArgs.cs" />
@@ -117,6 +120,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\ApplicationPages\ExceptionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\NewSessionPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

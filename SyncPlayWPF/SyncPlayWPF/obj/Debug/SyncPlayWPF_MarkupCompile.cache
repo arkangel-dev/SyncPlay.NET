@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\App.xaml
-52009795748
+6-39690316
 
-371527478539
+38847221794
 211540119708
-MainWindow.xaml;Pages\NewSessionPage.xaml;Pages\SessionLandingPage.xaml;Pages\SessionPages\ChatSession.xaml;Themes\Generic.xaml;
+MainWindow.xaml;Pages\ApplicationPages\ExceptionView.xaml;Pages\NewSessionPage.xaml;Pages\SessionLandingPage.xaml;Pages\SessionPages\ChatSession.xaml;Themes\Generic.xaml;
 
 False
 
