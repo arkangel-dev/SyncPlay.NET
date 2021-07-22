@@ -16,10 +16,16 @@ namespace SyncPlay {
 
             mp.OnSeek += SyncPlayClient.SetPlayPosition;
             mp.OnPauseStateChange += SyncPlayClient.SetPause;
+            mp.OnNewFileLoad += NewFileLoad;
 
             SyncPlayClient.OnPlayerStateChange += PlayerStateChanged;
             
+            
             mp.StartPlayerInstance();
+        }
+
+        private void NewFileLoad(EventArgs.NewFileLoadEventArgs e) {
+            SyncPlayClient.AddFileToPlayList(e.AbsoluteFilePath);
         }
 
         private void PlayerStateChanged(SyncPlayClient sender, EventArgs.RemoteStateChangeEventArgs e) {

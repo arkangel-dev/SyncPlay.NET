@@ -13,6 +13,7 @@ namespace SyncPlay {
         void SetPosition(float f);
         void SetPauseState(bool p);
         bool IsPaused();
+        void ClosePlayer();
 
 
 
@@ -23,7 +24,7 @@ namespace SyncPlay {
         delegate void HandleVLCServerMessages(string s);
         event HandleVLCServerMessages OnPlayerMessage;
 
-        delegate void HandleFileLoadEvent(string s);
+        delegate void HandleFileLoadEvent(EventArgs.NewFileLoadEventArgs e);
         event HandleFileLoadEvent OnNewFileLoad;
 
         delegate void HandleSeek(float position);
@@ -32,6 +33,8 @@ namespace SyncPlay {
         delegate void HandlePauseState(bool paused);
         event HandlePauseState OnPauseStateChange;
 
+        delegate void HandlePlayerClosed();
+        event HandlePlayerClosed OnPlayerClosed;
 
     }
 }

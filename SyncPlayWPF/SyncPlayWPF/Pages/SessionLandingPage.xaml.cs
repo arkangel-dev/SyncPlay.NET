@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,6 +24,22 @@ namespace SyncPlayWPF.Pages {
 
             Common.Shared.ChatPageSingleton = new Pages.SessionPages.ChatSession();
             ShowChatWindow();
+            this.Loaded += PageLoaded;
+        }
+
+        private void PageLoaded(object sender, RoutedEventArgs e) {
+          
+            Common.Shared.Wrapper.Player.OnPlayerClosed += delegate {
+                ThreadStart ts = delegate () {
+                    Dispatcher.BeginInvoke((Action)delegate () {
+                        Application.Current.Shutdown();
+                    });
+                };
+                Thread t = new Thread(ts);
+                t.Start();
+            };
+            
+            
         }
 
         private void ShowChatWindow() {

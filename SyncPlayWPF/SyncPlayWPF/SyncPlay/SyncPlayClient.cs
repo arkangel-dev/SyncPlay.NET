@@ -128,7 +128,9 @@ namespace SyncPlay {
             nclient.SendMessage(Packets.CraftTLS());
             UserDictionary = new Dictionary<string, User>();
             Playlist = new List<MediaFile>();
-            new Thread(() => { IncrementPosition(); }).Start();
+            var incremement_pos = new Thread(() => { IncrementPosition(); });
+            incremement_pos.IsBackground = true;
+            incremement_pos.Start();
         }
         #endregion
 

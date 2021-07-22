@@ -14,9 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace SyncPlayWPF.Pages.SessionPages {
-    /// <summary>
-    /// Interaction logic for ChatSession.xaml
-    /// </summary>
+
     public partial class ChatSession : UserControl {
         public ChatSession() {
             InitializeComponent();
@@ -36,13 +34,14 @@ namespace SyncPlayWPF.Pages.SessionPages {
                 if (!LastAdditionWasChatInfo) {
                     var spacer = new Border();
                     spacer.Style = (Style)this.FindResource("ChatInfoSpacer");
-                    LastAdditionWasChatInfo = true;
                     MessageStack.Children.Add(spacer);
                 }
                 var msgblock = new TextBlock();
                 msgblock.Text = e.Message;
                 msgblock.Style = (Style)this.FindResource("ChatInfo");
                 MessageStack.Children.Add(msgblock);
+                LastAdditionWasChatInfo = true;
+                this.LastSender = null;
             });
         }
 
@@ -51,6 +50,7 @@ namespace SyncPlayWPF.Pages.SessionPages {
                 if (LastAdditionWasChatInfo) {
                     var spacer = new Border();
                     spacer.Style = (Style)this.FindResource("ChatInfoSpacer");
+                    MessageStack.Children.Add(spacer);
                     LastAdditionWasChatInfo = false;
                 }
                 var msgballoon = new CustomControls.ChatMessage();
@@ -59,12 +59,9 @@ namespace SyncPlayWPF.Pages.SessionPages {
                 msgballoon.MessageContent = e.Message;
                 msgballoon.IsInitialMessage = LastSender == null || LastSender != e.Sender;
                 msgballoon.MessageTime = DateTime.Now.ToString("hh:mm tt");
-
                 LastSender = e.Sender;
-
                 var text = new TextBlock();
                 text.Text = e.Message;
-
                 MessageStack.Children.Add(msgballoon);
             });
         }
@@ -76,8 +73,6 @@ namespace SyncPlayWPF.Pages.SessionPages {
         private void SendMessage() {
             if (!String.IsNullOrWhiteSpace(MessageBlockField.Text)) {
                 Common.Shared.Wrapper.SyncPlayClient.SendChatMessage(MessageBlockField.Text);
-            } else {
-                Console.WriteLine("Ignored Blank Message");
             }
             MessageBlockField.Text = "";
         }

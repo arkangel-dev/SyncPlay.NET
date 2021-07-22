@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -10,25 +12,32 @@ namespace SyncPlay.MediaPlayers.VLCMediaPlayer  {
     class Connector : MediaPlayerInterface {
 
 
-
+        private Process PlayerProcess;
         private List<String> MessageList = new List<string>();
         private TcpClient client;
         private NetworkStream stream;
-        private bool Paused = false;
+        private bool Paused = true;
+
 
        
         private void StartVLCServer() {
-            //System.Diagnostics.Process.Start("\"C:\\Program Files\\VideoLAN\\VLC\\vlc.exe\" --extraintf rc --rc-host localhost:5002 --rc-quiet");
-            var p = System.Diagnostics.Process.Start("\"C:\\Program Files\\VideoLAN\\VLC\\vlc.exe\"", "--extraintf rc --rc-host localhost:5002 --rc-quiet");
+            this.PlayerProcess = System.Diagnostics.Process.Start("\"C:\\Program Files\\VideoLAN\\VLC\\vlc.exe\"", "--extraintf rc --rc-host localhost:5002 --rc-quiet");
         }
         private void ConnectToVLCServer() {
             client = new TcpClient("127.0.0.1", 5002);
             stream = client.GetStream();
 
-            new Thread(() => { HandleMessages(); }).Start();
-            new Thread(() => { WriteToNetworkStream(); }).Start();
+            var handle_msg = new Thread(() => { HandleMessages(); });
+            handle_msg.IsBackground = true;
+            handle_msg.Start();
+
+            var writetonetwork = new Thread(() => { WriteToNetworkStream(); });
+            writetonetwork.IsBackground = true;
+            writetonetwork.Start();
+
 
             OnPlayerMessage += ParseMessages;
+
         }
         private void ParseMessages(string s) {
             var parts = s.Split();
@@ -54,11 +63,16 @@ namespace SyncPlay.MediaPlayers.VLCMediaPlayer  {
                     var position = Int32.Parse(String.Join("", parts[4]
                         .ToList()
                         .GetRange(0, parts[4].Length - 1)));
-                    OnSeek(position);
+                    OnSeek(position); 
                     break;
 
                 case "new":
-                    Paused = false;
+                    Paused = true;
+                    if (parts[4] == "input:") {
+                        var absolute_path = new Uri(parts[5]).LocalPath;
+                        var file_name = Path.GetFileName(absolute_path);
+                        OnNewFileLoad?.Invoke(new EventArgs.NewFileLoadEventArgs(file_name, absolute_path));
+                    }
                     break;
             }
         }
@@ -74,6 +88,7 @@ namespace SyncPlay.MediaPlayers.VLCMediaPlayer  {
                 }
             } catch (Exception e) {
                 Debug("Heartbeat and Polling Loop Broken");
+                OnPlayerClosed?.Invoke();
             }
         }
         private void HandleMessages() {
@@ -86,6 +101,7 @@ namespace SyncPlay.MediaPlayers.VLCMediaPlayer  {
                 }
             } catch (Exception e) {
                 Debug("Message Handler Loop Broken");
+                OnPlayerClosed?.Invoke();
             }
         }
         public void Pause() {
@@ -132,10 +148,15 @@ namespace SyncPlay.MediaPlayers.VLCMediaPlayer  {
             }
         }
 
+        public void ClosePlayer() {
+            this.PlayerProcess.Kill();
+        }
+
         public event MediaPlayerInterface.HandleDebugMessages OnDebugMessage;
         public event MediaPlayerInterface.HandleVLCServerMessages OnPlayerMessage;
         public event MediaPlayerInterface.HandleFileLoadEvent OnNewFileLoad;
         public event MediaPlayerInterface.HandleSeek OnSeek;
         public event MediaPlayerInterface.HandlePauseState OnPauseStateChange;
+        public event MediaPlayerInterface.HandlePlayerClosed OnPlayerClosed;
     }
 }

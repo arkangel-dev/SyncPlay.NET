@@ -26,6 +26,7 @@ namespace SyncPlay {
                 client = new TcpClient(Host, Port);
                 stream = client.GetStream();
                 var recievethread = new Thread(ProcessIncoming);
+                recievethread.IsBackground = true;
                 recievethread.Start();
                 return true;
             } catch (Exception e) {

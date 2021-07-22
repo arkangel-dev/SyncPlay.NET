@@ -26,18 +26,13 @@ namespace SyncPlay {
 
         public static MediaFile OpenFile(String path) {
             try {
-                var mfile = new MediaFile();
-
                 if (!File.Exists(path)) return null;
+                var mfile = new MediaFile();
                 mfile.FilePath = path;
                 mfile.Size = (int)new FileInfo(path).Length;
-
-
                 mfile.Duration = (float)Misc.Common.GetVideoDuration(path).TotalSeconds;
-               
-
-
                 return mfile;
+
             } catch (Exception e) {
                 Misc.Common.PrintInColor("Warning failed to read file", ConsoleColor.Yellow);
                 Misc.Common.PrintInColor(e.Message, ConsoleColor.Yellow);
