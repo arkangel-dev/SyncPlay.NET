@@ -27,8 +27,7 @@ namespace SyncPlayWPF.Pages {
             this.Loaded += PageLoaded;
         }
 
-        private void PageLoaded(object sender, RoutedEventArgs e) {
-          
+        private void PageLoaded(object sender, RoutedEventArgs e) {          
             Common.Shared.Wrapper.Player.OnPlayerClosed += delegate {
                 ThreadStart ts = delegate () {
                     Dispatcher.BeginInvoke((Action)delegate () {
@@ -38,8 +37,6 @@ namespace SyncPlayWPF.Pages {
                 Thread t = new Thread(ts);
                 t.Start();
             };
-            
-            
         }
 
         private void ShowChatWindow() {

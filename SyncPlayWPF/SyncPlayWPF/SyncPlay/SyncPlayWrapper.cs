@@ -20,7 +20,6 @@ namespace SyncPlay {
 
             SyncPlayClient.OnPlayerStateChange += PlayerStateChanged;
             
-            
             mp.StartPlayerInstance();
         }
 

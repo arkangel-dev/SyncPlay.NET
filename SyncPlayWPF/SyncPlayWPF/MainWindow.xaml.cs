@@ -128,5 +128,10 @@ namespace SyncPlayWPF {
                     }
             }
         }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
+            if (Common.Shared.Wrapper != null)
+                Common.Shared.Wrapper.Player.ClosePlayer();
+        }
     }
 }

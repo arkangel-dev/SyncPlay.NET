@@ -10,7 +10,8 @@
         Title="SyncPlay.NET" Height="600" Width="800"
         WindowStartupLocation="CenterScreen"
         SnapsToDevicePixels="True"
-        ResizeMode="CanResize">
+        ResizeMode="CanResize"
+        Closing="Window_Closing">
     <Window.Resources>
         <ResourceDictionary Source="Themes/Generic.xaml"/>
     </Window.Resources>
