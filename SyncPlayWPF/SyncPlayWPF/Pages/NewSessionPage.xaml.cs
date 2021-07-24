@@ -53,12 +53,14 @@ namespace SyncPlayWPF.Pages {
         }
 
         private void SyncPlayClient_OnDisconnect(SyncPlay.SyncPlayClient sender, SyncPlay.EventArgs.ServerDisconnectedEventArgs e) {
-            Console.WriteLine($"Failed to connect. Reasons : {e.ReasonForKick}");
+            Console.WriteLine($"Failed to connect. Reasons --> : {e.ReasonForDisconnection}");
             Dispatcher.Invoke(() => {
                 Common.Shared.MasterOverrideTransition.UnloadCurrentPage();
                 Common.Shared.Wrapper.SyncPlayClient.OnConnect -= SyncPlayClient_OnConnect;
                 Common.Shared.Wrapper.SyncPlayClient.OnDisconnect -= SyncPlayClient_OnDisconnect;
             });
+            
+            Common.Shared.NotificationLayer.CreateNotification("Server Disconnected", e.ReasonForDisconnection);
             Common.Shared.Wrapper.Dispose();
         }
 

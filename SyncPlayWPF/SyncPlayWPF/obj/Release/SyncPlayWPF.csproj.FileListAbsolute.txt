@@ -44,3 +44,6 @@ D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\bin\Release\WpfAnimatedGif.pdb
 D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\bin\Release\WpfAnimatedGif.xml
 D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\obj\Release\Pages\ApplicationPages\LoadingScreen.g.cs
 D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\obj\Release\Pages\ApplicationPages\LoadingScreen.baml
+D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\bin\Release\CommonServiceLocator.dll
+D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\obj\Release\Pages\ApplicationPages\NotificationLayer.g.cs
+D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\obj\Release\Pages\ApplicationPages\NotificationLayer.baml

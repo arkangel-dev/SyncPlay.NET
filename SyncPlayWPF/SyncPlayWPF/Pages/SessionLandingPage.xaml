@@ -75,6 +75,7 @@
                                 Style="{StaticResource SignificantSecondaryActionButton}"
                                 Margin="10"
                                 Content="Download Update" 
+                                Visibility="Collapsed"
                                 Grid.Row="2"/>
 
                         </Grid>

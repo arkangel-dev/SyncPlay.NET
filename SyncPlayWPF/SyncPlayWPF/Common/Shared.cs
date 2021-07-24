@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Threading;
 using WpfPageTransitions;
 
 namespace SyncPlayWPF.Common {
@@ -10,8 +14,10 @@ namespace SyncPlayWPF.Common {
         public static WpfPageTransitions.PageTransition WindowPageTransition;
         public static WpfPageTransitions.PageTransition LandingPageTransition;
         public static WpfPageTransitions.PageTransition MasterOverrideTransition;
+        public static Pages.ApplicationPages.NotificationLayer NotificationLayer;
         public static Pages.SessionPages.ChatSession ChatPageSingleton;
         public static SyncPlay.SyncPlayWrapper Wrapper;
+        
 
         public static void ThrowException(Exception e) {
             MasterOverrideTransition.IsHitTestVisible = true;
@@ -19,6 +25,9 @@ namespace SyncPlayWPF.Common {
             exp_view.ShowDisplay(e);
             MasterOverrideTransition.ShowPage(exp_view);
         }
+
+
+   
     }
 
  

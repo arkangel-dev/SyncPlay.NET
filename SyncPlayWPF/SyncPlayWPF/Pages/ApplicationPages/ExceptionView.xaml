@@ -22,7 +22,7 @@
 
             <TextBlock 
                 Grid.Row="0"
-                Text="ಠ╭╮ಠ"
+                Text="ಠ_ಠ"
                 FontSize="50"
                 Margin="10,0,0,0"
                 Foreground="{StaticResource DarkMode_TextColorA}">

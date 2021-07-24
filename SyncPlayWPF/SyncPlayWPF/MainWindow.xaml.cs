@@ -18,6 +18,7 @@ namespace SyncPlayWPF {
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window {
+
         public MainWindow() {
             InitializeComponent();
 
@@ -28,8 +29,13 @@ namespace SyncPlayWPF {
             RootPageTransition.ShowPage(new Pages.NewSessionPage());
 
             Application.Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
+            Loaded += MainWindow_Loaded;
 
             InitHeader();
+        }
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e) {
+            MiddleTransition.ShowPage(new Pages.ApplicationPages.NotificationLayer());
         }
 
         private void Current_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e) {

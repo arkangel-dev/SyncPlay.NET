@@ -29,6 +29,7 @@
     <BitmapImage x:Key="ToggleOn" UriSource="/ImageLib/toggle_on.png"/>
     <BitmapImage x:Key="ToggleOff" UriSource="/ImageLib/toggle_off.png"/>
     <BitmapImage x:Key="LoadingGif" UriSource="/ImageLib/Loading.gif"/>
+    <BitmapImage x:Key="NotificationDismiss" UriSource="/ImageLib/notificationClose.png"/>
 
     <!-- Colors -->
     <SolidColorBrush x:Key="DarkMode_AccentColorA" Color="#2B2B2B"/>
@@ -268,7 +269,7 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
 
-                            <Rectangle Grid.Column="0" Width="25" Height="25">
+                            <Rectangle Grid.Column="0" Width="30" Height="30" VerticalAlignment="Center">
                                 <Rectangle.OpacityMask>
                                     <ImageBrush 
                                         ImageSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Image}"
@@ -1225,6 +1226,47 @@
     </Style>
 
 
+
+    <Style TargetType="{x:Type custom:ToastNotification}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type custom:ToastNotification}">
+
+                    <Border Background="{StaticResource DarkMode_AccentColorD}" Margin="7,2,0,2" CornerRadius="10">
+                        <Grid Margin="7" ShowGridLines="False">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Title}"
+                                       Grid.Column="1" Grid.Row="0"
+                                       Margin="0,0,0,0"
+                                       FontSize="15" FontWeight="DemiBold" Foreground="{StaticResource DarkMode_TextColorE}"/>
+                            <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Message}"
+                                       Grid.Column="1" Grid.Row="1"
+                                       TextWrapping="WrapWithOverflow"
+                                       Foreground="{StaticResource DarkMode_TextColorC}"/>
+                            <custom:ImageButton 
+                                Grid.Column="0"
+                                Grid.RowSpan="2"
+                                Margin="0,0,5,0"
+                                ImageWidth="30"
+                                Style="{StaticResource ImageSilhouette}"
+                                Image="{StaticResource NotificationDismiss}" x:Name="CloseButton"/>
+                        </Grid>
+
+                        
+                    </Border>
+                    
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 
 </ResourceDictionary>
