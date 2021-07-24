@@ -48,16 +48,18 @@ namespace SyncPlayWPF.Pages {
             Common.Shared.Wrapper.SyncPlayClient.OnDisconnect += SyncPlayClient_OnDisconnect;
 
             Common.Shared.Wrapper.SyncPlayClient.ConnectAsync();
-            Common.Shared.MasterOverrideTransition.ShowPage(new Pages.ApplicationPages.LoadingScreen());          
+            Common.Shared.MasterOverrideTransition.ShowPage(new Pages.ApplicationPages.LoadingScreen());
+            
         }
 
         private void SyncPlayClient_OnDisconnect(SyncPlay.SyncPlayClient sender, SyncPlay.EventArgs.ServerDisconnectedEventArgs e) {
             Console.WriteLine($"Failed to connect. Reasons : {e.ReasonForKick}");
             Dispatcher.Invoke(() => {
                 Common.Shared.MasterOverrideTransition.UnloadCurrentPage();
+                Common.Shared.Wrapper.SyncPlayClient.OnConnect -= SyncPlayClient_OnConnect;
+                Common.Shared.Wrapper.SyncPlayClient.OnDisconnect -= SyncPlayClient_OnDisconnect;
             });
-            Common.Shared.Wrapper.Player = null;
-            Common.Shared.Wrapper = null;
+            Common.Shared.Wrapper.Dispose();
         }
 
         private void SyncPlayClient_OnConnect(SyncPlay.SyncPlayClient sender, SyncPlay.EventArgs.ServerConnectedEventArgs e) {

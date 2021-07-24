@@ -44,6 +44,12 @@ namespace SyncPlay {
             return true;
         }
 
+
+        public void Disconnect() {
+            this.client.GetStream().Close();
+            this.client.Close();
+        }
+
         public void ActivateTLS() {
             this.SSL = new SslStream(stream);
             this.SSL.AuthenticateAsClient(this.Host);
@@ -81,7 +87,7 @@ namespace SyncPlay {
                         NotifySubscribersOnNewMessage(parts[i].Trim(' '));
                     }
 
-                } catch (IOException e) {
+                } catch (Exception e) {
                     Misc.Common.PrintInColor("Stream broken!", ConsoleColor.Red);
                     Misc.Common.PrintInColor(e.Message, ConsoleColor.Red);
                     Misc.Common.PrintInColor(e.StackTrace, ConsoleColor.Red);

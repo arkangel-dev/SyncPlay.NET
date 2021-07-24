@@ -142,6 +142,10 @@ namespace SyncPlay {
             connectAsyncThread.Start();
         }
 
+        public void Dispose() {
+            this.nclient.Disconnect();
+        }
+
         public bool Connect() {
             try {
                 nclient = new NetworkClient(ServerIP, Port);
@@ -316,6 +320,7 @@ namespace SyncPlay {
             if (jobj.ContainsKey("Error")) {
                 var ErrorMessage = jobj.Value<JObject>("Error")
                     .Value<String>("message");
+                Thread.Sleep(3000);
                 OnDisconnect?.Invoke(this, new EventArgs.ServerDisconnectedEventArgs(true, ErrorMessage));
                 return;
             }

@@ -149,7 +149,8 @@ namespace SyncPlay.MediaPlayers.VLCMediaPlayer  {
         }
 
         public void ClosePlayer() {
-            this.PlayerProcess.Kill();
+            if (this.PlayerProcess != null)
+                this.PlayerProcess.Kill();
         }
 
         public event MediaPlayerInterface.HandleDebugMessages OnDebugMessage;

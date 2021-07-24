@@ -28,6 +28,8 @@ namespace SyncPlay {
             this.Player.StartPlayerInstance();
         }
 
+
+
         private void NewFileLoad(EventArgs.NewFileLoadEventArgs e) {
             SyncPlayClient.AddFileToPlayList(e.AbsoluteFilePath);
         }
@@ -35,6 +37,18 @@ namespace SyncPlay {
         private void PlayerStateChanged(SyncPlayClient sender, EventArgs.RemoteStateChangeEventArgs e) {
             Player.SetPauseState(e.Paused);
             Player.SetPosition(e.Position + RemoteSeekOffset);
+        }
+
+        public void Dispose() {
+            if (Player != null) {
+                Player.ClosePlayer();
+                Player = null;
+            }
+
+            if (SyncPlayClient != null) {
+                SyncPlayClient.Dispose();
+                SyncPlayClient = null;
+            }
         }
     }
 }
