@@ -93,9 +93,14 @@
                     </Setter>
                 </Style>
             </Grid.Style>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.75*"/>
+                <ColumnDefinition Width="0.25*"/>
+            </Grid.ColumnDefinitions>
             
-            <wpft:PageTransition Name="RootPageTransition" TransitionType="Fade"/>
-            <wpft:PageTransition Name="MasterOverlayTransition" IsHitTestVisible="False" TransitionType="Fade"/>
+            <wpft:PageTransition Name="RootPageTransition" TransitionType="Fade" Grid.ColumnSpan="2"/>
+            <wpft:PageTransition Name="MasterOverlayTransition" IsHitTestVisible="False" TransitionType="Fade" Grid.ColumnSpan="2"/>
         </Grid>
     </Grid>
 </Window>

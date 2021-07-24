@@ -89,6 +89,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WpfAnimatedGif, Version=2.0.0.0, Culture=neutral, PublicKeyToken=9e7cd3b544a090dc, processorArchitecture=MSIL">
+      <HintPath>..\packages\WpfAnimatedGif.2.0.0\lib\net40\WpfAnimatedGif.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -99,8 +102,13 @@
     <Compile Include="Pages\ApplicationPages\ExceptionView.xaml.cs">
       <DependentUpon>ExceptionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\ApplicationPages\LoadingScreen.xaml.cs">
+      <DependentUpon>LoadingScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SyncPlay\EventArgs\ChatInfoMessageArgs.cs" />
     <Compile Include="SyncPlay\EventArgs\NewFileLoadEventArgs.cs" />
+    <Compile Include="SyncPlay\EventArgs\ServerConnectedEventArgs.cs" />
+    <Compile Include="SyncPlay\EventArgs\ServerDisconnectedEventArgs.cs" />
     <Compile Include="SyncPlay\SyncPlayClient.cs" />
     <Compile Include="SyncPlay\EventArgs\ChatMessageEventArgs.cs" />
     <Compile Include="SyncPlay\EventArgs\LocalSetFileEventArgs.cs" />
@@ -141,6 +149,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Pages\ApplicationPages\ExceptionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\ApplicationPages\LoadingScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -265,6 +277,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ImageLib\Loading.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

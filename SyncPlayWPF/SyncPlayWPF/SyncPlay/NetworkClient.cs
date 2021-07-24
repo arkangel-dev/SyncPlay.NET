@@ -21,18 +21,27 @@ namespace SyncPlay {
             Port = port;
         }
 
-        public bool Connect() {
-            try {
-                client = new TcpClient(Host, Port);
-                stream = client.GetStream();
-                var recievethread = new Thread(ProcessIncoming);
-                recievethread.IsBackground = true;
-                recievethread.Start();
-                return true;
-            } catch (Exception e) {
-                Console.WriteLine(e.StackTrace);
+        public bool IsConnected() {
+            if (this.client != null) {
+                return this.client.Connected;
+            } else {
                 return false;
             }
+        }           
+
+        public bool Connect() {
+            client = new TcpClient();
+            var result = client.BeginConnect(Host, Port, null, null);
+
+            var success = result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(5));
+            if (!success) {
+                return false;
+            }
+            stream = client.GetStream();
+            var recievethread = new Thread(ProcessIncoming);
+            recievethread.IsBackground = true;
+            recievethread.Start();
+            return true;
         }
 
         public void ActivateTLS() {

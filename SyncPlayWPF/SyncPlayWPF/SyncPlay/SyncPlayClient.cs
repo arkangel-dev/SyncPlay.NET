@@ -108,6 +108,14 @@ namespace SyncPlay {
             nclient.SendMessage(Packets.CraftOutgoingChatMessage(message));
         }
 
+
+        private string ServerIP;
+        private int Port;
+        private string LUsername;
+        private string Password;
+        private string RoomName;
+        private string Version;
+
         /// <summary>
         /// This is the constructor to the client class
         /// </summary>
@@ -118,19 +126,48 @@ namespace SyncPlay {
         /// <param name="roomname">Room name to use</param>
         /// <param name="version">Version of the client</param>
         public SyncPlayClient(String serverip, int port, String username, String password, String roomname, String version) {
-            nclient = new NetworkClient(serverip, port);
-            pingService = new PingService();
-            if (!nclient.Connect()) {
-                throw new Exception("Failed to connect to server");
+            this.ServerIP = serverip;
+            this.Port = port;
+            this.LUsername = username;
+            this.Password = password;
+            this.RoomName = roomname;
+            this.Version = version;
+        }
+
+        public void ConnectAsync() {
+            var connectAsyncThread = new Thread(() => {
+                Connect();
+            });
+            connectAsyncThread.IsBackground = true;
+            connectAsyncThread.Start();
+        }
+
+        public bool Connect() {
+            try {
+                nclient = new NetworkClient(ServerIP, Port);
+                
+
+                if (!nclient.Connect()) {
+                    Console.WriteLine("Failed to connect to server");
+                    this.OnDisconnect(this, new EventArgs.ServerDisconnectedEventArgs(false, "Connection Timed out"));
+                    return false;
+                }
+                
+                pingService = new PingService();
+                HelloMessage = Packets.CraftIdentificationMessage(LUsername, Password, RoomName, Version);
+                nclient.OnNewMessage += NewIncomingMessage;
+                nclient.SendMessage(Packets.CraftTLS());
+                UserDictionary = new Dictionary<string, User>();
+                Playlist = new List<MediaFile>();
+                var incremement_pos = new Thread(() => { IncrementPosition(); });
+                incremement_pos.IsBackground = true;
+                incremement_pos.Start();
+                return true;
+            } catch (Exception e) {
+                Console.WriteLine($"Connection Failed : {e.Message}");
+                OnDisconnect?.Invoke(this, new EventArgs.ServerDisconnectedEventArgs(false, $"Connection failed : {e.Message}"));
+                return false;
             }
-            HelloMessage = Packets.CraftIdentificationMessage(username, password, roomname, version);
-            nclient.OnNewMessage += NewIncomingMessage;
-            nclient.SendMessage(Packets.CraftTLS());
-            UserDictionary = new Dictionary<string, User>();
-            Playlist = new List<MediaFile>();
-            var incremement_pos = new Thread(() => { IncrementPosition(); });
-            incremement_pos.IsBackground = true;
-            incremement_pos.Start();
         }
         #endregion
 
@@ -183,6 +220,19 @@ namespace SyncPlay {
         /// </summary>
         public event ChatMessageEvent OnChatInfoEvent;
         public delegate void ChatMessageEvent(SyncPlayClient sender, EventArgs.ChatInfoMessageArgs e);
+
+        /// <summary>
+        /// This event will be triggered when the connection from the server gets severed. This includes when
+        /// the server kicks the client
+        /// </summary>
+        public event DisconnectEvent OnDisconnect;
+        public delegate void DisconnectEvent(SyncPlayClient sender, EventArgs.ServerDisconnectedEventArgs e);
+
+        /// <summary>
+        /// This event will be triggered when the clients manages to make a successful connection with the server.
+        /// </summary>
+        public event ConnectEvent OnConnect;
+        public delegate void ConnectEvent(SyncPlayClient sender, EventArgs.ServerConnectedEventArgs e);
         #endregion
 
 
@@ -255,17 +305,24 @@ namespace SyncPlay {
 
             // This the TLS negotiation packet
             if (jobj.ContainsKey("TLS")) {
-
                 var tlskey = jobj.Value<JObject>("TLS");
                 if (tlskey.Value<String>("startTLS").Equals("true")) {
                     this.nclient.ActivateTLS();
                 }
-
                 nclient.SendMessage(HelloMessage);
+            }
+
+            // Check if the server hates us or something...
+            if (jobj.ContainsKey("Error")) {
+                var ErrorMessage = jobj.Value<JObject>("Error")
+                    .Value<String>("message");
+                OnDisconnect?.Invoke(this, new EventArgs.ServerDisconnectedEventArgs(true, ErrorMessage));
+                return;
             }
 
             // This is a handshake packet
             if (jobj.ContainsKey("Hello")) {
+                OnConnect?.Invoke(this, new EventArgs.ServerConnectedEventArgs());
                 nclient.SendMessage(Packets.CraftSetClientReadiness(false, false));
                 nclient.SendMessage(Packets.CraftSendList());
                 this.Username = (String)jobj["Hello"]["username"];

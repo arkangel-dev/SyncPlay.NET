@@ -44,9 +44,28 @@ namespace SyncPlayWPF.Pages {
                 roomName,
                 new SyncPlay.MediaPlayers.VLCMediaPlayer.Connector());
 
-            Common.Shared.WindowPageTransition.ShowPage(new Pages.SessionLandingPage());
-            
+            Common.Shared.Wrapper.SyncPlayClient.OnConnect += SyncPlayClient_OnConnect;
+            Common.Shared.Wrapper.SyncPlayClient.OnDisconnect += SyncPlayClient_OnDisconnect;
 
+            Common.Shared.Wrapper.SyncPlayClient.ConnectAsync();
+            Common.Shared.MasterOverrideTransition.ShowPage(new Pages.ApplicationPages.LoadingScreen());          
+        }
+
+        private void SyncPlayClient_OnDisconnect(SyncPlay.SyncPlayClient sender, SyncPlay.EventArgs.ServerDisconnectedEventArgs e) {
+            Console.WriteLine($"Failed to connect. Reasons : {e.ReasonForKick}");
+            Dispatcher.Invoke(() => {
+                Common.Shared.MasterOverrideTransition.UnloadCurrentPage();
+            });
+            Common.Shared.Wrapper.Player = null;
+            Common.Shared.Wrapper = null;
+        }
+
+        private void SyncPlayClient_OnConnect(SyncPlay.SyncPlayClient sender, SyncPlay.EventArgs.ServerConnectedEventArgs e) {
+            Console.WriteLine("Connection established");
+            Dispatcher.Invoke(() => {
+                Common.Shared.MasterOverrideTransition.UnloadCurrentPage();
+                Common.Shared.WindowPageTransition.ShowPage(new Pages.SessionLandingPage());
+            });
         }
     }
 }

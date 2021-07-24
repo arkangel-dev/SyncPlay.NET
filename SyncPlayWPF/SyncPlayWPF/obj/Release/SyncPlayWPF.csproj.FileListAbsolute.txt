@@ -39,3 +39,8 @@ D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\obj\Release\SyncPlayWPF.csproj.Cor
 D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\obj\Release\SyncPlayWPF.csproj.CopyComplete
 D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\obj\Release\SyncPlayWPF.exe
 D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\obj\Release\SyncPlayWPF.pdb
+D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\bin\Release\WpfAnimatedGif.dll
+D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\bin\Release\WpfAnimatedGif.pdb
+D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\bin\Release\WpfAnimatedGif.xml
+D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\obj\Release\Pages\ApplicationPages\LoadingScreen.g.cs
+D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\obj\Release\Pages\ApplicationPages\LoadingScreen.baml

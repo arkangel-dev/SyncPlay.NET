@@ -28,6 +28,7 @@
     <BitmapImage x:Key="CollapseButton" UriSource="/ImageLib/collapse.png"/>
     <BitmapImage x:Key="ToggleOn" UriSource="/ImageLib/toggle_on.png"/>
     <BitmapImage x:Key="ToggleOff" UriSource="/ImageLib/toggle_off.png"/>
+    <BitmapImage x:Key="LoadingGif" UriSource="/ImageLib/Loading.gif"/>
 
     <!-- Colors -->
     <SolidColorBrush x:Key="DarkMode_AccentColorA" Color="#2B2B2B"/>
@@ -42,7 +43,7 @@
     <SolidColorBrush x:Key="DarkMode_AccentColorGClick" Color="#93434343"/>
 
     <SolidColorBrush x:Key="DarkMode_AccentColorH" Color="#B93B3B3B"/>
-    <SolidColorBrush x:Key="DarkMode_AccentColorI" Color="#B9282828"/>
+    <SolidColorBrush x:Key="DarkMode_AccentColorI" Color="#E7282828"/>
     <SolidColorBrush x:Key="DarkMode_AccentColorJ" Color="#F43E3E3E"/>
 
 

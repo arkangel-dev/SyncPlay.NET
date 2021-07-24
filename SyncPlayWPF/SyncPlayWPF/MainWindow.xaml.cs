@@ -39,24 +39,7 @@ namespace SyncPlayWPF {
         }
 
         private void WindowDrag(object sender, MouseButtonEventArgs e) {
-            if (System.Windows.Input.Mouse.LeftButton == MouseButtonState.Pressed) {
-
-                //if (WindowState == WindowState.Maximized) {
-                //    var point = PointToScreen(e.MouseDevice.GetPosition(this));
-
-                //    if (point.X <= RestoreBounds.Width / 2)
-                //        Left = 0;
-
-                //    else if (point.X >= RestoreBounds.Width)
-                //        Left = point.X - (RestoreBounds.Width - (this.ActualWidth - point.X));
-
-                //    else
-                //        Left = point.X - (RestoreBounds.Width / 2);
-
-                //    Top = point.Y - (((FrameworkElement)sender).ActualHeight / 2);
-                //    WindowState = WindowState.Normal;
-                //}
-
+            if (Mouse.LeftButton == MouseButtonState.Pressed) {
                 App.Current.MainWindow.DragMove();
             }
         }
@@ -73,7 +56,7 @@ namespace SyncPlayWPF {
         }
 
         private void WindowCloseButton_Click(object sender, RoutedEventArgs e) {
-            System.Windows.Application.Current.Shutdown();
+            Application.Current.Shutdown();
         }
 
 
@@ -105,7 +88,7 @@ namespace SyncPlayWPF {
                     if (x < 0) {
                         x = 0;
                     } else if (x + width > System.Windows.SystemParameters.PrimaryScreenWidth) {
-                        x = System.Windows.SystemParameters.PrimaryScreenWidth - width;
+                        x = SystemParameters.PrimaryScreenWidth - width;
                     }
 
                     WindowState = WindowState.Normal;
@@ -131,7 +114,8 @@ namespace SyncPlayWPF {
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
             if (Common.Shared.Wrapper != null)
-                Common.Shared.Wrapper.Player.ClosePlayer();
+                if (Common.Shared.Wrapper.Player != null)
+                    Common.Shared.Wrapper.Player.ClosePlayer();
         }
     }
 }
