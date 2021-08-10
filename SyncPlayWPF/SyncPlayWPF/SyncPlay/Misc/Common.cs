@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 using Microsoft.WindowsAPICodePack.Shell;
 using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
 
-namespace SyncPlay.Misc {
+namespace SyncPlayWPF.SyncPlay.Misc {
     public static class Common {
 
         public static void PrintInColor(String message, ConsoleColor c) {

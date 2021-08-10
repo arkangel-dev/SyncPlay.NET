@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SyncPlay {
+namespace SyncPlayWPF.SyncPlay {
     public class User {
         public string Username;
         public string Room;

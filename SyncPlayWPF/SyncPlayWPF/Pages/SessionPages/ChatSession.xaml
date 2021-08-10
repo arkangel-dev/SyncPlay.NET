@@ -11,34 +11,35 @@
         <ResourceDictionary Source="../../Themes/Generic.xaml"/>
     </UserControl.Resources>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="55"/>
-        </Grid.RowDefinitions>
-        
-        <!-- Chat Messages -->
-        <ScrollViewer Style="{StaticResource FavsScrollViewer}">
-            <StackPanel Grid.Row="0" Margin="20,10,10,10" x:Name="MessageStack">
-                
-            </StackPanel>
-        </ScrollViewer>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="55"/>
+            </Grid.RowDefinitions>
 
-        <Border
+            <!-- Chat Messages -->
+            <ScrollViewer Style="{StaticResource FavsScrollViewer}">
+                <StackPanel Grid.Row="0" Margin="20,10,10,10" x:Name="MessageStack" VerticalAlignment="Bottom">
+                    <!--<custom:ChatMessage MessageSender="Jimmy" Style="{StaticResource IncomingMessage}" />-->
+                </StackPanel>
+            </ScrollViewer>
+
+            <Border
             Background="{StaticResource DarkMode_AccentColorI}"
             Grid.Row="1"
             Margin="10,0,10,10"
             CornerRadius="10">
-            <Border.Effect>
-                <DropShadowEffect BlurRadius="10" Opacity="0.5" ShadowDepth="0"/>
-            </Border.Effect>
-            <Grid>
-               
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="50"/>
-                    <ColumnDefinition Width="50"/>
-                </Grid.ColumnDefinitions>
-                <custom:PromptingLabel 
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10" Opacity="0.5" ShadowDepth="0"/>
+                </Border.Effect>
+                <Grid>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="50"/>
+                    </Grid.ColumnDefinitions>
+                    <custom:PromptingLabel 
                     x:Name="MessageBlockField"
                     KeyUp="SendMessageEnterClick"
                     Grid.Column="0"
@@ -48,20 +49,53 @@
                     PromptingText="Enter Message Here"/>
 
 
-                <custom:ImageButton
+                    <custom:ImageButton
                     Grid.Column="1"
                     ImageBackgroundHoverBrush="{StaticResource DarkMode_ContrastedGradient}"
                     Image="{StaticResource GifButton}"
                     Style="{StaticResource ImageSilhouette}"/>
-                
-                <custom:ImageButton
+
+                    <custom:ImageButton
                     Grid.Column="2"
                     ImageBackgroundHoverBrush="{StaticResource DarkMode_ContrastedGradient}"
                     Image="{StaticResource SendButton}"
                     Style="{StaticResource ImageSilhouette}"
                     Click="SendMessageButtonClick"/>
-            </Grid>
-        </Border>
-        
+                </Grid>
+            </Border>
+        </Grid>
+        <Grid Height="auto">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0"
+                    CornerRadius="0,0,0,0"
+                    MaxHeight="100"
+                    x:Name="UserListBorder"
+                    Background="{StaticResource DarkMode_AccentColorD}">
+                <!--<ScrollViewer Style="{StaticResource FavsScrollViewer}">-->
+                    <StackPanel Margin="0,5,0,0" x:Name="UserStack">
+                        <custom:UserSessionView
+                            Username="Jimbo"
+                            FileDuration="1:45:02"
+                            FileSize="1.53 GB"
+                            FileName="The Office (US) - S06E01 - Gossip SDTV.avi"/>
+
+                    <custom:UserSessionView
+                            Username="Sammy"
+                            FileDuration="1:45:02"
+                            FileSize="1.53 GB"
+                            FileName="The Office (US) - S06E01 - Gossip SDTV.avi"/>
+                </StackPanel>
+                <!--</ScrollViewer>-->
+            </Border>
+
+            <CheckBox Grid.Row="1" Style="{StaticResource DropDown}"
+                      Checked="ToggleUserList"
+                      Unchecked="ToggleUserList"
+                      x:Name="UserListViewCheckbox"/>
+        </Grid>
     </Grid>
 </UserControl>

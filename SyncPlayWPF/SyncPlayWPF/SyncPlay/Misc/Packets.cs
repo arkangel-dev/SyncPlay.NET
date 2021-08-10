@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
-namespace SyncPlay {
+namespace SyncPlayWPF.Misc.SyncPlay {
     public class Packets {
         public static string CraftSetFileMessage(String filename, float duration, int size) {
             var result = new JObject(
@@ -26,7 +26,7 @@ namespace SyncPlay {
             return sresult;
         }
         public static string CraftIdentificationMessage(String username, String password, String roomname, String version) {
-            var hashedpassword = String.IsNullOrEmpty(password) ? "" : Security.ToMD5(password);
+            var hashedpassword = String.IsNullOrEmpty(password) ? "" : SyncPlayWPF.SyncPlay.Security.ToMD5(password);
             var result = new JObject(
                     new JProperty("Hello",
                         new JObject(

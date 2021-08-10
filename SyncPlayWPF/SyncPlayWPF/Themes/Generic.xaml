@@ -30,6 +30,10 @@
     <BitmapImage x:Key="ToggleOff" UriSource="/ImageLib/toggle_off.png"/>
     <BitmapImage x:Key="LoadingGif" UriSource="/ImageLib/Loading.gif"/>
     <BitmapImage x:Key="NotificationDismiss" UriSource="/ImageLib/notificationClose.png"/>
+    <BitmapImage x:Key="DropDownIcon" UriSource="/ImageLib/dropdown.png"/>
+    <BitmapImage x:Key="DefaultImage" UriSource="/ImageLib/DefaultImage.png"/>
+    <BitmapImage x:Key="HourGlass" UriSource="/ImageLib/HourGlass.png"/>
+    <BitmapImage x:Key="Warning" UriSource="/ImageLib/Warning.png"/>
 
     <!-- Colors -->
     <SolidColorBrush x:Key="DarkMode_AccentColorA" Color="#2B2B2B"/>
@@ -62,7 +66,11 @@
     <SolidColorBrush x:Key="DarkMode_ImageButtonImgClick" Color="#A3D5EC"/>
     <SolidColorBrush x:Key="DarkMode_ImageButtonHover" Color="#595959"/>
     <SolidColorBrush x:Key="DarkMode_ImageButtonClick" Color="#769AAB"/>
+    <SolidColorBrush x:Key="WarningBrush" Color="#C1AB42"/>
+    <SolidColorBrush x:Key="ErrorBrush" Color="#9B1F27"/>
 
+
+    <Color x:Key="DarkTransparent" R="51" G="51" B="51" A="00"/>
 
     <LinearGradientBrush x:Key="DarkMode_ContrastedGradient">
         <GradientStop Color="#ffc206" Offset="0"/>
@@ -323,20 +331,45 @@
                                 </TextBlock.Style>
                             </TextBlock>
                         </Grid>
+                        
+                        
                         <Border.Style>
                             <Style TargetType="{x:Type Border}">
-                                <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=BackgroundBrush}"/>
+                                <!--<Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=BackgroundBrush}"/>-->
+                                <Setter Property="Background" Value="Transparent"/>
                                 <Style.Triggers>
                                     
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsMouseOver}" Value="True">
+                                    <!--<DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsMouseOver}" Value="True">
                                         <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=BackgroundHoverBrush}"/>
-                                    </DataTrigger>
+                                    </DataTrigger>-->
                                     <DataTrigger Binding="{Binding  RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsPressed}" Value="True">
                                         <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=BackgroundClickBrush}"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </Border.Style>
+
+                        <Border.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)">
+                                        <ColorAnimation To="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=BackgroundHoverBrush.Color}"
+                                                        From="{StaticResource DarkTransparent}"
+                                                        Duration="0:0:0.25"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)">
+                                        <ColorAnimation To="{StaticResource DarkTransparent}"
+                                                        From="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=BackgroundHoverBrush.Color}"
+                                                        Duration="0:0:0.25"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Border.Triggers>
+                        
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -348,34 +381,64 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Border 
-                        Name="MainBorder"
-                        CornerRadius="15"
-                        Height="30">
-                        <Border.Effect>
-                            <DropShadowEffect BlurRadius="15" ShadowDepth="0" Opacity="0.5"/>
-                        </Border.Effect>
-                        <TextBlock 
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Center"
-                            FontWeight="DemiBold"
-                            Margin="10,0,10,0"
-                            Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}"/>
-                        <Border.Style>
-                            <Style TargetType="{x:Type Border}">
-                                <Setter Property="Background" Value="{StaticResource DarkMode_ContrastedGradient}"/>
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="{StaticResource DarkMode_ContrastedHoverGradient}"/>
-                                    </Trigger>
-                                    <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="True">
-                                        <Setter Property="Background" Value="{StaticResource DarkMode_ContrastedClickGradient}"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Border.Style>
-                     
-                    </Border>
+                    <Grid>
+                        
+                        <Border x:Name="MainBorder"
+                                CornerRadius="15"
+                                Height="30">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="15" ShadowDepth="0" Opacity="0.5"/>
+                            </Border.Effect>
+                            <Border.Style>
+                                <Style TargetType="{x:Type Border}">
+                                    <Setter Property="Background" Value="{StaticResource DarkMode_ContrastedGradient}"/>
+                                    <Style.Triggers>
+                                        <!--<Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="{StaticResource DarkMode_ContrastedHoverGradient}"/>
+                                        </Trigger>-->
+                                        <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="True">
+                                            <Setter Property="Background" Value="{StaticResource DarkMode_ContrastedClickGradient}"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                        </Border>
+
+                        <Border x:Name="HoverBorder"
+                                CornerRadius="15"
+                                Height="30"
+                                Opacity="0"
+                                Background="{StaticResource DarkMode_ContrastedHoverGradient}">
+                            <Border.Triggers>
+                                <EventTrigger RoutedEvent="MouseEnter">
+                                    <BeginStoryboard>
+                                        <Storyboard Storyboard.TargetProperty="Opacity">
+                                            <DoubleAnimation Duration="0:0:0.15" To="1" From="0"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+
+                                <EventTrigger RoutedEvent="MouseLeave">
+                                    <BeginStoryboard>
+                                        <Storyboard Storyboard.TargetProperty="Opacity">
+                                            <DoubleAnimation Duration="0:0:0.15" To="0" From="1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Border.Triggers>
+                            
+                            
+                        </Border>
+
+
+                        <TextBlock IsHitTestVisible="False"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   FontWeight="DemiBold"
+                                   Margin="10,0,10,0"
+                                   Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}"/>
+                    </Grid>
+
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -438,7 +501,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-
     <Style TargetType="{x:Type Button}" x:Key="GenericPrimaryActionButton">
         <Setter Property="Foreground" Value="Black"/>
         <Setter Property="Margin" Value="1,2,1,2"/>
@@ -818,6 +880,32 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style x:Key="DropDown" TargetType="CheckBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="CheckBox">
+                    <Border Height="30" Width="50" Margin="0,0,0,0" CornerRadius="0,0,10,10">
+                        <Rectangle Margin="0" Fill="{StaticResource DarkMode_AccentColorB}" Height="30" Width="30">
+                            
+                            <Rectangle.OpacityMask>
+                                <ImageBrush ImageSource="{StaticResource DropDownIcon}" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                        <Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="Background" Value="{StaticResource DarkMode_AccentColorD}"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource DarkMode_AccentColorA}"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     
     <!-- TextBlocks -->
     <Style TargetType="TextBlock" x:Key="ChatInfo">
@@ -825,7 +913,7 @@
         <Setter Property="Foreground" Value="{StaticResource DarkMode_TextColorE}"/>
     </Style>
 
-    <!-- Checkboxes -->
+    <!-- Chat bubbles -->
     <Style TargetType="{x:Type custom:ChatMessage}" x:Key="IncomingMessage">
         <Setter Property="IsInitialMessage" Value="True"/>
         <Setter Property="Template">
@@ -833,7 +921,7 @@
                 <ControlTemplate TargetType="{x:Type custom:ChatMessage}">
 
                     <!-- -->
-                    <Border x:Name="Container" Background="Transparent" IsHitTestVisible="False">
+                    <Border x:Name="Container" Background="Transparent" IsHitTestVisible="False" Margin="0,0,0,0">
                         <Border
                             Grid.Row="1"
                             Background="{StaticResource DarkMode_AccentColorI}"
@@ -896,6 +984,22 @@
                                     Foreground="{StaticResource DarkMode_TextColorD}"/>
                             </Grid>
                         </Border>
+                        <Border.Triggers>
+                            <EventTrigger RoutedEvent="Border.Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard >
+                                        <ThicknessAnimation Duration="0:0:0.1"
+                                                            To="0,0,0,0"
+                                                            From="0,0,0,-55"
+                                                            Storyboard.TargetProperty="Margin"/>
+                                        <DoubleAnimation Duration="0:0:0.05"
+                                                         To="1"
+                                                         From="0"
+                                                         Storyboard.TargetProperty="Opacity"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Border.Triggers>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -908,7 +1012,7 @@
                 <ControlTemplate TargetType="{x:Type custom:ChatMessage}">
 
                     <!-- -->
-                    <Border x:Name="Container" Background="Transparent" IsHitTestVisible="False">
+                    <Border x:Name="Container" Background="Transparent" IsHitTestVisible="False" Margin="0,0,0,0">
                         <Border
                             Grid.Row="1"
                             Background="{StaticResource DarkMode_AccentColorH}"
@@ -971,6 +1075,22 @@
                                     Foreground="{StaticResource DarkMode_TextColorD}"/>
                             </Grid>
                         </Border>
+                        <Border.Triggers>
+                            <EventTrigger RoutedEvent="Border.Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard >
+                                        <ThicknessAnimation Duration="0:0:0.1"
+                                                            To="0,0,0,0"
+                                                            From="0,0,0,-55"
+                                                            Storyboard.TargetProperty="Margin"/>
+                                        <DoubleAnimation Duration="0:0:0.05"
+                                                         To="1"
+                                                         From="0"
+                                                         Storyboard.TargetProperty="Opacity"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Border.Triggers>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -1225,44 +1345,159 @@
         <Setter Property="Height" Value="10"/>
     </Style>
 
+    <Style TargetType="{x:Type custom:UserSessionView}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type custom:UserSessionView}">
+                    <Border Background="{StaticResource DarkMode_AccentColorH}" Margin="5,0,5,5" CornerRadius="5" >
+                        <Grid ShowGridLines="False"
+                              Margin="10,5,5,5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Row="0"
+                                       Grid.Column="0"
+                                       Grid.RowSpan="2"
+                                       FontWeight="DemiBold"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"
+                                       TextAlignment="Center"
+                                       TextWrapping="Wrap"
+                                       MaxWidth="60"
+                                       Width="60"
+                                       Margin="0,0,10,0"
+                                       FontSize="12"
+                                       Foreground="{StaticResource DarkMode_TextColorA}"
+                                       Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Username}"/>
+
+
+                            <TextBlock Grid.Row="0"
+                                       Grid.Column="1"
+                                       Grid.ColumnSpan="1"
+                                       Margin="0,0,10,0"
+                                       Foreground="{StaticResource DarkMode_TextColorA}"
+                                       Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=FileName}"/>
+
+                            <Grid Grid.Row="1"
+                                  Grid.Column="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0"
+                                           Margin="0,0,10,0"
+                                           FontSize="12"
+                                           Foreground="{StaticResource DarkMode_TextColorC}"
+                                           Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=FileSize}"/>
+
+                                <TextBlock Grid.Column="2"
+                                           FontSize="12"
+                                           Foreground="{StaticResource DarkMode_TextColorC}"
+                                           Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=FileDuration}"/>
+
+                            </Grid>
+
+                            <StackPanel Orientation="Horizontal"
+                                        Grid.Row="0"
+                                        Grid.RowSpan="2"
+                                        Grid.Column="2"
+                                        Margin="0,0,0,0">
+                                <!--<custom:StatusImage Image="{StaticResource HourGlass}"/>-->
+                                <custom:StatusImage Image="{StaticResource Warning}"
+                                                    ImageBackgroundBrush="{StaticResource WarningBrush}"/>
+                            </StackPanel>
+                            
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 
     <Style TargetType="{x:Type custom:ToastNotification}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type custom:ToastNotification}">
+                    <Border Margin="0,-100,0,0">
+                        <Border Background="{StaticResource DarkMode_AccentColorD}" Margin="7,2,0,2" CornerRadius="10">
+                            <Grid Margin="7" ShowGridLines="False">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
 
-                    <Border Background="{StaticResource DarkMode_AccentColorD}" Margin="7,2,0,2" CornerRadius="10">
-                        <Grid Margin="7" ShowGridLines="False">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-
-                            <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Title}"
-                                       Grid.Column="1" Grid.Row="0"
-                                       Margin="0,0,0,0"
-                                       FontSize="15" FontWeight="DemiBold" Foreground="{StaticResource DarkMode_TextColorE}"/>
-                            <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Message}"
-                                       Grid.Column="1" Grid.Row="1"
-                                       TextWrapping="WrapWithOverflow"
-                                       Foreground="{StaticResource DarkMode_TextColorC}"/>
-                            <custom:ImageButton 
-                                Grid.Column="0"
-                                Grid.RowSpan="2"
-                                Margin="0,0,5,0"
-                                ImageWidth="30"
-                                Style="{StaticResource ImageSilhouette}"
-                                Image="{StaticResource NotificationDismiss}" x:Name="CloseButton"/>
-                        </Grid>
+                                <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Title}"
+                                           Grid.Column="1" Grid.Row="0"
+                                           Margin="0,0,0,0"
+                                           FontSize="15" FontWeight="DemiBold" Foreground="{StaticResource DarkMode_TextColorE}"/>
+                                <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Message}"
+                                           Grid.Column="1" Grid.Row="1"
+                                           TextWrapping="WrapWithOverflow"
+                                           Foreground="{StaticResource DarkMode_TextColorC}"/>
+                                <custom:ImageButton 
+                                    Grid.Column="0"
+                                    Grid.RowSpan="2"
+                                    Margin="0,0,5,0"
+                                    ImageWidth="30"
+                                    Style="{StaticResource ImageSilhouette}"
+                                    Image="{StaticResource NotificationDismiss}" x:Name="CloseButton"/>
+                            </Grid>
 
                         
+                        </Border>
+
+                        <Border.Triggers>
+                            <EventTrigger RoutedEvent="Border.Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ThicknessAnimation Duration="0:0:0.5"
+                                                            From="0,-100,0,0"
+                                                            To="0,0,0,0"
+                                                            Storyboard.TargetProperty="Margin"/>
+                                        <DoubleAnimation Duration="0:0:0.25"
+                                                         To="1"
+                                                         From="0"
+                                                         Storyboard.TargetProperty="Opacity"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Border.Triggers>
                     </Border>
-                    
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style TargetType="{x:Type custom:StatusImage}">
+        <Setter Property="Image" Value="{StaticResource DefaultImage}"/>
+        <Setter Property="ImageBackgroundBrush" Value="{StaticResource DarkMode_AccentColorB}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type custom:StatusImage}">
+                    <Rectangle Height="25" 
+                               Width="25"
+                               Margin="3"
+                               Fill="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ImageBackgroundBrush}">
+                        <Rectangle.OpacityMask>
+                            <ImageBrush ImageSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Image}" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

@@ -87,9 +87,10 @@ namespace SyncPlayWPF.CustomControls {
         private void startProcess() {
             Thread.Sleep(3000);
             Dispatcher.Invoke(() => {
-                ((StackPanel)this.Parent).Children.Remove(this);
+                if (this.Parent != null)
+                    ((StackPanel)this.Parent).Children.Remove(this);
             });
-            
+           
         }
 
         public override void OnApplyTemplate() {

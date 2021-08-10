@@ -8,8 +8,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SyncPlay.MediaPlayers.VLCMediaPlayer  {
-    class Connector : MediaPlayerInterface {
+namespace SyncPlayWPF.SyncPlay.MediaPlayers.VLCMediaPlayer  {
+    public class Connector : MediaPlayerInterface {
 
 
         private Process PlayerProcess;
@@ -71,7 +71,13 @@ namespace SyncPlay.MediaPlayers.VLCMediaPlayer  {
                     if (parts[4] == "input:") {
                         var absolute_path = new Uri(parts[5]).LocalPath;
                         var file_name = Path.GetFileName(absolute_path);
-                        OnNewFileLoad?.Invoke(new EventArgs.NewFileLoadEventArgs(file_name, absolute_path));
+                        OnNewFileLoad?.Invoke(new SPEventArgs.NewFileLoadEventArgs(file_name, absolute_path));
+
+                        new Thread(() => {
+                            Thread.Sleep(500);
+                            this.Pause();
+                        }).Start();
+                        
                     }
                     break;
             }
@@ -84,10 +90,10 @@ namespace SyncPlay.MediaPlayers.VLCMediaPlayer  {
                     stream.Write(msg_bytes, 0, msg_bytes.Length);
                     MessageList.Clear();
                     MessageList.Add("\n");
-                    Thread.Sleep(100);
+                    Thread.Sleep(50);
                 }
             } catch (Exception e) {
-                Debug("Heartbeat and Polling Loop Broken");
+                Debug("Media Player Polling Loop Broken");
                 OnPlayerClosed?.Invoke();
             }
         }

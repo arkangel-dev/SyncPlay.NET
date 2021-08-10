@@ -1,17 +1,18 @@
-﻿
+﻿using System;
 using Newtonsoft.Json.Linq;
-using System;
+using SyncPlayWPF.SyncPlay.SPEventArgs;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using SyncPlayWPF.Misc.SyncPlay;
 
-namespace SyncPlay {
+namespace SyncPlayWPF.SyncPlay {
     public class SyncPlayClient {
         private NetworkClient nclient;
         private PingService pingService;
-        private Dictionary<String, User> UserDictionary;
+        public Dictionary<String, User> UserDictionary;
         private List<MediaFile> Playlist;
 
         private string Username = "";
@@ -59,9 +60,11 @@ namespace SyncPlay {
         /// </summary>
         /// <param name="p">Position in seconds</param>
         public void SetPlayPosition(float p) {
-            clientIgnoreOnFly = true;
-            Seeked = true;
-            playPosition = p;
+            if (!Seeked) {
+                clientIgnoreOnFly = true;
+                Seeked = true;
+                playPosition = p;
+            }
         }
 
         /// <summary>
@@ -153,7 +156,7 @@ namespace SyncPlay {
 
                 if (!nclient.Connect()) {
                     Console.WriteLine("Failed to connect to server");
-                    this.OnDisconnect(this, new EventArgs.ServerDisconnectedEventArgs(false, "Connection Timed out"));
+                    this.OnDisconnect(this, new SPEventArgs.ServerDisconnectedEventArgs(false, "Connection Timed out"));
                     return false;
                 }
                 
@@ -169,7 +172,7 @@ namespace SyncPlay {
                 return true;
             } catch (Exception e) {
                 Console.WriteLine($"Connection Failed : {e.Message}");
-                OnDisconnect?.Invoke(this, new EventArgs.ServerDisconnectedEventArgs(false, $"Connection failed : {e.Message}"));
+                OnDisconnect?.Invoke(this, new SPEventArgs.ServerDisconnectedEventArgs(false, $"Connection failed : {e.Message}"));
                 return false;
             }
         }
@@ -185,25 +188,25 @@ namespace SyncPlay {
         /// This event will be triggered when someones ready state has been changed
         /// </summary>
         public event ReadyPacketHandler OnNewReadyPacket;
-        public delegate void ReadyPacketHandler(SyncPlayClient sender, EventArgs.UserReadyEventArgs e);
+        public delegate void ReadyPacketHandler(SyncPlayClient sender, SPEventArgs.UserReadyEventArgs e);
 
         /// <summary>
         /// This event will be triggered when someone sends a new text message
         /// </summary>
         public event ChatPacketHandler OnNewChatMessage;
-        public delegate void ChatPacketHandler(SyncPlayClient sender, EventArgs.ChatMessageEventArgs e);
+        public delegate void ChatPacketHandler(SyncPlayClient sender, SPEventArgs.ChatMessageEventArgs e);
 
         /// <summary>
         /// This event will be triggered when a user leaves or joins a room
         /// </summary>
         public event UserRoomStateHandler OnUserRoomEvent;
-        public delegate void UserRoomStateHandler(SyncPlayClient sender, EventArgs.UserRoomStateEventArgs e);
+        public delegate void UserRoomStateHandler(SyncPlayClient sender, SPEventArgs.UserRoomStateEventArgs e);
 
         /// <summary>
         /// This event will get triggered when a user sets a file
         /// </summary>
         public event UserSetFileHandler OnFileSet;
-        public delegate void UserSetFileHandler(SyncPlayClient sender, EventArgs.RemoteSetFileEventArgs e);
+        public delegate void UserSetFileHandler(SyncPlayClient sender, SPEventArgs.RemoteSetFileEventArgs e);
 
         /// <summary>
         /// This event will be triggered when a log gets sent.
@@ -216,27 +219,27 @@ namespace SyncPlay {
         /// local syncing and pausing
         /// </summary>
         public event PlayerSeekHandler OnPlayerStateChange;
-        public delegate void PlayerSeekHandler(SyncPlayClient sender, EventArgs.RemoteStateChangeEventArgs e);
+        public delegate void PlayerSeekHandler(SyncPlayClient sender, SPEventArgs.RemoteStateChangeEventArgs e);
 
         /// <summary>
         /// This event will be triggered when an even that is note worthy of notifying the user via chat
         /// occurs. Such as someone joining a chat, leaving a chat, seeking or switching files
         /// </summary>
         public event ChatMessageEvent OnChatInfoEvent;
-        public delegate void ChatMessageEvent(SyncPlayClient sender, EventArgs.ChatInfoMessageArgs e);
+        public delegate void ChatMessageEvent(SyncPlayClient sender, SPEventArgs.ChatInfoMessageArgs e);
 
         /// <summary>
         /// This event will be triggered when the connection from the server gets severed. This includes when
         /// the server kicks the client
         /// </summary>
         public event DisconnectEvent OnDisconnect;
-        public delegate void DisconnectEvent(SyncPlayClient sender, EventArgs.ServerDisconnectedEventArgs e);
+        public delegate void DisconnectEvent(SyncPlayClient sender, SPEventArgs.ServerDisconnectedEventArgs e);
 
         /// <summary>
         /// This event will be triggered when the clients manages to make a successful connection with the server.
         /// </summary>
         public event ConnectEvent OnConnect;
-        public delegate void ConnectEvent(SyncPlayClient sender, EventArgs.ServerConnectedEventArgs e);
+        public delegate void ConnectEvent(SyncPlayClient sender, SPEventArgs.ServerConnectedEventArgs e);
         #endregion
 
 
@@ -265,10 +268,11 @@ namespace SyncPlay {
                 user = new User();
                 user.Username = username;
                 this.UserDictionary.Add(username, user);
-                var eventargs = new EventArgs.UserRoomStateEventArgs();
-                eventargs.EventType = EventArgs.UserRoomStateEventArgs.EventTypes.JOINED;
+                var eventargs = new SPEventArgs.UserRoomStateEventArgs();
+                eventargs.EventType = SPEventArgs.UserRoomStateEventArgs.EventTypes.JOINED;
                 eventargs.User = user;
-                OnUserRoomEvent?.Invoke(this, eventargs);
+                if (username != RoomName)
+                    OnUserRoomEvent?.Invoke(this, eventargs);
             }
             return user;
         }
@@ -282,8 +286,8 @@ namespace SyncPlay {
             User u;
             this.UserDictionary.TryGetValue(username, out u);
             this.UserDictionary.Remove(username);
-            var eventargs = new EventArgs.UserRoomStateEventArgs();
-            eventargs.EventType = EventArgs.UserRoomStateEventArgs.EventTypes.LEFT;
+            var eventargs = new SPEventArgs.UserRoomStateEventArgs();
+            eventargs.EventType = SPEventArgs.UserRoomStateEventArgs.EventTypes.LEFT;
             eventargs.User = u;
             OnUserRoomEvent?.Invoke(this, eventargs);
         }
@@ -303,285 +307,293 @@ namespace SyncPlay {
         }
 
         private void NewIncomingMessage(NetworkClient sender, string message) {
-            if (String.IsNullOrWhiteSpace(message)) return;
-            var jobj = JObject.Parse(message);
+            try {
+                if (String.IsNullOrWhiteSpace(message)) return;
+                var jobj = JObject.Parse(message);
 
 
-            // This the TLS negotiation packet
-            if (jobj.ContainsKey("TLS")) {
-                var tlskey = jobj.Value<JObject>("TLS");
-                if (tlskey.Value<String>("startTLS").Equals("true")) {
-                    this.nclient.ActivateTLS();
-                }
-                nclient.SendMessage(HelloMessage);
-            }
-
-            // Check if the server hates us or something...
-            if (jobj.ContainsKey("Error")) {
-                var ErrorMessage = jobj.Value<JObject>("Error")
-                    .Value<String>("message");
-                Thread.Sleep(3000);
-                OnDisconnect?.Invoke(this, new EventArgs.ServerDisconnectedEventArgs(true, ErrorMessage));
-                return;
-            }
-
-            // This is a handshake packet
-            if (jobj.ContainsKey("Hello")) {
-                OnConnect?.Invoke(this, new EventArgs.ServerConnectedEventArgs());
-                nclient.SendMessage(Packets.CraftSetClientReadiness(false, false));
-                nclient.SendMessage(Packets.CraftSendList());
-                this.Username = (String)jobj["Hello"]["username"];
-                this.MOTD = (String)jobj["Hello"]["motd"];
-                this.ServerVersion = (String)jobj["Hello"]["realVersion"];
-
-                var LocalUser = AddNewUser(this.Username);
-                LocalUser.IsReady = false;
-            }
-
-            // Parse through a list of all the users and what they're playing...
-            if (jobj.ContainsKey("List")) {
-                foreach (var room in jobj.Children()) {
-                    foreach (var user in room.Children()) {
-
-                        var currentUser = GetUserFromDictionary(
-                            ((JProperty) user.First()).Name
-                        );
-                        currentUser.Room = ((JProperty)room).Name;
-                        currentUser.Position = user.Value<float>("position");
-                        currentUser.IsReady = user.Value<bool>("isReady");
-
-                        if (user.Value<JObject>("file") != null) {
-                            currentUser.File = MediaFile.Generate(
-                                user["file"].Value<String>("name"),
-                                user["file"].Value<float>("duration"),
-                                user["file"].Value<int>("size")
-                            );
-                        }
-
+                // This the TLS negotiation packet
+                if (jobj.ContainsKey("TLS")) {
+                    var tlskey = jobj.Value<JObject>("TLS");
+                    if (tlskey.Value<String>("startTLS").Equals("true")) {
+                        this.nclient.ActivateTLS();
                     }
+                    nclient.SendMessage(HelloMessage);
                 }
-            }
 
-            // This will get triggered when someone sends a chat message
-            #region Chat Packets
-            if (jobj.ContainsKey("Chat")) {
-                var chatkey = jobj.Value<JObject>("Chat");
-                var username = chatkey.Value<String>("username");
-                var chatmessage = chatkey.Value<String>("message");
-                Misc.Common.PrintInColor($"The user {username} said '{chatmessage}'", ConsoleColor.Green);
-                OnDebugLog?.Invoke(this, $"The user {username} said '{chatmessage}'");
-                if (OnNewChatMessage != null) {
-                    User s;
-                    if (!UserDictionary.TryGetValue(username, out s)) throw new Exception($"Cannot find user {username}");
-                    var args = new EventArgs.ChatMessageEventArgs(s, chatmessage);
-                    args.LocallySentMessage = username.Equals(this.Username);
-                    OnNewChatMessage(this, args);
-                }
-            }
-            #endregion
-
-            // The set packets seems be in charge of making sure that the client updates
-            // their properties and append new information to the client
-            #region Set Packets
-            if (jobj.ContainsKey("Set")) {
-                var setkey = jobj.Value<JObject>("Set");
-
-                // If it has a ready key that means the server just got word that someone is
-                // not ready or that someone is ready
-                #region Ready Packet
-                if (setkey.ContainsKey("ready")) { 
-                    var readykey = setkey.Value<JObject>("ready");
-                    var agent = readykey.Value<String>("username");
-                    if (readykey.Value<Boolean?>("isReady") == null) return;
-                    var readystatus = readykey.Value<Boolean>("isReady");
-                    var manuallyinitiated = readykey.Value<Boolean>("manuallyInitiated");
-                    User userobj;
-                    UserDictionary.TryGetValue(agent, out userobj);
-                    String statusmessage = readystatus ? $"The user {agent} is ready" : $"The user {agent} is not ready";
-                    Misc.Common.PrintInColor(statusmessage, ConsoleColor.Green);
-
-
-                    var chatinfomsg = readystatus ? $"{agent} is ready to play" : $"{agent} is not ready to play";
-                    OnChatInfoEvent?.Invoke(this, new EventArgs.ChatInfoMessageArgs(GetUserFromDictionary(agent), chatinfomsg));
-                    OnDebugLog?.Invoke(this, statusmessage);
-                    OnNewReadyPacket?.Invoke(this, new EventArgs.UserReadyEventArgs(userobj, manuallyinitiated, readystatus));
-                    
+                // Check if the server hates us or something...
+                if (jobj.ContainsKey("Error")) {
+                    var ErrorMessage = jobj.Value<JObject>("Error")
+                        .Value<String>("message");
+                    Thread.Sleep(3000);
+                    OnDisconnect?.Invoke(this, new SPEventArgs.ServerDisconnectedEventArgs(true, ErrorMessage));
                     return;
                 }
-                #endregion
 
-                // Set user events indicate that a user has left or joined the room. or the server.
-                #region User State Change Packet
-                if (setkey.ContainsKey("user")) {
-                    var username = ((JProperty)setkey["user"].First()).Name;
+                // This is a handshake packet
+                if (jobj.ContainsKey("Hello")) {
+                    OnConnect?.Invoke(this, new SPEventArgs.ServerConnectedEventArgs());
+                    nclient.SendMessage(Packets.CraftSetClientReadiness(false, false));
+                    nclient.SendMessage(Packets.CraftSendList());
+                    this.Username = (String)jobj["Hello"]["username"];
+                    this.MOTD = (String)jobj["Hello"]["motd"];
+                    this.ServerVersion = (String)jobj["Hello"]["realVersion"];
 
-                    if (((JObject)setkey["user"][username]).ContainsKey("event")) {
-                        var eventKey = (JObject)setkey["user"][username]["event"];
-                        var eventName = ((JProperty)((JToken)eventKey).First()).Name;
+                    var LocalUser = AddNewUser(this.Username);
+                    LocalUser.IsReady = false;
+                }
 
-                        switch (eventName) {
-                            case "joined":
-                                OnDebugLog?.Invoke(this, $"The user {username} has joined the room");
-                                OnChatInfoEvent?.Invoke(this, new EventArgs.ChatInfoMessageArgs(GetUserFromDictionary(username), $"{username} has joined the party!"));
-                                AddNewUser(username);
-                                break;
+                // Parse through a list of all the users and what they're playing...
+                if (jobj.ContainsKey("List")) {
+                    foreach (var room in jobj.Children()) {
+                        foreach (var user in room.Children()) {
 
-                            case "left":
-                                OnDebugLog?.Invoke(this, $"The user {username} has left the room");
-                                OnChatInfoEvent?.Invoke(this, new EventArgs.ChatInfoMessageArgs(GetUserFromDictionary(username), $"{username} has left the party"));
-                                RemoveUser(username);
-                                break;
+                            var currentUser = GetUserFromDictionary(
+                                ((JProperty)user.First()).Name
+                            );
+                            currentUser.Room = ((JProperty)room).Name;
+                            currentUser.Position = user.Value<float>("position");
+                            currentUser.IsReady = user.Value<bool>("isReady");
 
-                            default:
-                                throw new NullReferenceException("Cannot find the correct value");
+                            if (user.Value<JObject>("file") != null) {
+                                currentUser.File = MediaFile.Generate(
+                                    user["file"].Value<String>("name"),
+                                    user["file"].Value<float>("duration"),
+                                    user["file"].Value<int>("size")
+                                );
+                            }
+
                         }
                     }
+                }
 
-                    if (((JObject)setkey["user"][username]).ContainsKey("file")) { 
-                        var user = GetUserFromDictionary(username);
-                        var filename = (String)setkey["user"][username]["file"]["name"];
-                        var duration = (float)setkey["user"][username]["file"]["duration"];
-                        var size = (int)setkey["user"][username]["file"]["size"];
-                        var filesetargs = new EventArgs.RemoteSetFileEventArgs();
-                        filesetargs.Agent = user;
-                        user.File = MediaFile.Generate(filename, duration, size);
-                        filesetargs.File = user.File;
-
-                        OnFileSet?.Invoke(this, filesetargs);
-                        OnDebugLog?.Invoke(this, $"The user {username} has loaded the file {filename}");
+                // This will get triggered when someone sends a chat message
+                #region Chat Packets
+                if (jobj.ContainsKey("Chat")) {
+                    var chatkey = jobj.Value<JObject>("Chat");
+                    var username = chatkey.Value<String>("username");
+                    var chatmessage = chatkey.Value<String>("message");
+                    Misc.Common.PrintInColor($"The user {username} said '{chatmessage}'", ConsoleColor.Green);
+                    OnDebugLog?.Invoke(this, $"The user {username} said '{chatmessage}'");
+                    if (OnNewChatMessage != null) {
+                        User s;
+                        if (!UserDictionary.TryGetValue(username, out s)) throw new Exception($"Cannot find user {username}");
+                        var args = new SPEventArgs.ChatMessageEventArgs(s, chatmessage);
+                        args.LocallySentMessage = username.Equals(this.Username);
+                        OnNewChatMessage(this, args);
                     }
                 }
                 #endregion
-            }
-            #endregion
 
-            // State packets is used to make the sure that all the clients are on the same page.
-            #region State packets
-            if (jobj.ContainsKey("State")) {
-                var statekey = jobj.Value<JObject>("State");
+                // The set packets seems be in charge of making sure that the client updates
+                // their properties and append new information to the client
+                #region Set Packets
+                if (jobj.ContainsKey("Set")) {
+                    var setkey = jobj.Value<JObject>("Set");
+
+                    // If it has a ready key that means the server just got word that someone is
+                    // not ready or that someone is ready
+                    #region Ready Packet
+                    if (setkey.ContainsKey("ready")) {
+                        var readykey = setkey.Value<JObject>("ready");
+                        var agent = readykey.Value<String>("username");
+                        if (readykey.Value<Boolean?>("isReady") == null) return;
+                        var readystatus = readykey.Value<Boolean>("isReady");
+                        var manuallyinitiated = readykey.Value<Boolean>("manuallyInitiated");
+                        User userobj;
+                        UserDictionary.TryGetValue(agent, out userobj);
+                        String statusmessage = readystatus ? $"The user {agent} is ready" : $"The user {agent} is not ready";
+                        Misc.Common.PrintInColor(statusmessage, ConsoleColor.Green);
 
 
-                #region Play State Packets
-                if (statekey.ContainsKey("playstate") && !clientIgnoreOnFly) {
-                    var playstatekey = statekey.Value<JObject>("playstate");
-                    var serverPosition = playstatekey.Value<float>("position");
-                    var setByUserString = playstatekey.Value<string>("setBy");
+                        var chatinfomsg = readystatus ? $"{agent} is ready to play" : $"{agent} is not ready to play";
+                        OnChatInfoEvent?.Invoke(this, new SPEventArgs.ChatInfoMessageArgs(GetUserFromDictionary(agent), chatinfomsg));
+                        OnDebugLog?.Invoke(this, statusmessage);
+                        OnNewReadyPacket?.Invoke(this, new SPEventArgs.UserReadyEventArgs(userobj, manuallyinitiated, readystatus));
 
+                        return;
+                    }
+                    #endregion
 
-                    // Check if the setBy user is null. If its null that means 
-                    // the state has not been set yet
-                    if (setByUserString != null) {
+                    // Set user events indicate that a user has left or joined the room. or the server.
+                    #region User State Change Packet
+                    if (setkey.ContainsKey("user")) {
+                        var username = ((JProperty)setkey["user"].First()).Name;
 
-                         
-                        var setByUser = GetUserFromDictionary(setByUserString);
-                        if (playstatekey.Value<Boolean>("paused") != isPaused) {
+                       
 
-                            isPaused = playstatekey.Value<Boolean>("paused");
-                            OnDebugLog?.Invoke(this, isPaused ? "Remote pause requested" : "Remote resume requested");
+                        if (((JObject)setkey["user"][username]).ContainsKey("event")) {
+                            var eventKey = (JObject)setkey["user"][username]["event"];
+                            var eventName = ((JProperty)((JToken)eventKey).First()).Name;
 
-                            // Create an even args object to notify the player that it needs to change its pause state
-                            // because someone paused or unpaused
-                            var remotepauseeventargs = new EventArgs.RemoteStateChangeEventArgs();
-                            remotepauseeventargs.Agent = setByUser;
-                            remotepauseeventargs.Paused = isPaused;
-                            remotepauseeventargs.Position = serverPosition;
-                            remotepauseeventargs.Seeked = false;
+                            switch (eventName) {
+                                case "joined":
+                                    OnDebugLog?.Invoke(this, $"The user {username} has joined the room");
+                                    OnChatInfoEvent?.Invoke(this, new SPEventArgs.ChatInfoMessageArgs(GetUserFromDictionary(username), $"{username} has joined the party!"));
+                                    AddNewUser(username);
+                                    break;
 
-                            var chtmsg = isPaused ? $"{setByUser.Username} has paused" : $"{setByUser.Username} has resumed playback";
+                                case "left":
+                                    OnDebugLog?.Invoke(this, $"The user {username} has left the room");
+                                    OnChatInfoEvent?.Invoke(this, new SPEventArgs.ChatInfoMessageArgs(GetUserFromDictionary(username), $"{username} has left the party"));
+                                    RemoveUser(username);
+                                    break;
 
-                            this.OnChatInfoEvent?.Invoke(this, new EventArgs.ChatInfoMessageArgs(setByUser, chtmsg));
-                            this.OnPlayerStateChange?.Invoke(this, remotepauseeventargs);
+                                default:
+                                    throw new NullReferenceException("Cannot find the correct value");
+                            }
                         }
 
-                        if (playstatekey.ContainsKey("doSeek")) {
-                            try {
-                                if ((bool)playstatekey["doSeek"]) {
+                        if (((JObject)setkey["user"][username]).ContainsKey("file")) {
+                            var user = GetUserFromDictionary(username);
+                            var filename = (String)setkey["user"][username]["file"]["name"];
+                            var duration = (float)setkey["user"][username]["file"]["duration"];
+                            var size = (int)setkey["user"][username]["file"]["size"];
+                            var filesetargs = new SPEventArgs.RemoteSetFileEventArgs();
+                            filesetargs.Agent = user;
+                            user.File = MediaFile.Generate(filename, duration, size);
+                            filesetargs.File = user.File;
 
-                                    playPosition = serverPosition;
-                                    OnDebugLog?.Invoke(this, $"Seeking to {Misc.Common.ConvertSecondsToTimeStamp((int)playPosition)}");
+                            OnFileSet?.Invoke(this, filesetargs);
+                            OnDebugLog?.Invoke(this, $"The user {username} has loaded the file {filename}");
+                        }
+                    }
+                    #endregion
+                }
+                #endregion
 
-                                    // Create an even args object to notify the player that it needs to seek because someone on the
-                                    // server side seeked
-                                    var remoteseekingeventargs = new EventArgs.RemoteStateChangeEventArgs();
-                                    remoteseekingeventargs.Agent = setByUser;
-                                    remoteseekingeventargs.Paused = isPaused;
-                                    remoteseekingeventargs.Position = serverPosition;
-                                    remoteseekingeventargs.Seeked = true;
+                // State packets is used to make the sure that all the clients are on the same page.
+                #region State packets
+                if (jobj.ContainsKey("State")) {
+                    var statekey = jobj.Value<JObject>("State");
 
-                                    var seekinfomsg = $"{setByUser.Username} has seeked to {serverPosition} seconds";
-                                    this.OnChatInfoEvent?.Invoke(this, new EventArgs.ChatInfoMessageArgs(setByUser, seekinfomsg));
-                                            
 
-                                    OnPlayerStateChange?.Invoke(this, remoteseekingeventargs);
+                    #region Play State Packets
+                    if (statekey.ContainsKey("playstate") && !clientIgnoreOnFly) {
+                        var playstatekey = statekey.Value<JObject>("playstate");
+                        var serverPosition = playstatekey.Value<float>("position");
+                        var setByUserString = playstatekey.Value<string>("setBy");
+
+
+                        // Check if the setBy user is null. If its null that means 
+                        // the state has not been set yet
+                        if (setByUserString != null) {
+
+
+                            var setByUser = GetUserFromDictionary(setByUserString);
+                            if (playstatekey.Value<Boolean>("paused") != isPaused) {
+
+                                isPaused = playstatekey.Value<Boolean>("paused");
+                                OnDebugLog?.Invoke(this, isPaused ? "Remote pause requested" : "Remote resume requested");
+
+                                // Create an even args object to notify the player that it needs to change its pause state
+                                // because someone paused or unpaused
+                                var remotepauseeventargs = new SPEventArgs.RemoteStateChangeEventArgs();
+                                remotepauseeventargs.Agent = setByUser;
+                                remotepauseeventargs.Paused = isPaused;
+                                remotepauseeventargs.Position = (float)(serverPosition + pingService.GetSeekRTT());
+                                remotepauseeventargs.Seeked = false;
+
+                                var chtmsg = isPaused ? $"{setByUser.Username} has paused" : $"{setByUser.Username} has resumed playback";
+
+                                this.OnChatInfoEvent?.Invoke(this, new SPEventArgs.ChatInfoMessageArgs(setByUser, chtmsg));
+                                this.OnPlayerStateChange?.Invoke(this, remotepauseeventargs);
+                            }
+
+                            if (playstatekey.ContainsKey("doSeek")) {
+                                try {
+                                    if ((bool)playstatekey["doSeek"]) {
+
+                                        playPosition = serverPosition;
+                                        OnDebugLog?.Invoke(this, $"Seeking to {Misc.Common.ConvertSecondsToTimeStamp((int)playPosition)}");
+
+                                        // Create an even args object to notify the player that it needs to seek because someone on the
+                                        // server side seeked
+                                        var remoteseekingeventargs = new SPEventArgs.RemoteStateChangeEventArgs();
+                                        remoteseekingeventargs.Agent = setByUser;
+                                        remoteseekingeventargs.Paused = isPaused;
+                                        remoteseekingeventargs.Position = serverPosition;
+                                        remoteseekingeventargs.Seeked = true;
+
+                                        var seekinfomsg = $"{setByUser.Username} has seeked to {serverPosition} seconds";
+                                        this.OnChatInfoEvent?.Invoke(this, new SPEventArgs.ChatInfoMessageArgs(setByUser, seekinfomsg));
+
+
+                                        OnPlayerStateChange?.Invoke(this, remoteseekingeventargs);
+                                    }
+                                } catch (Exception e) {
+
                                 }
-                            } catch (Exception e) {
+
+                            } else if (Math.Abs(serverPosition - playPosition) > 5) {
+
+                                playPosition = serverPosition;
+                                OnDebugLog?.Invoke(this, $"Seeking to {Misc.Common.ConvertSecondsToTimeStamp((int)playPosition)} sync with server");
+
+                                // Create an event args object to notify the player that it needs to seek to sync with the
+                                // other users
+                                var syncseekingeventargs = new SPEventArgs.RemoteStateChangeEventArgs();
+                                syncseekingeventargs.Agent = setByUser;
+                                syncseekingeventargs.Paused = isPaused;
+                                syncseekingeventargs.Position = serverPosition;
+                                syncseekingeventargs.Seeked = true;
+
+
+                                OnPlayerStateChange?.Invoke(this, syncseekingeventargs);
+
+
 
                             }
 
-                        } else if (Math.Abs(serverPosition - playPosition) > 5) {
-
-                            playPosition = serverPosition;
-                            OnDebugLog?.Invoke(this, $"Seeking to {Misc.Common.ConvertSecondsToTimeStamp((int)playPosition)} sync with server");
-
-                            // Create an event args object to notify the player that it needs to seek to sync with the
-                            // other users
-                            var syncseekingeventargs = new EventArgs.RemoteStateChangeEventArgs();
-                            syncseekingeventargs.Agent = setByUser;
-                            syncseekingeventargs.Paused = isPaused;
-                            syncseekingeventargs.Position = serverPosition;
-                            syncseekingeventargs.Seeked = true;
-
-
-                            OnPlayerStateChange?.Invoke(this, syncseekingeventargs);
-
-
-
-                        }
-                        
-                    }
-                }
-                #endregion
-
-                // Ping packets are used to make sure that the client is not dead. If the server doesn't
-                // get ping responses for more than 14 pings, it will drop the connection
-                #region Ping packets
-                if (statekey.ContainsKey("ping")) {
-                    var ping_key = statekey.Value<JObject>("ping");
-
-                    pingService.SetArrivalTimeStamp(ping_key.Value<Double>("clientLatencyCalculation"));
-
-                    var latencyCalculation = ping_key.Value<Double>("latencyCalculation");
-                    var clientLatencyCalc = pingService.GetDepartureTimeStamp();
-                    var clientRTT = pingService.GetRTT();
-                    var sendServerIgnoreOnFly = false;
-                 
-                    if (statekey.ContainsKey("ignoringOnTheFly")) {
-                        sendServerIgnoreOnFly = statekey.Value<JObject>("ignoringOnTheFly").ContainsKey("server");
-                        
-                        if (statekey.Value<JObject>("ignoringOnTheFly").ContainsKey("client")) {
-                            clientIgnoreOnFly = false;
                         }
                     }
+                    #endregion
 
-                    nclient.SendMessage(
-                        Packets.CraftPingMessage(
-                            clientRTT, 
-                            clientLatencyCalc, 
-                            latencyCalculation, 
-                            serverIgnoreOnFly: sendServerIgnoreOnFly,
-                            clientIgnoreOnFly: clientIgnoreOnFly, 
-                            playerPosition: playPosition, 
-                            playerPaused:isPaused,
-                            doSeek: Seeked
+                    // Ping packets are used to make sure that the client is not dead. If the server doesn't
+                    // get ping responses for more than 14 pings, it will drop the connection
+                    #region Ping packets
+                    if (statekey.ContainsKey("ping")) {
+                        var ping_key = statekey.Value<JObject>("ping");
 
-                        ));
+                        pingService.SetArrivalTimeStamp(ping_key.Value<Double>("clientLatencyCalculation"));
 
-                    
-                    if (Seeked) Seeked = false;
+                        var latencyCalculation = ping_key.Value<Double>("latencyCalculation");
+
+                        var clientLatencyCalc = pingService.GetDepartureTimeStamp();
+                        var clientRTT = pingService.GetRTT();
+                        var sendServerIgnoreOnFly = false;
+
+                        if (statekey.ContainsKey("ignoringOnTheFly")) {
+                            sendServerIgnoreOnFly = statekey.Value<JObject>("ignoringOnTheFly").ContainsKey("server");
+
+                            if (statekey.Value<JObject>("ignoringOnTheFly").ContainsKey("client")) {
+                                clientIgnoreOnFly = false;
+                            }
+                        }
+
+                        nclient.SendMessage(
+                            Packets.CraftPingMessage(
+                                clientRTT,
+                                clientLatencyCalc,
+                                latencyCalculation,
+                                serverIgnoreOnFly: sendServerIgnoreOnFly,
+                                clientIgnoreOnFly: clientIgnoreOnFly,
+                                playerPosition: playPosition + pingService.GetSeekRTT(),
+                                playerPaused: isPaused,
+                                doSeek: Seeked
+
+                            ));
+
+
+                        if (Seeked) Seeked = false;
+                    }
+                    #endregion
+
                 }
                 #endregion
+            } catch (Exception e) {
+                Console.WriteLine(e.Message);
             }
-            #endregion
         }
         #endregion
     }

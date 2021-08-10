@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SyncPlay {
+namespace SyncPlayWPF.SyncPlay {
     public class MediaFile {
         public int Size;
         public float Duration;
@@ -30,7 +30,7 @@ namespace SyncPlay {
                 var mfile = new MediaFile();
                 mfile.FilePath = path;
                 mfile.Size = (int)new FileInfo(path).Length;
-                mfile.Duration = (float)Misc.Common.GetVideoDuration(path).TotalSeconds;
+                mfile.Duration = (float)SyncPlay.Misc.Common.GetVideoDuration(path).TotalSeconds;
                 return mfile;
 
             } catch (Exception e) {

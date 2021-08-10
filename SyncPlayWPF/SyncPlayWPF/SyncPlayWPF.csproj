@@ -54,8 +54,7 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>SyncplayOriginal_Logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommonServiceLocator, Version=2.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
@@ -101,8 +100,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CustomControls\LinearGradientAnimation.cs" />
     <Compile Include="CustomControls\MediaFileControl.cs" />
+    <Compile Include="CustomControls\StatusImage.cs" />
     <Compile Include="CustomControls\ToastNotification.cs" />
+    <Compile Include="CustomControls\UserSessionView.cs" />
     <Compile Include="Pages\ApplicationPages\ExceptionView.xaml.cs">
       <DependentUpon>ExceptionView.xaml</DependentUpon>
     </Compile>
@@ -112,18 +114,20 @@
     <Compile Include="Pages\ApplicationPages\NotificationLayer.xaml.cs">
       <DependentUpon>NotificationLayer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SyncPlay\EventArgs\ChatInfoMessageArgs.cs" />
-    <Compile Include="SyncPlay\EventArgs\NewFileLoadEventArgs.cs" />
-    <Compile Include="SyncPlay\EventArgs\ServerConnectedEventArgs.cs" />
-    <Compile Include="SyncPlay\EventArgs\ServerDisconnectedEventArgs.cs" />
+    <Compile Include="SyncPlay\SPEventArgs\ChatInfoMessageArgs.cs" />
+    <Compile Include="SyncPlay\SPEventArgs\NewFileLoadEventArgs.cs" />
+    <Compile Include="SyncPlay\SPEventArgs\ServerConnectedEventArgs.cs" />
+    <Compile Include="SyncPlay\SPEventArgs\ServerDisconnectedEventArgs.cs" />
+    <Compile Include="SyncPlay\MediaPlayers\MPVPlayer\Connector.cs" />
+    <Compile Include="SyncPlay\MediaPlayers\MPVPlayer\MPVPackets.cs" />
     <Compile Include="SyncPlay\SyncPlayClient.cs" />
-    <Compile Include="SyncPlay\EventArgs\ChatMessageEventArgs.cs" />
-    <Compile Include="SyncPlay\EventArgs\LocalSetFileEventArgs.cs" />
-    <Compile Include="SyncPlay\EventArgs\LocalStateChangeEventArgs.cs" />
-    <Compile Include="SyncPlay\EventArgs\RemoteSetFileEventArgs.cs" />
-    <Compile Include="SyncPlay\EventArgs\RemoteStateChangeEventArgs.cs" />
-    <Compile Include="SyncPlay\EventArgs\UserReadyEventArgs.cs" />
-    <Compile Include="SyncPlay\EventArgs\UserRoomStateEventArgs.cs" />
+    <Compile Include="SyncPlay\SPEventArgs\ChatMessageEventArgs.cs" />
+    <Compile Include="SyncPlay\SPEventArgs\LocalSetFileEventArgs.cs" />
+    <Compile Include="SyncPlay\SPEventArgs\LocalStateChangeEventArgs.cs" />
+    <Compile Include="SyncPlay\SPEventArgs\RemoteSetFileEventArgs.cs" />
+    <Compile Include="SyncPlay\SPEventArgs\RemoteStateChangeEventArgs.cs" />
+    <Compile Include="SyncPlay\SPEventArgs\UserReadyEventArgs.cs" />
+    <Compile Include="SyncPlay\SPEventArgs\UserRoomStateEventArgs.cs" />
     <Compile Include="SyncPlay\MediaFile.cs" />
     <Compile Include="SyncPlay\MediaPlayerInterface.cs" />
     <Compile Include="SyncPlay\MediaPlayers\VLCMediaPlayer\Connector.cs" />
@@ -275,9 +279,6 @@
     <Resource Include="ImageLib\toggle_on.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="SyncplayOriginal_Logo_Icon.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.1">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.7.1 %28x86 and x64%29</ProductName>
@@ -294,6 +295,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ImageLib\notificationClose.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="SyncplayOriginal_Logo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ImageLib\dropdown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ImageLib\HourGlass.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ImageLib\Warning.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

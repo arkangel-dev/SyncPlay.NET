@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SyncPlay {
+namespace SyncPlayWPF.SyncPlay {
     public interface MediaPlayerInterface {
 
         void StartPlayerInstance();
@@ -24,7 +24,7 @@ namespace SyncPlay {
         delegate void HandleVLCServerMessages(string s);
         event HandleVLCServerMessages OnPlayerMessage;
 
-        delegate void HandleFileLoadEvent(EventArgs.NewFileLoadEventArgs e);
+        delegate void HandleFileLoadEvent(SPEventArgs.NewFileLoadEventArgs e);
         event HandleFileLoadEvent OnNewFileLoad;
 
         delegate void HandleSeek(float position);

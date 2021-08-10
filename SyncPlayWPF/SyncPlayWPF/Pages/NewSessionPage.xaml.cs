@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SyncPlayWPF.SyncPlay;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -36,7 +37,7 @@ namespace SyncPlayWPF.Pages {
                 $"Password  : {password}\n" +
                 $"Room Name : {roomName}");
 
-            Common.Shared.Wrapper = new SyncPlay.SyncPlayWrapper(
+            Common.Shared.Wrapper = new SyncPlayWrapper(
                 serverIp,
                 serverPort,
                 username,
@@ -52,7 +53,7 @@ namespace SyncPlayWPF.Pages {
             
         }
 
-        private void SyncPlayClient_OnDisconnect(SyncPlay.SyncPlayClient sender, SyncPlay.EventArgs.ServerDisconnectedEventArgs e) {
+        private void SyncPlayClient_OnDisconnect(SyncPlayClient sender, SyncPlay.SPEventArgs.ServerDisconnectedEventArgs e) {
             Console.WriteLine($"Failed to connect. Reasons --> : {e.ReasonForDisconnection}");
             Dispatcher.Invoke(() => {
                 Common.Shared.MasterOverrideTransition.UnloadCurrentPage();
@@ -64,7 +65,7 @@ namespace SyncPlayWPF.Pages {
             Common.Shared.Wrapper.Dispose();
         }
 
-        private void SyncPlayClient_OnConnect(SyncPlay.SyncPlayClient sender, SyncPlay.EventArgs.ServerConnectedEventArgs e) {
+        private void SyncPlayClient_OnConnect(SyncPlayClient sender, SyncPlay.SPEventArgs.ServerConnectedEventArgs e) {
             Console.WriteLine("Connection established");
             Dispatcher.Invoke(() => {
                 Common.Shared.MasterOverrideTransition.UnloadCurrentPage();

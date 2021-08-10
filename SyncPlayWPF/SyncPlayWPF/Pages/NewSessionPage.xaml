@@ -45,8 +45,14 @@
                     <RowDefinition Height="auto"/>
                    
                 </Grid.RowDefinitions>
-                <Image RenderOptions.BitmapScalingMode="HighQuality" Source="{StaticResource SyncPlayLogoClassic}" Width="90"/>
-                <Label Grid.Row="1" HorizontalAlignment="Center" FontWeight="DemiBold" Foreground="{StaticResource DarkMode_TextColorA}" FontSize="25">SyncPlay.NET</Label>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Source="{StaticResource SyncPlayLogoClassic}" Width="90">
+                    <Image.Effect>
+                        <DropShadowEffect BlurRadius="15" ShadowDepth="0" Opacity="0.5"/>
+                    </Image.Effect>
+                </Image>
+                <Label Grid.Row="1" HorizontalAlignment="Center" FontWeight="DemiBold" Foreground="{StaticResource DarkMode_TextColorA}" FontSize="25">
+                    SyncPlay.NET
+                </Label>
 
                 <Grid Grid.Row="2" Margin="30, 30, 30, 0">
                     <Grid.RowDefinitions>

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SyncPlay {
+namespace SyncPlayWPF.SyncPlay {
     public class NetworkClient {
         private TcpClient client;
         private SslStream SSL;
@@ -55,14 +55,14 @@ namespace SyncPlay {
             this.SSL.AuthenticateAsClient(this.Host);
         }
 
-        public void SendMessage(string Message) {
-            //Console.WriteLine(Message);
+        public void SendMessage(string message) {
+            //Misc.Common.PrintInColor((((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds() + " : " + message), ConsoleColor.Blue);
             if (SSL == null) {
-                var bytes = Encoding.ASCII.GetBytes(Message);
+                var bytes = Encoding.ASCII.GetBytes(message);
                 stream.Write(bytes, 0, bytes.Length);
                 stream.Flush();
             } else {
-                var bytes = Encoding.ASCII.GetBytes(Message);
+                var bytes = Encoding.ASCII.GetBytes(message);
                 SSL.Write(bytes, 0, bytes.Length);
                 SSL.Flush();
             }
@@ -71,7 +71,7 @@ namespace SyncPlay {
         private void ProcessIncoming() {
             while (stream != null) {
                 try {
-                    var msgbytes = new byte[1024];
+                    var msgbytes = new byte[2048];
 
                     var length = 0;
                     if (SSL != null) {
@@ -102,7 +102,7 @@ namespace SyncPlay {
 
         private void NotifySubscribersOnNewMessage(String message) {
             if (String.IsNullOrWhiteSpace(message)) return;
-            //Misc.Common.PrintInColor(message, ConsoleColor.Yellow);
+            //Misc.Common.PrintInColor(((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds() + " : " + message, ConsoleColor.Green);
             //Console.WriteLine(message);
             if (OnNewMessage == null) return;
             OnNewMessage(this, message);

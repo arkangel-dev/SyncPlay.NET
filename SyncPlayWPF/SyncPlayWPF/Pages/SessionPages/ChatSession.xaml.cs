@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SyncPlayWPF.SyncPlay;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -22,14 +24,60 @@ namespace SyncPlayWPF.Pages.SessionPages {
         }
 
         private bool LastAdditionWasChatInfo = false;
-        private SyncPlay.User LastSender = null;
+        private User LastSender = null;
 
         private void OnPageLoad(object sender, RoutedEventArgs e) {
             Common.Shared.Wrapper.SyncPlayClient.OnNewChatMessage += NewChatMessage;
             Common.Shared.Wrapper.SyncPlayClient.OnChatInfoEvent += NewChatEvent;
+
+            Common.Shared.Wrapper.SyncPlayClient.OnFileSet += SyncPlayClient_OnFileSet;
+            Common.Shared.Wrapper.SyncPlayClient.OnUserRoomEvent += SyncPlayClient_OnUserRoomEvent;
+
+            LoadUserName();
         }
 
-        private void NewChatEvent(SyncPlay.SyncPlayClient sender, SyncPlay.EventArgs.ChatInfoMessageArgs e) {
+        private void LoadUserName() {
+            foreach (var u in Common.Shared.Wrapper.SyncPlayClient.UserDictionary.Values) {
+                var newControl = new CustomControls.UserSessionView();
+                newControl.Username = u.Username;
+                newControl.FileDuration = "NA";
+                newControl.FileName = "NA";
+                newControl.FileSize = "NA";
+                UserStack.Children.Add(newControl);
+            }
+        }
+
+        private void SyncPlayClient_OnUserRoomEvent(SyncPlayClient sender, SyncPlay.SPEventArgs.UserRoomStateEventArgs e) {
+            if (e.EventType == SyncPlay.SPEventArgs.UserRoomStateEventArgs.EventTypes.JOINED) {
+                Dispatcher.Invoke(() => {
+                    var newControl = new CustomControls.UserSessionView();
+                    newControl.Username = e.User.Username;
+                    newControl.FileDuration = "NA";
+                    newControl.FileName = "NA";
+                    newControl.FileSize = "NA";
+
+                    UserStack.Children.Add(newControl);
+                });
+            } else {
+                Dispatcher.Invoke(() => {
+                    foreach (var c in UserStack.Children) {
+                        if (((CustomControls.UserSessionView)c).Username == e.User.Username) {
+                            UserStack.Children.Remove((CustomControls.UserSessionView)c);
+                            break;
+                        }
+                    }
+                });
+            }
+        }
+
+
+
+
+        private void SyncPlayClient_OnFileSet(SyncPlay.SyncPlayClient sender, SyncPlay.SPEventArgs.RemoteSetFileEventArgs e) {
+            throw new NotImplementedException();
+        }
+
+        private void NewChatEvent(SyncPlay.SyncPlayClient sender, SyncPlay.SPEventArgs.ChatInfoMessageArgs e) {
             Dispatcher.Invoke(() => {
                 if (!LastAdditionWasChatInfo) {
                     var spacer = new Border();
@@ -45,7 +93,7 @@ namespace SyncPlayWPF.Pages.SessionPages {
             });
         }
 
-        private void NewChatMessage(SyncPlay.SyncPlayClient sender, SyncPlay.EventArgs.ChatMessageEventArgs e) {
+        private void NewChatMessage(SyncPlay.SyncPlayClient sender, SyncPlay.SPEventArgs.ChatMessageEventArgs e) {
             Dispatcher.Invoke(() => {
                 if (LastAdditionWasChatInfo) {
                     var spacer = new Border();
@@ -82,5 +130,31 @@ namespace SyncPlayWPF.Pages.SessionPages {
                 SendMessage();
             }
         }
+
+        private bool UserListExpanded = false;
+
+        private void ToggleUserList(object sender, RoutedEventArgs e) {
+            UserListBorder.BeginAnimation(Border.MaxHeightProperty, null);
+
+            var anim = new DoubleAnimation();
+            anim.Duration = new Duration(TimeSpan.FromSeconds(1));
+
+            if (UserListExpanded) {
+                anim.From = 0;
+                anim.To = this.ActualHeight /2;
+                Console.WriteLine("Checked");
+            } else {
+                anim.From = this.ActualHeight / 2;
+                anim.To = 0;
+                Console.WriteLine("Not Checked");
+            }
+            UserListExpanded = !UserListExpanded;
+
+            UserListBorder.BeginAnimation(Border.MaxHeightProperty, anim);
+        } 
+
+        
+
+        
     }
 }

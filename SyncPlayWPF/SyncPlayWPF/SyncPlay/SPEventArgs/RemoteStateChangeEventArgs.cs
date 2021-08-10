@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SyncPlay.EventArgs {
+namespace SyncPlayWPF.SyncPlay.SPEventArgs {
     public class RemoteStateChangeEventArgs {
         public User Agent;
         public bool Seeked;
