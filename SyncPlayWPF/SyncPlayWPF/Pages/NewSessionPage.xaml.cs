@@ -43,7 +43,7 @@ namespace SyncPlayWPF.Pages {
                 username,
                 password,
                 roomName,
-                new SyncPlay.MediaPlayers.VLCMediaPlayer.Connector());
+                new SyncPlay.MediaPlayers.MPVPlayer.Connector());
 
             Common.Shared.Wrapper.SyncPlayClient.OnConnect += SyncPlayClient_OnConnect;
             Common.Shared.Wrapper.SyncPlayClient.OnDisconnect += SyncPlayClient_OnDisconnect;

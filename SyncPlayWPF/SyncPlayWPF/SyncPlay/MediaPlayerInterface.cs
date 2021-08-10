@@ -21,8 +21,8 @@ namespace SyncPlayWPF.SyncPlay {
         delegate void HandleDebugMessages(string s);
         event HandleDebugMessages OnDebugMessage;
 
-        delegate void HandleVLCServerMessages(string s);
-        event HandleVLCServerMessages OnPlayerMessage;
+        delegate void HandlePlayerServerMessages(string s);
+        event HandlePlayerServerMessages OnPlayerMessage;
 
         delegate void HandleFileLoadEvent(SPEventArgs.NewFileLoadEventArgs e);
         event HandleFileLoadEvent OnNewFileLoad;

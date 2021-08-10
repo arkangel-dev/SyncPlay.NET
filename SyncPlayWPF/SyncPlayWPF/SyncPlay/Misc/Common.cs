@@ -34,5 +34,7 @@ namespace SyncPlayWPF.SyncPlay.Misc {
             var seconds = ts.Seconds.ToString().PadLeft(2,'0');
             return $"{hours}:{minutes}:{seconds}";
         }
+
+        public static Random GlobalRandom = new Random();
     }
 }

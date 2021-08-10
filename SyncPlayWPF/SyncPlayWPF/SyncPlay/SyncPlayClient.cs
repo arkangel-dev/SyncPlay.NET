@@ -42,6 +42,7 @@ namespace SyncPlayWPF.SyncPlay {
         /// </summary>
         /// <param name="state">Boolean state</param>
         public void SetPause(bool state) {
+            Console.WriteLine("[SPC] Pause State Change");
             OnDebugLog?.Invoke(this, state ? "Client Paused" : "Client Resumed");
             clientIgnoreOnFly = true;
             this.isPaused = state;

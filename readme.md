@@ -1,11 +1,11 @@
 
-![](https://img.shields.io/badge/Minimal%20Compatible%20Version-1.2.8-green) ![](https://img.shields.io/badge/Building-Yes-green) ![](https://img.shields.io/badge/Production%20State-Useable-yellow)
+![](https://img.shields.io/badge/Minimal%20Compatible%20Version-1.2.8-green) ![](https://img.shields.io/badge/Building-Yes-green) ![](https://img.shields.io/badge/Stage-Beta-yellow)
 
 <p align="center">
 	<img src="readme.assets/main.png" width="40%"
 </p>
 
-SyncPlay.NET is a C# client for the [SyncPlay](https://github.com/Syncplay/syncplay) protocol which allows multiple media players to sync their play state and position so viewers from different devices can watch a media file together. Similar to the original SyncPlay client SyncPlay.NET will also support chat functionality with additional support for other chat clients. As for the compatible players, currently only VLC media player is compatible.
+SyncPlay.NET is a C# client for the [SyncPlay](https://github.com/Syncplay/syncplay) protocol which allows multiple media players to sync their play state and position so viewers from different devices can watch a media file together. Similar to the original SyncPlay client SyncPlay.NET will also support chat functionality with additional support for other chat clients. As for the compatible players, currently only [VLC media player](https://github.com/videolan/vlc) and [MPV.NET](https://github.com/stax76/mpv.net) is supported.
 
 > **Warning :** Please note that SyncPlay.NET should be used with caution because it cannot be guaranteed to work as well as the original client written by the SyncPlay team. Download the official version of SyncPlay from https://syncplay.pl/download/
 

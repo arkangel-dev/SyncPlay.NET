@@ -160,7 +160,7 @@ namespace SyncPlayWPF.SyncPlay.MediaPlayers.VLCMediaPlayer  {
         }
 
         public event MediaPlayerInterface.HandleDebugMessages OnDebugMessage;
-        public event MediaPlayerInterface.HandleVLCServerMessages OnPlayerMessage;
+        public event MediaPlayerInterface.HandlePlayerServerMessages OnPlayerMessage;
         public event MediaPlayerInterface.HandleFileLoadEvent OnNewFileLoad;
         public event MediaPlayerInterface.HandleSeek OnSeek;
         public event MediaPlayerInterface.HandlePauseState OnPauseStateChange;
