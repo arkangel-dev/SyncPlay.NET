@@ -114,6 +114,9 @@
     <Compile Include="Pages\ApplicationPages\NotificationLayer.xaml.cs">
       <DependentUpon>NotificationLayer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SyncPlay\SPEventArgs\ChatInfoMessageArgs.cs" />
     <Compile Include="SyncPlay\SPEventArgs\NewFileLoadEventArgs.cs" />
     <Compile Include="SyncPlay\SPEventArgs\ServerConnectedEventArgs.cs" />
@@ -180,6 +183,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\SessionPages\ChatSession.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

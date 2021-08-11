@@ -509,7 +509,61 @@
                 <ControlTemplate>
                     <Border 
                         Name="MainBorder"
-                        CornerRadius="10"
+                        CornerRadius="15"
+                        Height="30"
+                        Margin="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Margin}">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="6" ShadowDepth="0" Opacity="0.25"/>
+                        </Border.Effect>
+                        <TextBlock
+                            x:Name="ButtonLabel"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            FontWeight="DemiBold"
+                            FontSize="10"
+                            
+                            Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="Foreground" Value="Black"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="True">
+                                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Foreground}"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="True">
+                                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Foreground}"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="Background" Value="{StaticResource DarkMode_TextColorD}"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource DarkMode_TextColorE}"/>
+                                    </Trigger>
+                                    <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource DarkMode_TextColorA}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="{x:Type Button}" x:Key="GenericSecondaryActionButton">
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="Margin" Value="1,2,1,2"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border 
+                        Name="MainBorder"
+                        CornerRadius="15"
                         Height="30"
                         Margin="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Margin}">
                         <Border.Effect>
@@ -545,12 +599,12 @@
                                 <Setter Property="BorderThickness" Value="1"/>
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="{StaticResource DarkMode_ContrastedHoverGradient}"/>
+                                        <Setter Property="Background" Value="{StaticResource DarkMode_TextColorE}"/>
                                         <Setter Property="BorderThickness" Value="0"/>
                                         <Setter Property="Padding" Value="16,0,16,0"/>
                                     </Trigger>
                                     <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="True">
-                                        <Setter Property="Background" Value="{StaticResource DarkMode_ContrastedClickGradient}"/>
+                                        <Setter Property="Background" Value="{StaticResource DarkMode_TextColorA}"/>
                                         <Setter Property="BorderThickness" Value="0"/>
                                         <Setter Property="Padding" Value="16,0,16,0"/>
                                     </DataTrigger>
@@ -800,6 +854,80 @@
     </Style>
 
     <!-- Checkboxes -->
+    <Style TargetType="CheckBox" x:Key="GenericCheckboxLowFidelity">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <Border Width="auto" Background="Transparent" HorizontalAlignment="Left" Name="ContainerBorder" Margin="3">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0">
+
+
+                                <Border 
+                                    x:Name="ToggleContainer"
+                                    Margin="0,0,10,0"
+                                    VerticalAlignment="Center"
+                                    Height="20"
+                                    Width="34"
+                                    Background="{StaticResource DarkMode_AccentColorE}">
+                                    <Border.OpacityMask>
+                                        <ImageBrush RenderOptions.BitmapScalingMode="HighQuality" ImageSource="{StaticResource ToggleOff}"/>
+                                    </Border.OpacityMask>
+                                </Border>
+                            </Grid>
+                            <Border Grid.Column="1" Margin="0,0,0,0" Padding="0,0,0,0">
+                                <TextBlock 
+                                    VerticalAlignment="Center"
+                                    Text="{TemplateBinding Content}"
+                                    FontSize="12"
+                                    Foreground="{StaticResource DarkMode_AccentColorE}"
+                                    FontWeight="DemiBold">
+                                </TextBlock>
+                            </Border>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter Property="Background" Value="{StaticResource DarkMode_ScaleGradient}" TargetName="ToggleContainer"/>
+                            <Setter Property="OpacityMask" TargetName="ToggleContainer">
+                                <Setter.Value>
+                                    <ImageBrush ImageSource="{StaticResource ToggleOn}"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <!--<Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Background" Value="{StaticResource DarkMode_ScaleHoverGradient}" TargetName="ToggleContainer"/>
+                        </Trigger>-->
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="true"/>
+                                <Condition Property="IsChecked" Value="true"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter Property="Background" Value="{StaticResource DarkMode_ScaleDisabledGradient}" TargetName="ToggleContainer"/>
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="true"/>
+                                <Condition Property="IsChecked" Value="false"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter Property="Background" Value="{StaticResource DarkMode_ScaleHoverGradient}" TargetName="ToggleContainer"/>
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     <Style TargetType="CheckBox" x:Key="GenericCheckbox">
         <Setter Property="Template">
             <Setter.Value>
@@ -1415,15 +1543,13 @@
                                 <custom:StatusImage Image="{StaticResource Warning}"
                                                     ImageBackgroundBrush="{StaticResource WarningBrush}"/>
                             </StackPanel>
-                            
+
                         </Grid>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-
-
     <Style TargetType="{x:Type custom:ToastNotification}">
         <Setter Property="Template">
             <Setter.Value>
@@ -1457,7 +1583,7 @@
                                     Image="{StaticResource NotificationDismiss}" x:Name="CloseButton"/>
                             </Grid>
 
-                        
+
                         </Border>
 
                         <Border.Triggers>
@@ -1482,8 +1608,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-
     <Style TargetType="{x:Type custom:StatusImage}">
         <Setter Property="Image" Value="{StaticResource DefaultImage}"/>
         <Setter Property="ImageBackgroundBrush" Value="{StaticResource DarkMode_AccentColorB}"/>
@@ -1503,5 +1627,58 @@
         </Setter>
     </Style>
 
+    <!-- Tab Stuff -->
+    <Style TargetType="{x:Type TabControl}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabControl}">
+                    <Border  Padding="3">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="26"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0" Padding="10,0,0,0">
+                                <TabPanel IsItemsHost="True" Name="HeaderPanel"  Panel.ZIndex="1" KeyboardNavigation.TabIndex="1"/>
+                            </Border>
+                            <Border Grid.Row="1" CornerRadius="5" Padding="5" Background="{StaticResource DarkMode_AccentColorA}">
+                                <ContentPresenter ContentSource="SelectedContent"/>
+                                <Border.Effect>
+                                    <DropShadowEffect BlurRadius="13" ShadowDepth="0" Opacity="0.5"/>
+                                </Border.Effect>
+                            </Border>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="{x:Type TabItem}">
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabItem">
+                    <Border Name="Border" CornerRadius="5,5,0,0" Margin="2,0,2,0" Height="26">
+                        <TextBlock x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        Text="{TemplateBinding Header}"
+                                        Margin="20,2"
+                                        Foreground="{StaticResource DarkMode_TextColorF}"
+                                        FontWeight="Normal">
+                        </TextBlock>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource DarkMode_AccentColorC}"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="False">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource DarkMode_AccentColorA}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 </ResourceDictionary>
