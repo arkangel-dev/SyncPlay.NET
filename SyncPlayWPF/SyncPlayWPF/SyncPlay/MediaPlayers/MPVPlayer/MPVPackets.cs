@@ -87,7 +87,7 @@ namespace SyncPlayWPF.SyncPlay.MediaPlayers.MPVPlayer {
             return result.ToString(Newtonsoft.Json.Formatting.None) + "\n";
         }
 
-        public static string CraftShowMessagePacket(string message, int request_id) {
+        public static string CraftShowOSDMessagePacket(string message, int request_id) {
             var result = new JObject(
                 new JProperty("command",
                     new JArray("show-text", message)),

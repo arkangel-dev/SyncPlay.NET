@@ -61,6 +61,7 @@
     <SolidColorBrush x:Key="DarkMode_TextColorE" Color="#747474"/>
     <SolidColorBrush x:Key="DarkMode_TextColorFHover" Color="#747474"/>
     <SolidColorBrush x:Key="DarkMode_TextColorF" Color="#AAAAAA"/>
+    <SolidColorBrush x:Key="DarkMode_TextColorG" Color="#181818"/>
     
     <SolidColorBrush x:Key="DarkMode_ImageButtonImgHover" Color="#CBCBCB"/>
     <SolidColorBrush x:Key="DarkMode_ImageButtonImgClick" Color="#A3D5EC"/>
@@ -107,7 +108,16 @@
             <RotateTransform Angle="45"/>
         </LinearGradientBrush.Transform>
     </LinearGradientBrush>
-    
+
+    <LinearGradientBrush x:Key="DarkMode_ScaleGradientTransparent">
+        <GradientStop Color="#ABFFC206" Offset="0"/>
+        <GradientStop Color="#ABff5f41" Offset="0.5"/>
+        <GradientStop Color="#ABff1e67" Offset="1"/>
+        <LinearGradientBrush.Transform>
+            <RotateTransform Angle="45"/>
+        </LinearGradientBrush.Transform>
+    </LinearGradientBrush>
+
     <LinearGradientBrush x:Key="DarkMode_ScaleHoverGradient">
         <GradientStop Color="#DEAA00" Offset="0"/>
         <GradientStop Color="#DE5A40" Offset="0.5"/>
@@ -608,6 +618,35 @@
                                         <Setter Property="BorderThickness" Value="0"/>
                                         <Setter Property="Padding" Value="16,0,16,0"/>
                                     </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="{x:Type Button}" x:Key="ScrollToBottomButton">
+        <Setter Property="Content" Value="???"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Height="20"
+                            Margin="12, 0, 12, 0"
+                            CornerRadius="5, 5, 0, 0">
+                        <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Content}"
+                                   FontWeight="Bold"
+                                   Margin="10,0,0,0"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   Foreground="{StaticResource DarkMode_TextColorG}"/>
+                        <Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="Background" Value="{StaticResource DarkMode_TextColorC}"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource DarkMode_TextColorE}"/>
+                                    </Trigger>
                                 </Style.Triggers>
                             </Style>
                         </Border.Style>
@@ -1468,11 +1507,9 @@
             </Setter.Value>
         </Setter>
     </Style>
-
     <Style TargetType="Border" x:Key="ChatInfoSpacer">
         <Setter Property="Height" Value="10"/>
     </Style>
-
     <Style TargetType="{x:Type custom:UserSessionView}">
         <Setter Property="Template">
             <Setter.Value>

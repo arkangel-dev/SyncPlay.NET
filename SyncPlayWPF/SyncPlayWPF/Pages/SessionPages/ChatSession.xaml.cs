@@ -30,19 +30,20 @@ namespace SyncPlayWPF.Pages.SessionPages {
         private void OnPageLoad(object sender, RoutedEventArgs e) {
             Common.Shared.Wrapper.SyncPlayClient.OnNewChatMessage += NewChatMessage;
             Common.Shared.Wrapper.SyncPlayClient.OnChatInfoEvent += NewChatEvent;
-
             Common.Shared.Wrapper.SyncPlayClient.OnFileSet += SyncPlayClient_OnFileSet;
             Common.Shared.Wrapper.SyncPlayClient.OnUserRoomEvent += SyncPlayClient_OnUserRoomEvent;
-
-            
-
             LoadUserName();
         }
 
-        private void AddItemToStack(UIElement c, bool isEventMsg, User u) {
-
+        private void ChatScrollView_PreviewMouseWheel(object sender, MouseWheelEventArgs e) {
             var isAtBottom = ChatScrollView.VerticalOffset == ChatScrollView.ScrollableHeight;
+            if (isAtBottom) {
+                DropDownToBottomButton.Visibility = Visibility.Collapsed;
+            }
+        }
 
+        private void AddItemToStack(UIElement c, bool isEventMsg, User u) {
+            var isAtBottom = ChatScrollView.VerticalOffset == ChatScrollView.ScrollableHeight;
             if (isEventMsg) {
                 if (!LastAdditionWasChatInfo) {
                     var spacer = new Border();
@@ -61,11 +62,13 @@ namespace SyncPlayWPF.Pages.SessionPages {
                 LastSender = u;
                 MessageStack.Children.Add(c);
             }
-
             if (isAtBottom) {
                 ChatScrollView.ScrollToEnd();
+            } else {
+                if (!isEventMsg) {
+                    DropDownToBottomButton.Visibility = Visibility.Visible;
+                }
             }
-    
         }
 
         private void LoadUserName() {
@@ -102,11 +105,8 @@ namespace SyncPlayWPF.Pages.SessionPages {
             }
         }
 
-
-
-
         private void SyncPlayClient_OnFileSet(SyncPlay.SyncPlayClient sender, SyncPlay.SPEventArgs.RemoteSetFileEventArgs e) {
-            throw new NotImplementedException();
+            
         }
 
         private void NewChatEvent(SyncPlay.SyncPlayClient sender, SyncPlay.SPEventArgs.ChatInfoMessageArgs e) {
@@ -135,19 +135,7 @@ namespace SyncPlayWPF.Pages.SessionPages {
                 msgballoon.MessageContent = e.Message;
                 msgballoon.IsInitialMessage = LastSender == null || LastSender != e.Sender;
                 msgballoon.MessageTime = DateTime.Now.ToString("hh:mm tt");
-
-
                 this.AddItemToStack(msgballoon, false, e.Sender);
-
-                //var text = new TextBlock();
-                //text.Text = e.Message;
-                //var isAtBottom = ChatScrollView.VerticalOffset == ChatScrollView.ScrollableHeight;
-
-                //if (isAtBottom) {
-                //    MessageStack
-                //}
-
-
             });
         }
 
@@ -158,17 +146,11 @@ namespace SyncPlayWPF.Pages.SessionPages {
         private void SendMessage() {
             if (!String.IsNullOrWhiteSpace(MessageBlockField.Text)) {
                 Common.Shared.Wrapper.SyncPlayClient.SendChatMessage(MessageBlockField.Text);
-
                 if (ChatScrollView.VerticalOffset != ChatScrollView.ScrollableHeight)
                     ChatScrollView.ScrollToBottom();
-
-
             }
             MessageBlockField.Text = "";
-            
         }
-
-     
 
         private void SendMessageEnterClick(object sender, KeyEventArgs e) {
             if (e.Key == Key.Enter) {
@@ -196,31 +178,16 @@ namespace SyncPlayWPF.Pages.SessionPages {
         }
 
         private void ScrollToBottomSmoothly() {
-
             var anim = new DoubleAnimation();
             anim.Duration = new Duration(TimeSpan.FromSeconds(1));
             anim.To = ChatScrollView.ScrollableHeight;
             anim.From = ChatScrollView.VerticalOffset;
-
             ChatScrollView.BeginAnimation(ScrollViewer.VerticalOffsetProperty, anim);
-
-
-
-            //DispatcherTimer timer = new DispatcherTimer();
-            //timer.Interval = new TimeSpan(0, 0, 2);
-            //timer.Tick += ((sender, e) =>
-            //{
-            //    ChatScrollView.Height += 10;
-
-            //    if (ChatScrollView.VerticalOffset == ChatScrollView.ScrollableHeight) {
-            //        ChatScrollView.ScrollToEnd();
-            //    }
-            //});
-            //timer.Start();
         }
 
-        
-
-        
+        private void DropDownToBottomButton_Click(object sender, RoutedEventArgs e) {
+            ChatScrollView.ScrollToEnd();
+            DropDownToBottomButton.Visibility = Visibility.Collapsed;
+        }
     }
 }

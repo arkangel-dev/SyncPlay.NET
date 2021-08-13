@@ -159,6 +159,10 @@ namespace SyncPlayWPF.SyncPlay.MediaPlayers.VLCMediaPlayer  {
                 this.PlayerProcess.Kill();
         }
 
+        public void DisplayOSDMessage(string msg) {
+            
+        }
+
         public event MediaPlayerInterface.HandleDebugMessages OnDebugMessage;
         public event MediaPlayerInterface.HandlePlayerServerMessages OnPlayerMessage;
         public event MediaPlayerInterface.HandleFileLoadEvent OnNewFileLoad;

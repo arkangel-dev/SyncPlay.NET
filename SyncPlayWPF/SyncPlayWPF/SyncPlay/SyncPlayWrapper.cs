@@ -19,6 +19,12 @@ namespace SyncPlayWPF.SyncPlay {
             this.SyncPlayClient.OnPlayerStateChange += PlayerStateChanged;
             this.SyncPlayClient.OnConnect += SyncPlayClient_OnConnect;
             this.SyncPlayClient.OnDisconnect += SyncPlayClient_OnDisconnect;
+            this.SyncPlayClient.OnNewChatMessage += SyncPlayClient_OnNewChatMessage;
+        }
+
+        private void SyncPlayClient_OnNewChatMessage(SyncPlayClient sender, SPEventArgs.ChatMessageEventArgs e) {
+            //if (!e.LocallySentMessage)
+            //    this.Player.DisplayOSDMessage(e.Sender.Username + " : " + e.Message);
         }
 
         private void SyncPlayClient_OnDisconnect(SyncPlayClient sender, SPEventArgs.ServerDisconnectedEventArgs e) {

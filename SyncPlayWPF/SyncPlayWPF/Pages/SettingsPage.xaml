@@ -90,11 +90,12 @@
 
                     <Label Grid.Column="1" Grid.Row="0" Margin="0,0,0,0" Content="OSD Settings" Foreground="{StaticResource DarkMode_TextColorE}" FontWeight="DemiBold"/>
                     <CheckBox Grid.Column="1" Grid.Row="1" Margin="20,0,0,0"  Content="Enable OSD Messages" IsChecked="True" Style="{StaticResource GenericCheckboxLowFidelity}"/>
-                    <CheckBox Grid.Column="1" Grid.Row="2" Margin="50,0,0,0" Content="Show events in your room" IsChecked="True" Style="{StaticResource GenericCheckboxLowFidelity}"/>
-                    <CheckBox Grid.Column="1" Grid.Row="3" Margin="50,0,0,0" Content="Show event from non-operators in managed rooms" Style="{StaticResource GenericCheckboxLowFidelity}"/>
-                    <CheckBox Grid.Column="1" Grid.Row="4" Margin="50,0,0,0" Content="Show events in other rooms" Style="{StaticResource GenericCheckboxLowFidelity}"/>
-                    <CheckBox Grid.Column="1" Grid.Row="5" Margin="50,0,0,0" Content="Show slowing down / reverting notifications" IsChecked="True" Style="{StaticResource GenericCheckboxLowFidelity}"/>
-                    <CheckBox Grid.Column="1" Grid.Row="6" Margin="50,0,0,0" Content="Show warnings" IsChecked="True" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                    
+                    <CheckBox Grid.Column="1" Grid.Row="2" Margin="60,0,0,0" Content="Show events in your room" IsChecked="True" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                    <CheckBox Grid.Column="1" Grid.Row="3" Margin="60,0,0,0" Content="Show event from non-operators in managed rooms" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                    <CheckBox Grid.Column="1" Grid.Row="4" Margin="60,0,0,0" Content="Show events in other rooms" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                    <CheckBox Grid.Column="1" Grid.Row="5" Margin="60,0,0,0" Content="Show slowing down / reverting notifications" IsChecked="True" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                    <CheckBox Grid.Column="1" Grid.Row="6" Margin="60,0,0,0" Content="Show warnings" IsChecked="True" Style="{StaticResource GenericCheckboxLowFidelity}"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Misc">

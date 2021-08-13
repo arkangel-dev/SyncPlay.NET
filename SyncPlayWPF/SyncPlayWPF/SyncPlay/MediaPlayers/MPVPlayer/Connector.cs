@@ -213,5 +213,9 @@ namespace SyncPlayWPF.SyncPlay.MediaPlayers.MPVPlayer {
         private void Debug(string s) {
             Console.WriteLine("[MPV] " + s);
         }
+
+        public void DisplayOSDMessage(string msg) {
+            this.WriteData(MPVPackets.CraftShowOSDMessagePacket(msg, this.GetRequestNewID()));
+        }
     }
 }

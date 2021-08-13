@@ -14,6 +14,7 @@ namespace SyncPlayWPF.SyncPlay {
         void SetPauseState(bool p);
         bool IsPaused();
         void ClosePlayer();
+        void DisplayOSDMessage(string msg); 
 
 
 

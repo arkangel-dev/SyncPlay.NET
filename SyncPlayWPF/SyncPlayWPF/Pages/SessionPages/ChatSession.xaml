@@ -11,59 +11,12 @@
         <ResourceDictionary Source="../../Themes/Generic.xaml"/>
     </UserControl.Resources>
     <Grid>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition Height="55"/>
-            </Grid.RowDefinitions>
 
-            <!-- Chat Messages -->
-            <ScrollViewer x:Name="ChatScrollView" Style="{StaticResource FavsScrollViewer}">
-                <StackPanel Grid.Row="0" Margin="20,10,10,10" x:Name="MessageStack" VerticalAlignment="Bottom">
-                    <!--<custom:ChatMessage MessageSender="Jimmy" Style="{StaticResource IncomingMessage}" />-->
-                </StackPanel>
-            </ScrollViewer>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
 
-            <Border
-            Background="{StaticResource DarkMode_AccentColorI}"
-            Grid.Row="1"
-            Margin="10,0,10,10"
-            CornerRadius="10">
-                <Border.Effect>
-                    <DropShadowEffect BlurRadius="10" Opacity="0.5" ShadowDepth="0"/>
-                </Border.Effect>
-                <Grid>
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="50"/>
-                        <ColumnDefinition Width="50"/>
-                    </Grid.ColumnDefinitions>
-                    <custom:PromptingLabel 
-                    x:Name="MessageBlockField"
-                    KeyUp="SendMessageEnterClick"
-                    Grid.Column="0"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Left"
-                    Style="{StaticResource ChatPromptLabel}"
-                    PromptingText="Enter Message Here"/>
-
-
-                    <custom:ImageButton
-                    Grid.Column="1"
-                    ImageBackgroundHoverBrush="{StaticResource DarkMode_ContrastedGradient}"
-                    Image="{StaticResource GifButton}"
-                    Style="{StaticResource ImageSilhouette}"/>
-
-                    <custom:ImageButton
-                    Grid.Column="2"
-                    ImageBackgroundHoverBrush="{StaticResource DarkMode_ContrastedGradient}"
-                    Image="{StaticResource SendButton}"
-                    Style="{StaticResource ImageSilhouette}"
-                    Click="SendMessageButtonClick"/>
-                </Grid>
-            </Border>
-        </Grid>
+        <!-- User List -->
         <Grid Height="auto">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
@@ -76,18 +29,18 @@
                     x:Name="UserListBorder"
                     Background="{StaticResource DarkMode_AccentColorD}">
                 <!--<ScrollViewer Style="{StaticResource FavsScrollViewer}">-->
-                    <StackPanel Margin="0,5,0,0" x:Name="UserStack">
-                        <custom:UserSessionView
-                            Username="Jimbo"
-                            FileDuration="1:45:02"
-                            FileSize="1.53 GB"
-                            FileName="The Office (US) - S06E01 - Gossip SDTV.avi"/>
+                <StackPanel Margin="0,5,0,0" x:Name="UserStack" MaxHeight="0">
+                    <!--<custom:UserSessionView
+                        Username="Jimbo"
+                        FileDuration="1:45:02"
+                        FileSize="1.53 GB"
+                        FileName="The Office (US) - S06E01 - Gossip SDTV.avi"/>
 
                     <custom:UserSessionView
                             Username="Sammy"
                             FileDuration="1:45:02"
                             FileSize="1.53 GB"
-                            FileName="The Office (US) - S06E01 - Gossip SDTV.avi"/>
+                            FileName="The Office (US) - S06E01 - Gossip SDTV.avi"/>-->
                 </StackPanel>
                 <!--</ScrollViewer>-->
             </Border>
@@ -95,7 +48,89 @@
             <CheckBox Grid.Row="1" Style="{StaticResource DropDown}"
                       Checked="ToggleUserList"
                       Unchecked="ToggleUserList"
+                      IsChecked="True"
                       x:Name="UserListViewCheckbox"/>
         </Grid>
+        
+
+
+            <!-- Chat Messages -->
+        <ScrollViewer x:Name="ChatScrollView" Style="{StaticResource FavsScrollViewer}" Margin="0, 0, 0, 60" PreviewMouseWheel="ChatScrollView_PreviewMouseWheel">
+            <StackPanel Grid.Row="0" Margin="20,10,10,10" x:Name="MessageStack" VerticalAlignment="Bottom">
+                    <custom:ChatMessage MessageSender="Jimmy" Style="{StaticResource IncomingMessage}" />
+                </StackPanel>
+            </ScrollViewer>
+
+
+
+
+        <Grid Margin="10,0,10,10"
+                Grid.Row="3"
+                VerticalAlignment="Bottom">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="50"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="55"/>
+            </Grid.RowDefinitions>
+
+            <!-- The actual bar that is usually visible-->
+            <Border Background="{StaticResource DarkMode_AccentColorI}"
+                    Grid.Row="1"
+                    Grid.ColumnSpan="3"
+                    CornerRadius="10">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10" Opacity="0.5" ShadowDepth="0"/>
+                </Border.Effect>
+            </Border>
+
+            <custom:PromptingLabel 
+                Grid.Column="0"
+                Grid.Row="1"
+                x:Name="MessageBlockField"
+                KeyUp="SendMessageEnterClick"
+                    
+                VerticalAlignment="Center"
+                HorizontalAlignment="Left"
+                Style="{StaticResource ChatPromptLabel}"
+                PromptingText="Enter Message Here"/>
+
+
+            <custom:ImageButton
+                Grid.Column="1"
+                Grid.Row="1"
+                ImageBackgroundHoverBrush="{StaticResource DarkMode_ContrastedGradient}"
+                Image="{StaticResource GifButton}"
+                Style="{StaticResource ImageSilhouette}"/>
+
+            <custom:ImageButton
+                Grid.Column="2"
+                Grid.Row="1"
+                ImageBackgroundHoverBrush="{StaticResource DarkMode_ContrastedGradient}"
+                Image="{StaticResource SendButton}"
+                Style="{StaticResource ImageSilhouette}"
+                Click="SendMessageButtonClick"/>
+            <!-- End of the actual stuff that is visible -->
+            
+            <!-- Start of the stuff that is visible such as go to bottom messages, and giphy and emoji panels -->
+
+            <Button Style="{StaticResource ScrollToBottomButton}"
+                    Grid.ColumnSpan="3"
+                    Content="View Unread Messages"
+                    x:Name="DropDownToBottomButton"
+                    Click="DropDownToBottomButton_Click"/>
+
+
+
+            <!-- End of that stuff-->
+            
+        </Grid>
+    
+
     </Grid>
 </UserControl>

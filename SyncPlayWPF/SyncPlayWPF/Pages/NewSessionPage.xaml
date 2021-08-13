@@ -86,7 +86,7 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
 
-            <custom:ImageButton
+            <!--<custom:ImageButton
                 Grid.Column="0"
                 Style="{StaticResource ImageSilhouette}"
                 Image="{StaticResource GithubOctocat}"/>
@@ -97,7 +97,7 @@
             <custom:ImageButton
                 Grid.Column="2"
                 Style="{StaticResource ImageSilhouette}"
-                Image="{StaticResource WebsiteLogo}"/>
+                Image="{StaticResource WebsiteLogo}"/>-->
         </Grid>
         
     </Grid>
