@@ -119,11 +119,13 @@
         <Grid Grid.Row="1" Margin="10,0,0,0" HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150"/>
-                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="120"/>
             </Grid.ColumnDefinitions>
 
             <Button Grid.Column="0" Content="Save Configuration" Style="{StaticResource GenericPrimaryActionButton}"/>
             <Button Grid.Column="1" Content="Cancel" Style="{StaticResource GenericSecondaryActionButton}"/>
+            <Button Grid.Column="2" Content="Restore defaults" Style="{StaticResource GenericSecondaryActionButton}"/>
 
         </Grid>
     </Grid>

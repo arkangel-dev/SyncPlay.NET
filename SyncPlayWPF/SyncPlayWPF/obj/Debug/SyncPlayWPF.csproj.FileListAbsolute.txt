@@ -47,3 +47,5 @@ D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\obj\Debug\SyncPlayWPF.csproj.CoreC
 D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\obj\Debug\SyncPlayWPF.csproj.CopyComplete
 D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\obj\Debug\SyncPlayWPF.exe
 D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\obj\Debug\SyncPlayWPF.pdb
+D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\obj\Debug\Pages\SettingsPage.g.cs
+D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\obj\Debug\Pages\SettingsPage.baml

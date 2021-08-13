@@ -945,8 +945,8 @@
                                     x:Name="ToggleContainer"
                                     Margin="0,0,10,0"
                                     VerticalAlignment="Center"
-                                    Height="30"
-                                    Width="30"
+                                    Height="20"
+                                    Width="34"
                                     Background="{StaticResource DarkMode_AccentColorC}"
                                     RenderOptions.BitmapScalingMode="HighQuality">
                                     <Border.Effect>

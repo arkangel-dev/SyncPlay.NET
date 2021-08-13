@@ -17,6 +17,7 @@ namespace SyncPlayWPF.Common {
         public static Pages.ApplicationPages.NotificationLayer NotificationLayer;
         public static Pages.SessionPages.ChatSession ChatPageSingleton;
         public static SyncPlay.SyncPlayWrapper Wrapper;
+        public static Window MasterWindow;
         
 
         public static void ThrowException(Exception e) {

@@ -18,7 +18,7 @@
             </Grid.RowDefinitions>
 
             <!-- Chat Messages -->
-            <ScrollViewer Style="{StaticResource FavsScrollViewer}">
+            <ScrollViewer x:Name="ChatScrollView" Style="{StaticResource FavsScrollViewer}">
                 <StackPanel Grid.Row="0" Margin="20,10,10,10" x:Name="MessageStack" VerticalAlignment="Bottom">
                     <!--<custom:ChatMessage MessageSender="Jimmy" Style="{StaticResource IncomingMessage}" />-->
                 </StackPanel>

@@ -36,6 +36,7 @@ namespace SyncPlayWPF {
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e) {
             MiddleTransition.ShowPage(new Pages.ApplicationPages.NotificationLayer());
+            Common.Shared.MasterWindow = this;
         }
 
         private void Current_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e) {

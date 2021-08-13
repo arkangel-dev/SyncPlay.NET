@@ -8,6 +8,7 @@
         xmlns:wpft="clr-namespace:WpfPageTransitions;assembly=WpfPageTransitions"
         mc:Ignorable="d"
         Title="SyncPlay.NET" Height="600" Width="800"
+        MinWidth="400"
         WindowStartupLocation="CenterScreen"
         SnapsToDevicePixels="True"
         ResizeMode="CanResize"

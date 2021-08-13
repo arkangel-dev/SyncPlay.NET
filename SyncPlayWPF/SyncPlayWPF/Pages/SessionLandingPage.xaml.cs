@@ -37,6 +37,15 @@ namespace SyncPlayWPF.Pages {
                 Thread t = new Thread(ts);
                 t.Start();
             };
+            Common.Shared.MasterWindow.SizeChanged += MasterWindow_SizeChanged;
+        }
+
+        private void MasterWindow_SizeChanged(object sender, SizeChangedEventArgs e) {
+            if (e.NewSize.Width <= 400) {
+                SidePanel.Visibility = Visibility.Collapsed;
+            } else {
+                SidePanel.Visibility = Visibility.Visible;
+            }
         }
 
         private void ShowChatWindow() {

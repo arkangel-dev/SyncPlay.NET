@@ -39,7 +39,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Border Grid.Column="0" Width="auto" Background="{StaticResource DarkMode_AccentColorG}">
+                    <Border x:Name="SidePanel" Grid.Column="0" Width="auto" Background="{StaticResource DarkMode_AccentColorG}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"/>

@@ -14,6 +14,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace SyncPlayWPF.Pages.SessionPages {
 
@@ -33,7 +34,38 @@ namespace SyncPlayWPF.Pages.SessionPages {
             Common.Shared.Wrapper.SyncPlayClient.OnFileSet += SyncPlayClient_OnFileSet;
             Common.Shared.Wrapper.SyncPlayClient.OnUserRoomEvent += SyncPlayClient_OnUserRoomEvent;
 
+            
+
             LoadUserName();
+        }
+
+        private void AddItemToStack(UIElement c, bool isEventMsg, User u) {
+
+            var isAtBottom = ChatScrollView.VerticalOffset == ChatScrollView.ScrollableHeight;
+
+            if (isEventMsg) {
+                if (!LastAdditionWasChatInfo) {
+                    var spacer = new Border();
+                    spacer.Style = (Style)this.FindResource("ChatInfoSpacer");
+                    MessageStack.Children.Add(spacer);
+                }
+                LastAdditionWasChatInfo = true;
+                MessageStack.Children.Add(c);
+            } else {
+                if (LastSender != u || LastAdditionWasChatInfo) {
+                    var spacer = new Border();
+                    spacer.Style = (Style)this.FindResource("ChatInfoSpacer");
+                    MessageStack.Children.Add(spacer);
+                }
+                LastAdditionWasChatInfo = false;
+                LastSender = u;
+                MessageStack.Children.Add(c);
+            }
+
+            if (isAtBottom) {
+                ChatScrollView.ScrollToEnd();
+            }
+    
         }
 
         private void LoadUserName() {
@@ -80,22 +112,18 @@ namespace SyncPlayWPF.Pages.SessionPages {
         private void NewChatEvent(SyncPlay.SyncPlayClient sender, SyncPlay.SPEventArgs.ChatInfoMessageArgs e) {
             Dispatcher.Invoke(() => {
                 if (!LastAdditionWasChatInfo) {
-                    var spacer = new Border();
-                    spacer.Style = (Style)this.FindResource("ChatInfoSpacer");
-                    MessageStack.Children.Add(spacer);
+
                 }
                 var msgblock = new TextBlock();
                 msgblock.Text = e.Message;
                 msgblock.Style = (Style)this.FindResource("ChatInfo");
-                MessageStack.Children.Add(msgblock);
-                LastAdditionWasChatInfo = true;
-                this.LastSender = null;
+                AddItemToStack(msgblock, true, null);
             });
         }
 
         private void NewChatMessage(SyncPlay.SyncPlayClient sender, SyncPlay.SPEventArgs.ChatMessageEventArgs e) {
             Dispatcher.Invoke(() => {
-                if (LastAdditionWasChatInfo) {
+                if (LastAdditionWasChatInfo || LastSender != e.Sender) {
                     var spacer = new Border();
                     spacer.Style = (Style)this.FindResource("ChatInfoSpacer");
                     MessageStack.Children.Add(spacer);
@@ -107,10 +135,19 @@ namespace SyncPlayWPF.Pages.SessionPages {
                 msgballoon.MessageContent = e.Message;
                 msgballoon.IsInitialMessage = LastSender == null || LastSender != e.Sender;
                 msgballoon.MessageTime = DateTime.Now.ToString("hh:mm tt");
-                LastSender = e.Sender;
-                var text = new TextBlock();
-                text.Text = e.Message;
-                MessageStack.Children.Add(msgballoon);
+
+
+                this.AddItemToStack(msgballoon, false, e.Sender);
+
+                //var text = new TextBlock();
+                //text.Text = e.Message;
+                //var isAtBottom = ChatScrollView.VerticalOffset == ChatScrollView.ScrollableHeight;
+
+                //if (isAtBottom) {
+                //    MessageStack
+                //}
+
+
             });
         }
 
@@ -121,9 +158,17 @@ namespace SyncPlayWPF.Pages.SessionPages {
         private void SendMessage() {
             if (!String.IsNullOrWhiteSpace(MessageBlockField.Text)) {
                 Common.Shared.Wrapper.SyncPlayClient.SendChatMessage(MessageBlockField.Text);
+
+                if (ChatScrollView.VerticalOffset != ChatScrollView.ScrollableHeight)
+                    ChatScrollView.ScrollToBottom();
+
+
             }
             MessageBlockField.Text = "";
+            
         }
+
+     
 
         private void SendMessageEnterClick(object sender, KeyEventArgs e) {
             if (e.Key == Key.Enter) {
@@ -135,10 +180,8 @@ namespace SyncPlayWPF.Pages.SessionPages {
 
         private void ToggleUserList(object sender, RoutedEventArgs e) {
             UserListBorder.BeginAnimation(Border.MaxHeightProperty, null);
-
             var anim = new DoubleAnimation();
             anim.Duration = new Duration(TimeSpan.FromSeconds(1));
-
             if (UserListExpanded) {
                 anim.From = 0;
                 anim.To = this.ActualHeight /2;
@@ -149,9 +192,32 @@ namespace SyncPlayWPF.Pages.SessionPages {
                 Console.WriteLine("Not Checked");
             }
             UserListExpanded = !UserListExpanded;
-
             UserListBorder.BeginAnimation(Border.MaxHeightProperty, anim);
-        } 
+        }
+
+        private void ScrollToBottomSmoothly() {
+
+            var anim = new DoubleAnimation();
+            anim.Duration = new Duration(TimeSpan.FromSeconds(1));
+            anim.To = ChatScrollView.ScrollableHeight;
+            anim.From = ChatScrollView.VerticalOffset;
+
+            ChatScrollView.BeginAnimation(ScrollViewer.VerticalOffsetProperty, anim);
+
+
+
+            //DispatcherTimer timer = new DispatcherTimer();
+            //timer.Interval = new TimeSpan(0, 0, 2);
+            //timer.Tick += ((sender, e) =>
+            //{
+            //    ChatScrollView.Height += 10;
+
+            //    if (ChatScrollView.VerticalOffset == ChatScrollView.ScrollableHeight) {
+            //        ChatScrollView.ScrollToEnd();
+            //    }
+            //});
+            //timer.Start();
+        }
 
         
 
