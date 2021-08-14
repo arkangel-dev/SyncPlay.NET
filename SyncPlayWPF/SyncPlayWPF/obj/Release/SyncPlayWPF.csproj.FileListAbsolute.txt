@@ -47,3 +47,5 @@ D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\obj\Release\Pages\ApplicationPages
 D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\bin\Release\CommonServiceLocator.dll
 D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\obj\Release\Pages\ApplicationPages\NotificationLayer.g.cs
 D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\obj\Release\Pages\ApplicationPages\NotificationLayer.baml
+D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\obj\Release\Pages\SettingsPage.g.cs
+D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\obj\Release\Pages\SettingsPage.baml

@@ -55,7 +55,7 @@ namespace SyncPlayWPF.Pages.SessionPages {
             } else {
                 if (LastSender != u || LastAdditionWasChatInfo) {
                     var spacer = new Border();
-                    spacer.Style = (Style)this.FindResource("ChatInfoSpacer");
+                    spacer.Style = (Style)this.FindResource(LastAdditionWasChatInfo ? "ChatInfoSpacer" : "ThinChatInfoSpacer");
                     MessageStack.Children.Add(spacer);
                 }
                 LastAdditionWasChatInfo = false;
@@ -123,12 +123,6 @@ namespace SyncPlayWPF.Pages.SessionPages {
 
         private void NewChatMessage(SyncPlay.SyncPlayClient sender, SyncPlay.SPEventArgs.ChatMessageEventArgs e) {
             Dispatcher.Invoke(() => {
-                if (LastAdditionWasChatInfo || LastSender != e.Sender) {
-                    var spacer = new Border();
-                    spacer.Style = (Style)this.FindResource("ChatInfoSpacer");
-                    MessageStack.Children.Add(spacer);
-                    LastAdditionWasChatInfo = false;
-                }
                 var msgballoon = new CustomControls.ChatMessage();
                 msgballoon.Style = e.LocallySentMessage ? (Style)this.FindResource("OutgoingMessage") : (Style)this.FindResource("IncomingMessage");
                 msgballoon.MessageSender = e.Sender.Username;

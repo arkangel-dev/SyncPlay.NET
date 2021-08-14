@@ -21,7 +21,8 @@ namespace SyncPlayWPF.SyncPlay.MediaPlayers.MPVPlayer {
 
 
         public void ClosePlayer() {
-            this.PlayerProcess.Kill();
+            if (this.PlayerProcess != null)
+                this.PlayerProcess.Kill();
         }
 
         public bool IsPaused() {
@@ -49,7 +50,7 @@ namespace SyncPlayWPF.SyncPlay.MediaPlayers.MPVPlayer {
 
         public void StartPlayerInstance() {
             StartMPVINstance();
-            Thread.Sleep(500);
+            Thread.Sleep(3000);
             ConnectToMPVInstance();
             var readThread = new Thread(() => {
                 ReadData();
@@ -65,15 +66,33 @@ namespace SyncPlayWPF.SyncPlay.MediaPlayers.MPVPlayer {
         private StreamReader ReadPipe;
         private StreamWriter WritePipe;
         private NamedPipeClientStream pipe;
+        private string PipeName;
 
         private Task<string> ReadTask;
         
         private void StartMPVINstance() {
-            this.PlayerProcess = Process.Start("C:\\Program Files\\mpv.net\\mpvnet.exe", "--input-ipc-server=//./pipee");
+
+            var prng = new System.Security.Cryptography.RNGCryptoServiceProvider();
+            var bytes = new byte[4];
+            prng.GetNonZeroBytes(bytes);
+            this.PipeName = string.Join("", bytes.Select(b => b.ToString("x2"))).ToUpper();
+
+            //this.PlayerProcess = Process.Start("C:\\Program Files\\mpv.net\\mpvnet.exe", "--input-ipc-server=//./" + PipeName);
+            ProcessStartInfo processInfo = new ProcessStartInfo();
+            processInfo.FileName = "C:\\Program Files\\mpv.net\\mpvnet.exe";
+            processInfo.Arguments = "--input-ipc-server=//./" + PipeName;
+            processInfo.ErrorDialog = true;
+            processInfo.UseShellExecute = false;
+            processInfo.RedirectStandardOutput = true;
+            processInfo.RedirectStandardError = true;
+            processInfo.WorkingDirectory = "C:\\Program Files\\mpv.net\\";
+            PlayerProcess = Process.Start(processInfo);
+
         }
 
         private void ConnectToMPVInstance() {
-            pipe = new NamedPipeClientStream(".", "pipee", PipeDirection.InOut, PipeOptions.Asynchronous, TokenImpersonationLevel.Anonymous);
+            Console.WriteLine("Connecting to MPV.net pipe...");
+            pipe = new NamedPipeClientStream(".", PipeName, PipeDirection.InOut, PipeOptions.Asynchronous, TokenImpersonationLevel.Anonymous);
             pipe.Connect();
             ReadPipe = new StreamReader(pipe);
             WritePipe = new StreamWriter(pipe);

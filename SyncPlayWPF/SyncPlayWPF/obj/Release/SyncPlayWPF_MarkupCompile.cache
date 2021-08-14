@@ -10,11 +10,11 @@ none
 false
 TRACE
 D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\App.xaml
-8-1251619367
+9-89397455
 
-451981563323
+52-242726957
 23873626018
-MainWindow.xaml;Pages\ApplicationPages\ExceptionView.xaml;Pages\ApplicationPages\LoadingScreen.xaml;Pages\ApplicationPages\NotificationLayer.xaml;Pages\NewSessionPage.xaml;Pages\SessionLandingPage.xaml;Pages\SessionPages\ChatSession.xaml;Themes\Generic.xaml;
+MainWindow.xaml;Pages\ApplicationPages\ExceptionView.xaml;Pages\ApplicationPages\LoadingScreen.xaml;Pages\ApplicationPages\NotificationLayer.xaml;Pages\NewSessionPage.xaml;Pages\SessionLandingPage.xaml;Pages\SessionPages\ChatSession.xaml;Pages\SettingsPage.xaml;Themes\Generic.xaml;
 
 False
 

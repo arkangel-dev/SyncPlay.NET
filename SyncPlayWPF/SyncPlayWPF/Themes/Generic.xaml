@@ -1096,7 +1096,7 @@
                             MinWidth="150"
                             Margin="2"
                             CornerRadius="12"
-                            Padding="10,5,10,5"
+                            Padding="12,6,12,6"
                             HorizontalAlignment="Left">
 
                             <Border.Effect>
@@ -1119,7 +1119,7 @@
                                     Foreground="{StaticResource DarkMode_ScaleGradient}"
                                     FontWeight="DemiBold"
                                     Width="auto"
-                                    Margin="0,0,0,5">
+                                    Margin="0,0,0,2">
                                     <TextBlock.Style>
                                         <Style TargetType="{x:Type TextBlock}">
                                             <Setter Property="Visibility" Value="Visible"/>
@@ -1186,8 +1186,8 @@
                             MaxWidth="{Binding Path=ActualWidth, ElementName=Container, Converter={StaticResource PercentageConverter}, ConverterParameter='0.75'}"
                             MinWidth="125"
                             Margin="2"
-                            CornerRadius="12"
-                            Padding="10,5,10,5"
+                            CornerRadius="10"
+                            Padding="12,6,12,6"
                             HorizontalAlignment="Right">
 
                             <Border.Effect>
@@ -1210,7 +1210,8 @@
                                     Foreground="{StaticResource DarkMode_ScaleGradient}"
                                     FontWeight="DemiBold"
                                     Width="auto"
-                                    Margin="0,0,0,5">
+                                    Visibility="Collapsed"
+                                    Margin="0,0,0,2">
                                     <TextBlock.Style>
                                         <Style TargetType="{x:Type TextBlock}">
                                             <Setter Property="Visibility" Value="Visible"/>
@@ -1509,6 +1510,9 @@
     </Style>
     <Style TargetType="Border" x:Key="ChatInfoSpacer">
         <Setter Property="Height" Value="10"/>
+    </Style>
+    <Style TargetType="Border" x:Key="ThinChatInfoSpacer">
+        <Setter Property="Height" Value="5"/>
     </Style>
     <Style TargetType="{x:Type custom:UserSessionView}">
         <Setter Property="Template">
