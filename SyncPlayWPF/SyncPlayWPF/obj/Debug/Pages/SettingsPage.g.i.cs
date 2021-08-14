@@ -9,8 +9,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using Masonry;
 using SyncPlayWPF.CustomControls;
 using SyncPlayWPF.Pages;
+using SyncPlayWPF.Pages.SessionPages;
 using System;
 using System.Diagnostics;
 using System.Windows;
@@ -31,6 +33,7 @@ using System.Windows.Media.TextFormatting;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Shell;
+using WpfAnimatedGif;
 
 
 namespace SyncPlayWPF.Pages {

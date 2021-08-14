@@ -1,0 +1,460 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Masonry</name>
+    </assembly>
+    <members>
+        <member name="T:Masonry.AnimatedMasonryControl">
+            <summary>
+                The Animated Masonry Control
+            </summary>
+            <seealso cref="T:Masonry.MasonryControl" />
+        </member>
+        <member name="F:Masonry.AnimatedMasonryControl.AnimationDurationProperty">
+            <summary>
+                The animation duration property
+            </summary>
+        </member>
+        <member name="F:Masonry.AnimatedMasonryControl.requestUpdate">
+            <summary>
+                The request update
+            </summary>
+        </member>
+        <member name="M:Masonry.AnimatedMasonryControl.#ctor">
+            <summary>
+                Initializes a new instance of the <see cref="T:Masonry.AnimatedMasonryControl" /> class.
+            </summary>
+        </member>
+        <member name="P:Masonry.AnimatedMasonryControl.AnimationDuration">
+            <summary>
+                Gets or sets the duration of the animation.
+            </summary>
+            <value>
+                The duration of the animation.
+            </value>
+        </member>
+        <member name="P:Masonry.AnimatedMasonryControl.AnimationManager">
+            <summary>
+                Gets the animation manager.
+            </summary>
+            <value>
+                The animation manager.
+            </value>
+        </member>
+        <member name="M:Masonry.AnimatedMasonryControl.Update">
+            <summary>
+                Updates this instance.
+            </summary>
+        </member>
+        <member name="M:Masonry.AnimatedMasonryControl.CreateAnimation(System.Windows.FrameworkElement,System.Int32,System.Int32)">
+            <summary>
+                Creates the animation.
+            </summary>
+            <param name="element">The element.</param>
+            <param name="newTop">The new newTop.</param>
+            <param name="newLeft">The new newLeft.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Masonry.AnimatedMasonryControl.HandleChildDesiredSizeChanged(System.Windows.UIElement)">
+            <summary>
+                Handles the child desired size changed.
+            </summary>
+            <param name="child">The child.</param>
+        </member>
+        <member name="M:Masonry.AnimatedMasonryControl.HandleRenderSizeChanged(System.Windows.SizeChangedInfo)">
+            <summary>
+                Handles the render size changed.
+            </summary>
+            <param name="sizeInfo">The size information.</param>
+        </member>
+        <member name="M:Masonry.AnimatedMasonryControl.SetPosition(System.Windows.FrameworkElement,System.Int32,System.Int32)">
+            <summary>
+                Sets the position.
+            </summary>
+            <param name="element">The element.</param>
+            <param name="newTop">The new newTop.</param>
+            <param name="newLeft">The new newLeft.</param>
+        </member>
+        <member name="M:Masonry.AnimatedMasonryControl.OnAnimationManagerCompleted(System.Object,System.EventArgs)">
+            <summary>
+                Called when [animation manager completed].
+            </summary>
+            <param name="sender">The sender.</param>
+            <param name="eventArgs">The <see cref="T:System.EventArgs" /> instance containing the event data.</param>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="T:Masonry.AnimationManager">
+            <summary>
+                The Animation Manager
+            </summary>
+        </member>
+        <member name="F:Masonry.AnimationManager.activeAnimations">
+            <summary>
+                The active animations
+            </summary>
+        </member>
+        <member name="F:Masonry.AnimationManager.animationProperty">
+            <summary>
+                The animation property
+            </summary>
+        </member>
+        <member name="F:Masonry.AnimationManager.animationQueue">
+            <summary>
+                The animation queue
+            </summary>
+        </member>
+        <member name="M:Masonry.AnimationManager.#ctor(System.Windows.DependencyProperty)">
+            <summary>
+                Initializes a new instance of the <see cref="T:Masonry.AnimationManager" /> class.
+            </summary>
+            <param name="animationProperty">The animation property.</param>
+        </member>
+        <member name="E:Masonry.AnimationManager.OnCompleted">
+            <summary>
+                Occurs when [on completed].
+            </summary>
+        </member>
+        <member name="P:Masonry.AnimationManager.IsRunning">
+            <summary>
+                Gets a value indicating whether an animation is running.
+            </summary>
+            <value>
+                <c>true</c> if an animation is running; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="M:Masonry.AnimationManager.Enqueue(System.Windows.FrameworkElement,System.Windows.Media.Animation.AnimationTimeline)">
+            <summary>
+                Enqueues the specified element.
+            </summary>
+            <param name="element">The element.</param>
+            <param name="animation">The animation.</param>
+        </member>
+        <member name="M:Masonry.AnimationManager.Start">
+            <summary>
+                Starts the animation.
+            </summary>
+        </member>
+        <member name="M:Masonry.AnimationManager.ClearActiveAnimations(Masonry.AnimationItem)">
+            <summary>
+                Clears the active animations.
+            </summary>
+            <param name="animationItem">The animation item.</param>
+        </member>
+        <member name="M:Masonry.AnimationManager.HandleAnimationEvent(Masonry.AnimationItem)">
+            <summary>
+                Handles the animation event.
+            </summary>
+            <param name="animationItem">The animation item.</param>
+        </member>
+        <member name="T:Masonry.AnimationItem">
+            <summary>
+                The Animation Item
+            </summary>
+        </member>
+        <member name="M:Masonry.AnimationItem.#ctor(System.Windows.FrameworkElement,System.Windows.Media.Animation.AnimationTimeline)">
+            <summary>
+                Initializes a new instance of the <see cref="T:Masonry.AnimationItem" /> class.
+            </summary>
+            <param name="element">The element.</param>
+            <param name="animation">The animation.</param>
+        </member>
+        <member name="P:Masonry.AnimationItem.Animation">
+            <summary>
+                Gets or sets the animation.
+            </summary>
+            <value>
+                The animation.
+            </value>
+        </member>
+        <member name="P:Masonry.AnimationItem.Element">
+            <summary>
+                Gets or sets the element.
+            </summary>
+            <value>
+                The element.
+            </value>
+        </member>
+        <member name="T:Masonry.MasonryControl">
+            <summary>
+                The Masonry Control
+            </summary>
+            <seealso cref="T:System.Windows.Controls.ItemsControl" />
+        </member>
+        <member name="F:Masonry.MasonryControl.SpacingProperty">
+            <summary>
+                The spacing property
+            </summary>
+        </member>
+        <member name="F:Masonry.MasonryControl.EnableElementVisibilityProperty">
+            <summary>
+            Enables Visibility support of elements
+            </summary>
+        </member>
+        <member name="M:Masonry.MasonryControl.#ctor">
+            <summary>
+                Initializes a new instance of the <see cref="T:Masonry.MasonryControl" /> class.
+            </summary>
+        </member>
+        <member name="P:Masonry.MasonryControl.Spacing">
+            <summary>
+                Gets or sets the spacing.
+            </summary>
+            <value>
+                The spacing.
+            </value>
+        </member>
+        <member name="P:Masonry.MasonryControl.EnableElementVisibility">
+            <summary>
+            Gets or sets the visibility support
+            </summary>
+        </member>
+        <member name="M:Masonry.MasonryControl.Update">
+            <summary>
+                Updates this instance.
+            </summary>
+        </member>
+        <member name="M:Masonry.MasonryControl.AddChild(System.Object)">
+            <summary>
+                Adds the specified object as the child of the <see cref="T:System.Windows.Controls.ItemsControl" /> object.
+            </summary>
+            <param name="value">The object to add as a child.</param>
+            <exception cref="T:System.IO.InvalidDataException">Child has to derive from FrameworkElement.</exception>
+        </member>
+        <member name="M:Masonry.MasonryControl.HandleChildDesiredSizeChanged(System.Windows.UIElement)">
+            <summary>
+                Handles the child desired size changed.
+            </summary>
+            <param name="child">The child.</param>
+        </member>
+        <member name="M:Masonry.MasonryControl.HandleRenderSizeChanged(System.Windows.SizeChangedInfo)">
+            <summary>
+                Handles the render size changed.
+            </summary>
+            <param name="sizeInfo">The size information.</param>
+        </member>
+        <member name="M:Masonry.MasonryControl.HandleUpdate(System.Windows.FrameworkElement)">
+            <summary>
+                Handles the update.
+            </summary>
+            <param name="element">The element.</param>
+        </member>
+        <member name="M:Masonry.MasonryControl.OnChildDesiredSizeChanged(System.Windows.UIElement)">
+            <summary>
+                Supports layout behavior when a child element is resized.
+            </summary>
+            <param name="child">The child element that is being resized.</param>
+        </member>
+        <member name="M:Masonry.MasonryControl.OnItemsChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs)">
+            <summary>
+                Invoked when the <see cref="P:System.Windows.Controls.ItemsControl.Items" /> property changes.
+            </summary>
+            <param name="e">Information about the change.</param>
+        </member>
+        <member name="M:Masonry.MasonryControl.OnItemsSourceChanged(System.Collections.IEnumerable,System.Collections.IEnumerable)">
+            <summary>
+                Called when the <see cref="P:System.Windows.Controls.ItemsControl.ItemsSource" /> property changes.
+            </summary>
+            <param name="oldValue">Old value of the <see cref="P:System.Windows.Controls.ItemsControl.ItemsSource" /> property.</param>
+            <param name="newValue">New value of the <see cref="P:System.Windows.Controls.ItemsControl.ItemsSource" /> property.</param>
+        </member>
+        <member name="M:Masonry.MasonryControl.OnRenderSizeChanged(System.Windows.SizeChangedInfo)">
+            <summary>
+                Raises the <see cref="E:System.Windows.FrameworkElement.SizeChanged" /> event, using the specified information as
+                part of the eventual event data.
+            </summary>
+            <param name="sizeInfo">Details of the old and new size involved in the change.</param>
+        </member>
+        <member name="M:Masonry.MasonryControl.SetPosition(System.Windows.FrameworkElement,System.Int32,System.Int32)">
+            <summary>
+                Sets the position.
+            </summary>
+            <param name="element">The element.</param>
+            <param name="newTop">The new top.</param>
+            <param name="newLeft">The new left.</param>
+        </member>
+        <member name="M:Masonry.MasonryControl.UpdateAlignment(System.Windows.FrameworkElement)">
+            <summary>
+                Updates the alignment.
+            </summary>
+            <param name="element">The element.</param>
+        </member>
+        <member name="M:Masonry.MasonryControl.GetAttachPoint(System.Collections.Generic.List{Masonry.Models.Position},System.Int32)">
+            <summary>
+                Gets the attach point.
+            </summary>
+            <param name="matrix">The matrix.</param>
+            <param name="width">The width.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Masonry.MasonryControl.MatrixJoin(System.Collections.Generic.List{Masonry.Models.Position},Masonry.Models.Position)">
+            <summary>
+                Matrixes the join.
+            </summary>
+            <param name="matrix">The MTX.</param>
+            <param name="cell">The cell.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Masonry.MasonryControl.MatrixSortDepth(Masonry.Models.Position,Masonry.Models.Position)">
+            <summary>
+                Matrixes the sort depth.
+            </summary>
+            <param name="a">a.</param>
+            <param name="b">The b.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Masonry.MasonryControl.MatrixSortX(Masonry.Models.Position,Masonry.Models.Position)">
+            <summary>
+                Matrixes the sort x.
+            </summary>
+            <param name="a">a.</param>
+            <param name="b">The b.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Masonry.MasonryControl.MatrixTrimWidth(Masonry.Models.Position,Masonry.Models.Position)">
+            <summary>
+                Matrixes the width of the trim.
+            </summary>
+            <param name="a">a.</param>
+            <param name="b">The b.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Masonry.MasonryControl.UpdateAttachArea(System.Collections.Generic.List{Masonry.Models.Position},System.Windows.Point,Masonry.Models.Size)">
+            <summary>
+                Updates the attach area.
+            </summary>
+            <param name="matrix">The MTX.</param>
+            <param name="point">The point.</param>
+            <param name="size">The size.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Masonry.MasonryControl.OnEnableElementVisibilitiyChangedCallback(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="T:Masonry.Models.Position">
+            <summary>
+            Place struct for matrix
+            </summary>
+        </member>
+        <member name="M:Masonry.Models.Position.#ctor(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="x">Coordinate X</param>
+            <param name="depth">Coordinate Y</param>
+            <param name="width">Width of the element</param>
+        </member>
+        <member name="P:Masonry.Models.Position.X">
+            <summary>
+            Coordinate X
+            </summary>
+        </member>
+        <member name="P:Masonry.Models.Position.Depth">
+            <summary>
+            Coordinate Y
+            </summary>
+        </member>
+        <member name="P:Masonry.Models.Position.Width">
+            <summary>
+            Width of the element
+            </summary>
+        </member>
+        <member name="M:Masonry.Models.Position.Equals(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Masonry.Models.Position.GetHashCode">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Masonry.Models.Position.op_Equality(Masonry.Models.Position,Masonry.Models.Position)">
+            <summary>
+            
+            </summary>
+            <param name="left"></param>
+            <param name="right"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Masonry.Models.Position.op_Inequality(Masonry.Models.Position,Masonry.Models.Position)">
+            <summary>
+            
+            </summary>
+            <param name="left"></param>
+            <param name="right"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Masonry.Models.Position.Equals(Masonry.Models.Position)">
+            <summary>
+            Equals override
+            </summary>
+            <param name="other"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Masonry.Models.Size">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Masonry.Models.Size.#ctor(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="width"></param>
+            <param name="height"></param>
+        </member>
+        <member name="P:Masonry.Models.Size.Width">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Masonry.Models.Size.Height">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Masonry.Models.Size.Equals(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Masonry.Models.Size.Equals(Masonry.Models.Size)">
+            <summary>
+            IEquatable implementation
+            </summary>
+            <param name="other"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Masonry.Models.Size.GetHashCode">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Masonry.Models.Size.op_Equality(Masonry.Models.Size,Masonry.Models.Size)">
+            <summary>
+            
+            </summary>
+            <param name="left"></param>
+            <param name="right"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Masonry.Models.Size.op_Inequality(Masonry.Models.Size,Masonry.Models.Size)">
+            <summary>
+            
+            </summary>
+            <param name="left"></param>
+            <param name="right"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

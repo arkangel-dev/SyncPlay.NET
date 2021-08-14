@@ -49,3 +49,6 @@ D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\obj\Debug\SyncPlayWPF.exe
 D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\obj\Debug\SyncPlayWPF.pdb
 D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\obj\Debug\Pages\SettingsPage.g.cs
 D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\obj\Debug\Pages\SettingsPage.baml
+D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\bin\Debug\Masonry.dll
+D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\bin\Debug\Masonry.pdb
+D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\bin\Debug\Masonry.xml

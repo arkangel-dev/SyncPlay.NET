@@ -105,9 +105,7 @@ namespace SyncPlayWPF.Pages.SessionPages {
             }
         }
 
-        private void SyncPlayClient_OnFileSet(SyncPlay.SyncPlayClient sender, SyncPlay.SPEventArgs.RemoteSetFileEventArgs e) {
-            
-        }
+        private void SyncPlayClient_OnFileSet(SyncPlay.SyncPlayClient sender, SyncPlay.SPEventArgs.RemoteSetFileEventArgs e) { }
 
         private void NewChatEvent(SyncPlay.SyncPlayClient sender, SyncPlay.SPEventArgs.ChatInfoMessageArgs e) {
             Dispatcher.Invoke(() => {

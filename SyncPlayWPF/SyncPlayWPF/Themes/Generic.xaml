@@ -34,6 +34,7 @@
     <BitmapImage x:Key="DefaultImage" UriSource="/ImageLib/DefaultImage.png"/>
     <BitmapImage x:Key="HourGlass" UriSource="/ImageLib/HourGlass.png"/>
     <BitmapImage x:Key="Warning" UriSource="/ImageLib/Warning.png"/>
+    <BitmapImage x:Key="GiphyAttrib" UriSource="/ImageLib/PoweredByGiphy.png"/>
 
     <!-- Colors -->
     <SolidColorBrush x:Key="DarkMode_AccentColorA" Color="#2B2B2B"/>
@@ -1402,8 +1403,9 @@
                             <ColumnDefinition/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                   
+
                         <ScrollContentPresenter Grid.Column="0"/>
+
                         <ScrollBar
                             Grid.Column="1"
                             Margin="0,5,5,5"
@@ -1413,7 +1415,39 @@
             </Setter.Value>
         </Setter>
     </Style>
-        
+    <Style x:Key="FadedScrollViewer" TargetType="{x:Type ScrollViewer}">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border>
+                            <ScrollContentPresenter Grid.Column="0"/>
+                            <Border.OpacityMask>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                    <GradientStop Color="Transparent" Offset="0.01" />
+                                    <GradientStop Color="White" Offset="0.1" />
+                                    <GradientStop Color="White" Offset="0.9" />
+                                    <GradientStop Color="Transparent" Offset="0.99" />
+                                </LinearGradientBrush>
+                            </Border.OpacityMask>
+                        </Border>
+
+                        <ScrollBar
+                            Grid.Column="1"
+                            Margin="0,5,5,5"
+                            Name="PART_VerticalScrollBar" Value="{TemplateBinding VerticalOffset}" Maximum="{TemplateBinding ScrollableHeight}" ViewportSize="{TemplateBinding ViewportHeight}" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!-- Media File Control -->
     <Style TargetType="{x:Type custom:MediaFileControl}">
         <Setter Property="User" Value="UserNameNotDefined"/>

@@ -5,7 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SyncPlayWPF.Pages.SessionPages"
              xmlns:custom="clr-namespace:SyncPlayWPF.CustomControls"
+             xmlns:masonry="clr-namespace:Masonry;assembly=Masonry"
              mc:Ignorable="d" 
+             xmlns:gif="http://wpfanimatedgif.codeplex.com"
              d:DesignHeight="550" d:DesignWidth="600">
     <UserControl.Resources>
         <ResourceDictionary Source="../../Themes/Generic.xaml"/>
@@ -153,8 +155,63 @@
                     Content="View Unread Messages"
                     x:Name="DropDownToBottomButton"
                     Visibility="Collapsed"
+                    VerticalAlignment="Bottom"
                     Click="DropDownToBottomButton_Click"/>
 
+            <!--<Grid Grid.Column="1"
+                  Margin="-200,-50, -50, 10"
+                  Height="400">
+                <Border Background="{StaticResource DarkMode_AccentColorD}"
+                        Grid.RowSpan="2"
+                        CornerRadius="10">
+                </Border>
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Image Source="{StaticResource GiphyAttrib}"
+                           Stretch="Uniform" 
+                           Margin="0,5,0,0"
+                           Opacity="0.75"
+                           Height="15"/>
+
+                    <ScrollViewer Style="{StaticResource FadedScrollViewer}"
+                                  Grid.Row="1" Margin="0,0,0,50" Grid.RowSpan="2">
+                        <masonry:MasonryControl Spacing="5" Margin="0,5,0,0">
+                            <masonry:MasonryControl.Items>
+                                <Border Width="122">
+                                    <Image Margin="2" gif:ImageBehavior.AnimatedSource="https://media.giphy.com/media/ylyUQlf4VUVF9odXKU/giphy.gif"/>
+                                </Border>
+                                <Border Width="122">
+                                    <Image Margin="2" gif:ImageBehavior.AnimatedSource="https://media.giphy.com/media/KzGCAlMiK6hQQ/giphy.gif"/>
+                                </Border>
+                                <Border Width="115">
+                                    <Image gif:ImageBehavior.AnimatedSource="https://media.giphy.com/media/kLLvH1EOtCwQ8/giphy.gif"/>
+                                </Border>
+                                <Border Width="115">
+                                    <Image gif:ImageBehavior.AnimatedSource="https://media.giphy.com/media/H5C8CevNMbpBqNqFjl/giphy.gif"/>
+                                </Border>
+                                <Border Width="115">
+                                    <Image gif:ImageBehavior.AnimatedSource="https://media.giphy.com/media/rgbAtUv07WAW4/giphy.gif"/>
+                                </Border>
+                                <Border Width="115">
+                                    <Image gif:ImageBehavior.AnimatedSource="https://media.giphy.com/media/dchERAZ73GvOE/giphy.gif"/>
+                                </Border>
+                                <Border Width="115">
+                                    <Image gif:ImageBehavior.AnimatedSource="https://media.giphy.com/media/l41lVsYDBC0UVQJCE/giphy.gif"/>
+                                </Border>
+                                <Border Width="115">
+                                    <Image gif:ImageBehavior.AnimatedSource="https://media.giphy.com/media/H4zeDO4ocDYqY/giphy.gif"/>
+                                </Border>
+                            </masonry:MasonryControl.Items>
+                        </masonry:MasonryControl>
+                    </ScrollViewer>
+                    <custom:PromptingLabel Margin="0,10,0,0" PromptingText="Search GIFs..." Grid.Row="2"/>
+                </Grid>
+            </Grid>-->
 
 
             <!-- End of that stuff-->

@@ -246,6 +246,10 @@
       <Project>{22a46d61-1d40-43a9-802c-b9d43dadd9ec}</Project>
       <Name>WpfPageTransitions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\WPF-Masonry\Masonry\Masonry.csproj">
+      <Project>{e2ba75bf-c535-46b9-a180-e10533a1c1d1}</Project>
+      <Name>Masonry</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ImageLib\emoji.png" />
@@ -316,6 +320,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ImageLib\Warning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ImageLib\PoweredByGiphy.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
