@@ -782,7 +782,7 @@
                                 BorderThickness="0"
                                 FontSize="13"
                                 Name="UserInputBox"
-                                TextWrapping="WrapWithOverflow"
+                                TextWrapping="Wrap"
                                 Background="Transparent"
                                 Foreground="{StaticResource DarkMode_TextColorF}"
                                 Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Text,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

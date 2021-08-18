@@ -19,13 +19,13 @@
         </Grid.RowDefinitions>
 
 
-        
+
 
 
         <!-- Chat Messages -->
         <ScrollViewer x:Name="ChatScrollView" Style="{StaticResource FavsScrollViewer}" Margin="0, 0, 0, 55" PreviewMouseWheel="ChatScrollView_PreviewMouseWheel">
             <StackPanel Grid.Row="0" Margin="20,10,10,10" x:Name="MessageStack" VerticalAlignment="Bottom">
-                <!--<custom:ChatMessage MessageSender="Jimmy" 
+                <custom:ChatMessage MessageSender="Jimmy" 
                                     MessageContent="Hello World."
                                     MessageTime="10:32"
                                     Style="{StaticResource IncomingMessage}" />
@@ -54,9 +54,9 @@
                                     MessageContent="Also, here is another message"
                                     MessageTime="10:32"
                                     IsInitialMessage="False"
-                                    Style="{StaticResource OutgoingMessage}" />-->
+                                    Style="{StaticResource OutgoingMessage}" />
             </StackPanel>
-            </ScrollViewer>
+        </ScrollViewer>
 
 
         <!-- User List -->
@@ -107,7 +107,7 @@
 
             <Grid.RowDefinitions>
                 <RowDefinition/>
-                <RowDefinition Height="45"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
             <!-- The actual bar that is usually visible-->
@@ -125,11 +125,11 @@
                 Grid.Row="1"
                 x:Name="MessageBlockField"
                 KeyUp="SendMessageEnterClick"
-                    
+                
                 VerticalAlignment="Center"
-                HorizontalAlignment="Left"
+                TextWrapping="WrapWithOverflow"
                 Style="{StaticResource ChatPromptLabel}"
-                PromptingText="Enter Message Here"/>
+                PromptingText="Enter Message Here" Margin="0,0,0,-0.2"/>
 
 
             <custom:ImageButton
@@ -147,7 +147,7 @@
                 Style="{StaticResource ImageSilhouette}"
                 Click="SendMessageButtonClick"/>
             <!-- End of the actual stuff that is visible -->
-            
+
             <!-- Start of the stuff that is visible such as go to bottom messages, and giphy and emoji panels -->
 
             <Button Style="{StaticResource ScrollToBottomButton}"
@@ -215,9 +215,9 @@
 
 
             <!-- End of that stuff-->
-            
+
         </Grid>
-    
+
 
     </Grid>
 </UserControl>

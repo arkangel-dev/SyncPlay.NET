@@ -108,7 +108,7 @@
                             x:Name="ReadyToggle"
                             Style="{StaticResource GenericCheckbox}"
                             Content="I am ready to watch"
-                            IsChecked="True"
+                            IsChecked="False"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Center"
                             Click="CheckBox_Click"/>

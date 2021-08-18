@@ -76,8 +76,6 @@ namespace SyncPlayWPF.SyncPlay.MediaPlayers.MPVPlayer {
             var bytes = new byte[4];
             prng.GetNonZeroBytes(bytes);
             this.PipeName = string.Join("", bytes.Select(b => b.ToString("x2"))).ToUpper();
-
-            //this.PlayerProcess = Process.Start("C:\\Program Files\\mpv.net\\mpvnet.exe", "--input-ipc-server=//./" + PipeName);
             ProcessStartInfo processInfo = new ProcessStartInfo();
             processInfo.FileName = "C:\\Program Files\\mpv.net\\mpvnet.exe";
             processInfo.Arguments = "--input-ipc-server=//./" + PipeName;
@@ -145,6 +143,7 @@ namespace SyncPlayWPF.SyncPlay.MediaPlayers.MPVPlayer {
 
                             case "filename":
                                 Console.WriteLine("File change");
+                                this.Pause();
                                 GetCurrentFileAndNotify();
                                 break;
 

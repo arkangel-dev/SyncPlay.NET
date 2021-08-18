@@ -47,15 +47,19 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <Label Grid.Row="0" Margin="0,0,0,0" Content="Play / Pause" Foreground="{StaticResource DarkMode_TextColorE}" FontWeight="DemiBold"/>
-                    <CheckBox Grid.Row="1" Margin="20,0,0,0" Content="Set me as Ready to watch by default" Style="{StaticResource GenericCheckboxLowFidelity}"/>
-                    <CheckBox Grid.Row="2" Margin="20,0,0,0" IsChecked="True" Content="Pause when a user leaves or get disconnected" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                    <StackPanel Grid.Row="1">
+                        <CheckBox Margin="20,0,0,0" Content="Set me as Ready to watch by default" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                        <CheckBox Margin="20,0,0,0" IsChecked="True" Content="Pause when a user leaves or get disconnected" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                        <CheckBox Margin="20,0,0,0" Content="Sync my Ready to watch status with my play state" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                    </StackPanel>
 
-                    <Label Grid.Row="3" Margin="0,15,0,0" Content="If you are lagging behind..." Foreground="{StaticResource DarkMode_TextColorE}" FontWeight="DemiBold"/>
-                    <CheckBox Grid.Row="4" Margin="20,0,0,0" Content="Never show down or rewind others" Style="{StaticResource GenericCheckboxLowFidelity}"/>
-                    <CheckBox Grid.Row="5" Margin="20,0,0,0" IsChecked="True" Content="Fast-forward if lagging behind" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                    <Label Grid.Row="2" Margin="0,15,0,0" Content="If you are lagging behind..." Foreground="{StaticResource DarkMode_TextColorE}" FontWeight="DemiBold"/>
+                    <StackPanel Grid.Row="3">
+                        <CheckBox Grid.Row="4" Margin="20,0,0,0" Content="Never show down or rewind others" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                        <CheckBox Grid.Row="5" Margin="20,0,0,0" IsChecked="True" Content="Fast-forward if lagging behind" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                    </StackPanel>
                 </Grid>
             </TabItem>
 
@@ -64,38 +68,29 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
                     <Label Grid.Row="0" Margin="0,0,0,0" Content="Chat settings" Foreground="{StaticResource DarkMode_TextColorE}" FontWeight="DemiBold"/>
-                    <CheckBox Grid.Row="1" Margin="20,0,0,0" Content="Show messages in player window" IsChecked="True" Style="{StaticResource GenericCheckboxLowFidelity}"/>
-                    <CheckBox Grid.Row="2" Margin="20,0,0,0" Content="Play notification sound" Style="{StaticResource GenericCheckboxLowFidelity}"/>
-                    <CheckBox Grid.Row="3" Margin="20,0,0,0" Content="Disable animations" Style="{StaticResource GenericCheckboxLowFidelity}"/>
-                    <CheckBox Grid.Row="4" Margin="20,0,0,0" Content="Autoplay GIFs" Style="{StaticResource GenericCheckboxLowFidelity}"/>
-                    <CheckBox Grid.Row="5" Margin="20,0,0,0" Content="Preview Links" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                    <StackPanel Grid.Row="1">
+                        <CheckBox Margin="20,0,0,0" Content="Show messages in player window" IsChecked="True" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                        <CheckBox Margin="20,0,0,0" Content="Play notification sound" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                        <CheckBox Margin="20,0,0,0" Content="Disable animations" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                        <CheckBox Margin="20,0,0,0" Content="Autoplay GIFs" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                        <CheckBox Margin="20,0,0,0" Content="Preview Links" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                    </StackPanel>
 
                     <Label Grid.Column="1" Grid.Row="0" Margin="0,0,0,0" Content="OSD Settings" Foreground="{StaticResource DarkMode_TextColorE}" FontWeight="DemiBold"/>
-                    <CheckBox Grid.Column="1" Grid.Row="1" Margin="20,0,0,0"  Content="Enable OSD Messages" IsChecked="True" Style="{StaticResource GenericCheckboxLowFidelity}"/>
-                    
-                    <CheckBox Grid.Column="1" Grid.Row="2" Margin="60,0,0,0" Content="Show events in your room" IsChecked="True" Style="{StaticResource GenericCheckboxLowFidelity}"/>
-                    <CheckBox Grid.Column="1" Grid.Row="3" Margin="60,0,0,0" Content="Show event from non-operators in managed rooms" Style="{StaticResource GenericCheckboxLowFidelity}"/>
-                    <CheckBox Grid.Column="1" Grid.Row="4" Margin="60,0,0,0" Content="Show events in other rooms" Style="{StaticResource GenericCheckboxLowFidelity}"/>
-                    <CheckBox Grid.Column="1" Grid.Row="5" Margin="60,0,0,0" Content="Show slowing down / reverting notifications" IsChecked="True" Style="{StaticResource GenericCheckboxLowFidelity}"/>
-                    <CheckBox Grid.Column="1" Grid.Row="6" Margin="60,0,0,0" Content="Show warnings" IsChecked="True" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                    <StackPanel Grid.Column="1" Grid.Row="1">
+                        <CheckBox Margin="20,0,0,0"  Content="Enable OSD Messages" IsChecked="True" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                        <CheckBox Margin="60,0,0,0" Content="Show events in your room" IsChecked="True" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                        <CheckBox Margin="60,0,0,0" Content="Show event from non-operators in managed rooms" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                        <CheckBox Margin="60,0,0,0" Content="Show events in other rooms" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                        <CheckBox Margin="60,0,0,0" Content="Show slowing down / reverting notifications" IsChecked="True" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                        <CheckBox Margin="60,0,0,0" Content="Show warnings" IsChecked="True" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                    </StackPanel>
                 </Grid>
             </TabItem>
             <TabItem Header="Misc">
@@ -103,16 +98,13 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <Label Grid.Row="0" Margin="0,0,0,0" Content="Security" Foreground="{StaticResource DarkMode_TextColorE}" FontWeight="DemiBold"/>
-                    <CheckBox Grid.Row="1" Margin="20,0,0,0" Content="Enable TLS" IsChecked="True" Style="{StaticResource GenericCheckboxLowFidelity}"/>
-                    <CheckBox Grid.Row="2" Margin="20,0,0,0" Content="Hash filenames before sending" Style="{StaticResource GenericCheckboxLowFidelity}"/>
-                    <CheckBox Grid.Row="3" Margin="20,0,0,0" Content="Hash password before saving to disk" IsChecked="True" Style="{StaticResource GenericCheckboxLowFidelity}"/>
-                    
+                    <StackPanel Grid.Row="1">
+                        <CheckBox Margin="20,0,0,0" Content="Enable TLS" IsChecked="True" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                        <CheckBox Margin="20,0,0,0" Content="Hash filenames before sending" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                        <CheckBox Margin="20,0,0,0" Content="Hash password before saving to disk" IsChecked="True" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                    </StackPanel>
                 </Grid>
             </TabItem>
         </TabControl>
