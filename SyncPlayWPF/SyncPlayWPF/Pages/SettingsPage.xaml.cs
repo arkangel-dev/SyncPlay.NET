@@ -20,6 +20,11 @@ namespace SyncPlayWPF.Pages {
     public partial class SettingsPage : UserControl {
         public SettingsPage() {
             InitializeComponent();
+            this.Loaded += PageLoaded;
+        }
+
+        private void PageLoaded(object sender, RoutedEventArgs e) {
+            Common.Settings.WriteConfigurationToView(this);
         }
 
         private void CancelConfigurationButton_Click(object sender, RoutedEventArgs e) {
@@ -28,6 +33,14 @@ namespace SyncPlayWPF.Pages {
 
         public void EnableNoReturn() {
             CancelConfigurationButton.Visibility = Visibility.Collapsed;
+        }
+
+        private void RestoreDefault(object sender, RoutedEventArgs e) {
+            Common.Settings.RestoreDefaultConfiguration();
+        }
+
+        private void SaveConfiguration(object sender, RoutedEventArgs e) {
+            Common.Settings.ReadConfigurationFromView(this);
         }
     }
 }

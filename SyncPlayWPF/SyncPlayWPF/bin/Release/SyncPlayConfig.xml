@@ -1,0 +1,40 @@
+<Config>
+  <!--Basics and Stuff-->
+  <Basics>
+    <Address></Address>
+    <Username></Username>
+    <Password></Password>
+    <RoomName></RoomName>
+    <PathToMediaPlayer></PathToMediaPlayer>
+    <PathToVideo></PathToVideo>
+    <AdditionalArguments></AdditionalArguments>
+  </Basics>
+  <!--Syncplay Behaviour Settings-->
+  <Behaviour>
+    <SetMeAsReadyToSwtichByDefault>False</SetMeAsReadyToSwtichByDefault>
+    <PauseWhenAUserLeavesOrGetDisconnected>True</PauseWhenAUserLeavesOrGetDisconnected>
+    <SyncMyReadyToWatchStatusWithPlayState>True</SyncMyReadyToWatchStatusWithPlayState>
+    <NeverSlowDownOrRewindOther>False</NeverSlowDownOrRewindOther>
+    <FastForwardIfLaggingBehind>True</FastForwardIfLaggingBehind>
+  </Behaviour>
+  <!--Chat Behaviour Settings-->
+  <Chat>
+    <ShowMessagesInPlayerWindow>True</ShowMessagesInPlayerWindow>
+    <PlayNotificationSound>False</PlayNotificationSound>
+    <DisableAnimations>False</DisableAnimations>
+    <AutoplayGifs>False</AutoplayGifs>
+    <PreviewLinks>False</PreviewLinks>
+    <EnableOSDMessages></EnableOSDMessages>
+    <ShowEventsInYourRoom>True</ShowEventsInYourRoom>
+    <ShowEventsFromNonOperatorsInManagedRooms>False</ShowEventsFromNonOperatorsInManagedRooms>
+    <ShowEventsInOtherRooms>False</ShowEventsInOtherRooms>
+    <ShowSlowingDownRevertingNotifications>True</ShowSlowingDownRevertingNotifications>
+    <ShowWarnings>True</ShowWarnings>
+  </Chat>
+  <!--Security Settings. Sekuriti-->
+  <Security>
+    <EnableTLS>True</EnableTLS>
+    <HashFileNamesBeforeSending>False</HashFileNamesBeforeSending>
+    <HashPasswords>True</HashPasswords>
+  </Security>
+</Config>

@@ -55,7 +55,7 @@
             </TabItem>
 
 
-            <TabItem Header="Behaviour">
+            <TabItem Header="Behaviour" Height="26" VerticalAlignment="Top">
                 <Grid Margin="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
@@ -129,6 +129,7 @@
                 Content="Save Configuration" 
                 Margin="1,0,1,0"
                 Width="125"
+                Click="SaveConfiguration"
                 Style="{StaticResource GenericPrimaryActionButton}" />
             <Button 
                 x:Name="CancelConfigurationButton" 
@@ -143,6 +144,7 @@
                 Content="Restore defaults" 
                 Margin="1,0,1,0" 
                 Width="125"
+                Click="RestoreDefault"
                 Style="{StaticResource GenericSecondaryActionButton}"/>
 
         </StackPanel>

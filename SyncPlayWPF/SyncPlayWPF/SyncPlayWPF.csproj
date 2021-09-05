@@ -46,7 +46,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -103,6 +103,7 @@
     <Compile Include="Common\LogFileDump.cs" />
     <Compile Include="Common\Methods.cs" />
     <Compile Include="Common\SensitiveConstants.cs" />
+    <Compile Include="Common\Settings.cs" />
     <Compile Include="CustomControls\LinearGradientAnimation.cs" />
     <Compile Include="CustomControls\MediaFileControl.cs" />
     <Compile Include="CustomControls\StatusImage.cs" />
