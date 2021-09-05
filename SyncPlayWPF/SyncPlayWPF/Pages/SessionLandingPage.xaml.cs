@@ -22,10 +22,13 @@ namespace SyncPlayWPF.Pages {
         public SessionLandingPage() {
             InitializeComponent();
 
-            Common.Shared.ChatPageSingleton = new Pages.SessionPages.ChatSession();
-            ShowChatWindow();
+            this.ChatPageSingleton = new Pages.SessionPages.ChatSession();
+            SessionPageWindow.ShowPage(this.ChatPageSingleton);
             this.Loaded += PageLoaded;
         }
+
+        private UserControl ChatPageSingleton;
+        private UserControl SettingsPageSingleton;
 
         private void PageLoaded(object sender, RoutedEventArgs e) {          
             Common.Shared.Wrapper.Player.OnPlayerClosed += delegate {
@@ -48,16 +51,33 @@ namespace SyncPlayWPF.Pages {
             }
         }
 
-        private void ShowChatWindow() {
-            SessionPageWindow.ShowPage(Common.Shared.ChatPageSingleton);
-        }
-
         private void CheckBox_Click(object sender, RoutedEventArgs e) {
             Common.Shared.Wrapper.SyncPlayClient.SetReadyState((bool)ReadyToggle.IsChecked);
         }
 
         private void ToggleSidePanel(object sender, RoutedEventArgs e) {
-            throw new Exception("Test Exception");
+            Common.Shared.MasterLogDump.Save();
+        }
+
+        private void SidePanelButtonClick(object sender, RoutedEventArgs e) {
+            switch (((CustomControls.ImageButton)sender).Name) {
+                case "ChatSideButton":
+                    SessionPageWindow.ShowPage(this.ChatPageSingleton);
+
+                    break;
+
+                case "SettingsSideButton":
+                    if (this.SettingsPageSingleton == null) {
+                        this.SettingsPageSingleton = new Pages.SettingsPage();
+                        ((Pages.SettingsPage)(this.SettingsPageSingleton)).EnableNoReturn();
+                    }
+                    SessionPageWindow.ShowPage(this.SettingsPageSingleton);
+                    break;
+
+                default:
+                    Console.WriteLine("Side Panel Button not Programmed...");
+                    break;
+            }
         }
     }
 }

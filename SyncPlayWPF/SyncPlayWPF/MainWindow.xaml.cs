@@ -24,7 +24,7 @@ namespace SyncPlayWPF {
 
             Common.Shared.WindowPageTransition = RootPageTransition;
             Common.Shared.MasterOverrideTransition = MasterOverlayTransition;
-
+            Common.Shared.MasterLogDump = new Common.LogFileDump("syncplay.log");
             //RootPageTransition.ShowPage(new Pages.SessionLandingPage());
             RootPageTransition.ShowPage(new Pages.NewSessionPage());
 

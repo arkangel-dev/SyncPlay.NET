@@ -25,7 +25,7 @@
         <!-- Chat Messages -->
         <ScrollViewer x:Name="ChatScrollView" Style="{StaticResource FavsScrollViewer}" Margin="0, 0, 0, 55" PreviewMouseWheel="ChatScrollView_PreviewMouseWheel">
             <StackPanel Grid.Row="0" Margin="20,10,10,10" x:Name="MessageStack" VerticalAlignment="Bottom">
-                <custom:ChatMessage MessageSender="Jimmy" 
+                <!--<custom:ChatMessage MessageSender="Jimmy" 
                                     MessageContent="Hello World."
                                     MessageTime="10:32"
                                     Style="{StaticResource IncomingMessage}" />
@@ -54,7 +54,7 @@
                                     MessageContent="Also, here is another message"
                                     MessageTime="10:32"
                                     IsInitialMessage="False"
-                                    Style="{StaticResource OutgoingMessage}" />
+                                    Style="{StaticResource OutgoingMessage}" />-->
             </StackPanel>
         </ScrollViewer>
 

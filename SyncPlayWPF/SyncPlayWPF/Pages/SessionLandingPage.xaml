@@ -49,24 +49,32 @@
                             <StackPanel Grid.Row="0">
                                 <StackPanel >
                                     <custom:ImageButton 
-                                Content="Chat" 
-                                Image="{StaticResource ChatIcon}" 
-                                Style="{StaticResource SidePanelButtons}"/>
+                                        x:Name="ChatSideButton"                         
+                                        Click="SidePanelButtonClick"
+                                        Content="Chat" 
+                                        Image="{StaticResource ChatIcon}" 
+                                        Style="{StaticResource SidePanelButtons}"/>
 
                                     <custom:ImageButton
-                                Content="Media"
-                                Image="{StaticResource MediaIcon}"
-                                Style="{StaticResource SidePanelButtons}"/>
+                                        x:Name="MediaSideButton"                         
+                                        Click="SidePanelButtonClick"
+                                        Content="Media"
+                                        Image="{StaticResource MediaIcon}"
+                                        Style="{StaticResource SidePanelButtons}"/>
 
                                     <custom:ImageButton
-                                Content="Settings" 
-                                Image="{StaticResource SettingsIcon}" 
-                                Style="{StaticResource SidePanelButtons}"/>
+                                        x:Name="SettingsSideButton"                         
+                                        Click="SidePanelButtonClick"
+                                        Content="Settings" 
+                                        Image="{StaticResource SettingsIcon}" 
+                                        Style="{StaticResource SidePanelButtons}"/>
 
                                     <custom:ImageButton
-                                Content="About" 
-                                Image="{StaticResource AboutIcon}"
-                                Style="{StaticResource SidePanelButtons}"/>
+                                        x:Name="AboutSideButton"                         
+                                        Click="SidePanelButtonClick"
+                                        Content="About" 
+                                        Image="{StaticResource AboutIcon}"
+                                        Style="{StaticResource SidePanelButtons}"/>
                                 </StackPanel>
                             </StackPanel>
 

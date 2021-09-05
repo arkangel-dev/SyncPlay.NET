@@ -7,16 +7,20 @@
         xmlns:custom="clr-namespace:SyncPlayWPF.CustomControls"
         xmlns:wpft="clr-namespace:WpfPageTransitions;assembly=WpfPageTransitions"
         mc:Ignorable="d"
-        Title="SyncPlay.NET" Height="600" Width="800"
+        Title="SyncPlay.NET" Height="700" Width="450"
         MinWidth="400"
         WindowStartupLocation="CenterScreen"
         SnapsToDevicePixels="True"
         ResizeMode="CanResize"
-        Closing="Window_Closing">
+        Closing="Window_Closing"
+        AllowsTransparency="True"
+        Background="Transparent"
+        WindowStyle="None">
     <Window.Resources>
         <ResourceDictionary Source="Themes/Generic.xaml"/>
     </Window.Resources>
     <Window.Style>
+        
         <Style TargetType="Window">
             <Setter Property="WindowChrome.WindowChrome">
                 <Setter.Value>
@@ -30,7 +34,14 @@
             </Setter>
         </Style>
     </Window.Style>
+
     <Grid>
+        <Grid.Effect>
+            <DropShadowEffect
+                BlurRadius="10"
+                ShadowDepth="0"
+                Opacity="0.25"/>
+        </Grid.Effect>
         <Grid.Style>
             <Style TargetType="{x:Type Grid}">
                 <Setter Property="Margin" Value="6"/>

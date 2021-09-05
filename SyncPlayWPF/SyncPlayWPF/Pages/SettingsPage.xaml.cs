@@ -21,5 +21,13 @@ namespace SyncPlayWPF.Pages {
         public SettingsPage() {
             InitializeComponent();
         }
+
+        private void CancelConfigurationButton_Click(object sender, RoutedEventArgs e) {
+            Common.Shared.WindowPageTransition.ShowPage(Common.Shared.PreviousScreen);
+        }
+
+        public void EnableNoReturn() {
+            CancelConfigurationButton.Visibility = Visibility.Collapsed;
+        }
     }
 }

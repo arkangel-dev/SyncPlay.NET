@@ -14,11 +14,14 @@ namespace SyncPlayWPF.Common {
         public static WpfPageTransitions.PageTransition WindowPageTransition;
         public static WpfPageTransitions.PageTransition LandingPageTransition;
         public static WpfPageTransitions.PageTransition MasterOverrideTransition;
+        public static UserControl PreviousScreen;
+
         public static Pages.ApplicationPages.NotificationLayer NotificationLayer;
-        public static Pages.SessionPages.ChatSession ChatPageSingleton;
+        
         public static SyncPlay.SyncPlayWrapper Wrapper;
         public static Window MasterWindow;
-        
+
+        public static Common.LogFileDump MasterLogDump;
 
         public static void ThrowException(Exception e) {
             MasterOverrideTransition.IsHitTestVisible = true;

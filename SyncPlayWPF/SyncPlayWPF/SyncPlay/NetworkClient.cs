@@ -56,6 +56,7 @@ namespace SyncPlayWPF.SyncPlay {
         }
 
         public void SendMessage(string message) {
+            Common.Shared.MasterLogDump.Add("Syncplay Network", "Outgoing : " + message);
             //Misc.Common.PrintInColor((((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds() + " : " + message), ConsoleColor.Blue);
             if (SSL == null) {
                 var bytes = Encoding.ASCII.GetBytes(message);
@@ -104,6 +105,7 @@ namespace SyncPlayWPF.SyncPlay {
             if (String.IsNullOrWhiteSpace(message)) return;
             //Misc.Common.PrintInColor(((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds() + " : " + message, ConsoleColor.Green);
             //Console.WriteLine(message);
+            Common.Shared.MasterLogDump.Add("Syncplay Network", "Incoming : " + message);
             if (OnNewMessage == null) return;
             OnNewMessage(this, message);
         }

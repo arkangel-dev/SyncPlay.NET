@@ -72,5 +72,10 @@ namespace SyncPlayWPF.Pages {
                 Common.Shared.WindowPageTransition.ShowPage(new Pages.SessionLandingPage());
             });
         }
+
+        private void ShowMoreSettings_Clicked(object sender, RoutedEventArgs e) {
+            Common.Shared.PreviousScreen = this;
+            Common.Shared.WindowPageTransition.ShowPage(new Pages.SettingsPage());
+        }
     }
 }
