@@ -29,7 +29,7 @@ namespace SyncPlayWPF {
             RootPageTransition.ShowPage(new Pages.NewSessionPage());
 
             //Application.Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
-            //Loaded += MainWindow_Loaded;
+            Loaded += MainWindow_Loaded;
 
             InitHeader();
         }

@@ -75,9 +75,9 @@ namespace SyncPlayWPF.Pages.SessionPages {
             foreach (var u in Common.Shared.Wrapper.SyncPlayClient.UserDictionary.Values) {
                 var newControl = new CustomControls.UserSessionView();
                 newControl.Username = u.Username;
-                newControl.FileDuration = "NA";
-                newControl.FileName = "NA";
-                newControl.FileSize = "NA";
+                newControl.FileDuration = "";
+                newControl.FileName = "";
+                newControl.FileSize = "";
                 UserStack.Children.Add(newControl);
             }
         }
@@ -87,9 +87,9 @@ namespace SyncPlayWPF.Pages.SessionPages {
                 Dispatcher.Invoke(() => {
                     var newControl = new CustomControls.UserSessionView();
                     newControl.Username = e.User.Username;
-                    newControl.FileDuration = "NA";
-                    newControl.FileName = "NA";
-                    newControl.FileSize = "NA";
+                    newControl.FileDuration = "";
+                    newControl.FileName = "";
+                    newControl.FileSize = "";
 
                     UserStack.Children.Add(newControl);
                 });
@@ -105,7 +105,21 @@ namespace SyncPlayWPF.Pages.SessionPages {
             }
         }
 
-        private void SyncPlayClient_OnFileSet(SyncPlay.SyncPlayClient sender, SyncPlay.SPEventArgs.RemoteSetFileEventArgs e) { }
+        private void SyncPlayClient_OnFileSet(SyncPlay.SyncPlayClient sender, SyncPlay.SPEventArgs.RemoteSetFileEventArgs e) {
+
+            Dispatcher.Invoke(() => {
+                Console.WriteLine("File loaded event");
+                foreach (CustomControls.UserSessionView uc in UserStack.Children) {
+                    if (uc.Username == e.Agent.Username) {
+                        uc.FileDuration = SyncPlay.Misc.Common.ConvertSecondsToTimeStamp((int)e.File.Duration);
+                        uc.FileName = System.IO.Path.GetFileName(e.File.FilePath);
+                        uc.FileSize = Common.Methods.ConvertByteSize(e.File.Size);
+                        return;
+                    }
+                }
+                Console.WriteLine("Warning : Unknown user has loaded a file!");
+            });
+        }
 
         private void NewChatEvent(SyncPlay.SyncPlayClient sender, SyncPlay.SPEventArgs.ChatInfoMessageArgs e) {
             Dispatcher.Invoke(() => {

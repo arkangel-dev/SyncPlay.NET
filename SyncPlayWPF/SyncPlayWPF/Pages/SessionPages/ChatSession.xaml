@@ -72,7 +72,7 @@
                     x:Name="UserListBorder"
                     Background="{StaticResource DarkMode_AccentColorD}">
                 <!--<ScrollViewer Style="{StaticResource FavsScrollViewer}">-->
-                <StackPanel Margin="0,5,0,0" x:Name="UserStack" MaxHeight="0">
+                <StackPanel Margin="0,5,0,0" x:Name="UserStack" MaxHeight="1000">
                     <!--<custom:UserSessionView
                         Username="Jimbo"
                         FileDuration="1:45:02"

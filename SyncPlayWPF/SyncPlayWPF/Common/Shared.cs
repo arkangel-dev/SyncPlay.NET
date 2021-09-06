@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
+using System.Xml.Linq;
 using WpfPageTransitions;
 
 namespace SyncPlayWPF.Common {
@@ -22,6 +23,7 @@ namespace SyncPlayWPF.Common {
         public static Window MasterWindow;
 
         public static Common.LogFileDump MasterLogDump;
+        public static XDocument CurrentConfig;
 
         public static void ThrowException(Exception e) {
             MasterOverrideTransition.IsHitTestVisible = true;

@@ -61,6 +61,10 @@ namespace SyncPlayWPF.Common {
             )
         );
 
+        public static void DefineSharedSettings() {
+            Common.Shared.CurrentConfig = XDocument.Parse(System.IO.File.ReadAllText("SyncPlayConfig.xml"));
+        }
+
         public static void RestoreDefaultConfiguration() {
             if (System.IO.File.Exists("SyncPlayConfig.xml")) {
                 XDocument doc = XDocument.Parse(System.IO.File.ReadAllText("SyncPlayConfig.xml"));
@@ -134,8 +138,6 @@ namespace SyncPlayWPF.Common {
             Page.EnableTLS.IsChecked = GetBooleanValue(doc, "Security", "EnableTLS");
             Page.HashFileNamesBeforeSending.IsChecked = GetBooleanValue(doc, "Security", "HashFileNamesBeforeSending");
             Page.HashPasswords.IsChecked = GetBooleanValue(doc, "Security", "HashPasswords");
-
-
         }
 
         public static void ReadConfigurationFromView(Pages.SettingsPage Page) {
