@@ -107,21 +107,13 @@ namespace SyncPlayWPF.Common {
         }
 
         public static string ConvertByteSize(int bytecount) {
-            if (bytecount > 1073741824) { // Bigger than a giga byte
+            // Bigger than a giga byte
+            if (bytecount > 1073741824f) return (bytecount / (1024f * 1024f * 1024f)).ToString() + " GB";
 
-                
-
-                return (bytecount / (1024 * 1024 * 1024)).ToString() + " GB";
-            } 
-
-            if (bytecount > 1048576) { // Bigger than a megabyte
-                return (bytecount / (1024 * 1024)).ToString() + " MB";
-            }
+            // Bigger than a megabyte
+            if (bytecount > 1048576f) return (bytecount / (1024f * 1024f)).ToString() + " MB";
 
             return (bytecount / 1024).ToString() + " KB";
-
-            
-
         }
 
     }

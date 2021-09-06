@@ -96,11 +96,11 @@
                             <Label Margin="0,0,0,0" Content="OSD Settings" Foreground="{StaticResource DarkMode_TextColorE}" FontWeight="DemiBold"/>
                             <StackPanel>
                                 <CheckBox x:Name="EnableOSDMessages" Margin="20,0,0,0"  Content="Enable OSD Messages" IsChecked="True" Style="{StaticResource GenericCheckboxLowFidelity}"/>
-                                <CheckBox x:Name="OSD_ShowEventsInYourRooms" Margin="60,0,0,0" Content="Show events in your room" IsChecked="True" Style="{StaticResource GenericCheckboxLowFidelity}"/>
-                                <CheckBox x:Name="OSD_ShowEventsFromManagedRooms" Margin="60,0,0,0" Content="Show event from non-operators in managed rooms" Style="{StaticResource GenericCheckboxLowFidelity}"/>
-                                <CheckBox x:Name="OSD_ShowEventsInOtherRooms" Margin="60,0,0,0" Content="Show events in other rooms" Style="{StaticResource GenericCheckboxLowFidelity}"/>
-                                <CheckBox x:Name="OSD_ShowSlowingNotifications" Margin="60,0,0,0" Content="Show slowing down / reverting notifications" IsChecked="True" Style="{StaticResource GenericCheckboxLowFidelity}"/>
-                                <CheckBox x:Name="OSD_ShowWarnings" Margin="60,0,0,0" Content="Show warnings" IsChecked="True" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                                <CheckBox x:Name="OSD_ShowEventsInYourRooms" Margin="60,0,0,0" Content="Show events in your room" IsChecked="True" Style="{StaticResource GenericCheckboxWithCheckLowFidelity}"/>
+                                <CheckBox x:Name="OSD_ShowEventsFromManagedRooms" Margin="60,0,0,0" Content="Show event from non-operators in managed rooms" Style="{StaticResource GenericCheckboxWithCheckLowFidelity}"/>
+                                <CheckBox x:Name="OSD_ShowEventsInOtherRooms" Margin="60,0,0,0" Content="Show events in other rooms" Style="{StaticResource GenericCheckboxWithCheckLowFidelity}"/>
+                                <CheckBox x:Name="OSD_ShowSlowingNotifications" Margin="60,0,0,0" Content="Show slowing down / reverting notifications" IsChecked="True" Style="{StaticResource GenericCheckboxWithCheckLowFidelity}"/>
+                                <CheckBox x:Name="OSD_ShowWarnings" Margin="60,0,0,0" Content="Show warnings" IsChecked="True" Style="{StaticResource GenericCheckboxWithCheckLowFidelity}"/>
                             </StackPanel>
                         </StackPanel>
                     </WrapPanel>

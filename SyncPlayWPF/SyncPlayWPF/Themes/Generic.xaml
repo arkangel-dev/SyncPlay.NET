@@ -894,6 +894,93 @@
     </Style>
 
     <!-- Checkboxes -->
+    <Style TargetType="CheckBox" x:Key="GenericCheckboxWithCheckLowFidelity">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <Border Width="auto" Background="Transparent" HorizontalAlignment="Left" Name="ContainerBorder" Margin="3">
+                        <Grid Margin="0,1,0,1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0">
+
+                                
+                                <Border 
+                                    x:Name="ToggleContainer"
+                                    Margin="0,0,10,0"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    Height="26"
+                                    Width="26"
+                                    CornerRadius="4"
+                                    BorderThickness="2"
+                                    
+                                    BorderBrush="{StaticResource DarkMode_AccentColorE}">
+
+                                    
+                                </Border>
+                                <Path Fill="{StaticResource DarkMode_ScaleGradient}"
+                                      x:Name="CheckIcon"
+                                      VerticalAlignment="Center"
+                                      HorizontalAlignment="Left"
+                                      
+                                      Margin="3,0,0,3"
+                                      Data="m1.5,9.81739l1.12597,-1.29064l5.51853,3.66633l9.51508,-9.94252l0.96542,1.07474l-9.98959,14.80027l-7.13542,-8.30818z"/>
+
+                            </Grid>
+                            <Border Grid.Column="1" Margin="0,0,0,0" Padding="0,0,0,0">
+                                <TextBlock 
+                                    VerticalAlignment="Center"
+                                    Text="{TemplateBinding Content}"
+                                    FontSize="12"
+                                    Foreground="{StaticResource DarkMode_AccentColorE}"
+                                    FontWeight="DemiBold">
+                                </TextBlock>
+                            </Border>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+
+
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Visibility" TargetName="CheckIcon" Value="Visible"/>
+                        </Trigger>
+
+                        <Trigger Property="IsChecked" Value="False">
+                            <Setter Property="Visibility" TargetName="CheckIcon" Value="Hidden"/>
+                        </Trigger>
+
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Fill" Value="{StaticResource DarkMode_ScaleHoverGradient}" TargetName="CheckIcon"/>
+                        </Trigger>
+
+                        <!--<MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="true"/>
+                                <Condition Property="IsChecked" Value="true"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter Property="Background" Value="{StaticResource DarkMode_ScaleDisabledGradient}" TargetName="ToggleContainer"/>
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="true"/>
+                                <Condition Property="IsChecked" Value="false"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter Property="Background" Value="{StaticResource DarkMode_ScaleHoverGradient}" TargetName="ToggleContainer"/>
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>-->
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     <Style TargetType="CheckBox" x:Key="GenericCheckboxLowFidelity">
         <Setter Property="Template">
             <Setter.Value>
