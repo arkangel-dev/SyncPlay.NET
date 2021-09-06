@@ -23,6 +23,8 @@ namespace SyncPlayWPF.Pages {
             InitializeComponent();
         }
 
+        Pages.ApplicationPages.LoadingScreen LoadingPage = null;
+
         private void JoinRoom_Clicked(object sender, RoutedEventArgs e) {
 
             var serverIp = ServerAddressField.Text.Split(':')[0];
@@ -49,14 +51,18 @@ namespace SyncPlayWPF.Pages {
             Common.Shared.Wrapper.SyncPlayClient.OnDisconnect += SyncPlayClient_OnDisconnect;
 
             Common.Shared.Wrapper.SyncPlayClient.ConnectAsync();
-            Common.Shared.MasterOverrideTransition.ShowPage(new Pages.ApplicationPages.LoadingScreen());
-            
+            LoadingPage = new Pages.ApplicationPages.LoadingScreen();
+            Common.Shared.MasterOverrideTransition.ShowPage(LoadingPage);
+
         }
 
         private void SyncPlayClient_OnDisconnect(SyncPlayClient sender, SyncPlay.SPEventArgs.ServerDisconnectedEventArgs e) {
             Console.WriteLine($"Failed to connect. Reasons --> : {e.ReasonForDisconnection}");
             Dispatcher.Invoke(() => {
+                LoadingPage = null;
                 Common.Shared.MasterOverrideTransition.UnloadCurrentPage();
+                Common.Shared.MasterOverrideTransition.ShowPage(new ApplicationPages.Blank());
+                GC.Collect();
                 Common.Shared.Wrapper.SyncPlayClient.OnConnect -= SyncPlayClient_OnConnect;
                 Common.Shared.Wrapper.SyncPlayClient.OnDisconnect -= SyncPlayClient_OnDisconnect;
             });
@@ -66,9 +72,12 @@ namespace SyncPlayWPF.Pages {
         }
 
         private void SyncPlayClient_OnConnect(SyncPlayClient sender, SyncPlay.SPEventArgs.ServerConnectedEventArgs e) {
-            Console.WriteLine("Connection established");
+            
             Dispatcher.Invoke(() => {
+                Console.WriteLine("Connection established at connector");
+                LoadingPage = null;
                 Common.Shared.MasterOverrideTransition.UnloadCurrentPage();
+                Common.Shared.MasterOverrideTransition.ShowPage(new ApplicationPages.Blank());
                 Common.Shared.WindowPageTransition.ShowPage(new Pages.SessionLandingPage());
             });
         }

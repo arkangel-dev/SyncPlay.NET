@@ -51,3 +51,5 @@ D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\obj\Release\Pages\SettingsPage.g.c
 D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\obj\Release\Pages\SettingsPage.baml
 D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\bin\Release\Masonry.dll
 D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\bin\Release\Masonry.pdb
+D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\obj\Release\Pages\ApplicationPages\Blank.g.cs
+D:\GitHub\SyncPlayWPF\SyncPlayWPF\SyncPlayWPF\obj\Release\Pages\ApplicationPages\Blank.baml

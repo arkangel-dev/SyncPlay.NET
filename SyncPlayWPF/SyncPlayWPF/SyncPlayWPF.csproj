@@ -109,6 +109,9 @@
     <Compile Include="CustomControls\StatusImage.cs" />
     <Compile Include="CustomControls\ToastNotification.cs" />
     <Compile Include="CustomControls\UserSessionView.cs" />
+    <Compile Include="Pages\ApplicationPages\Blank.xaml.cs">
+      <DependentUpon>Blank.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\ApplicationPages\ExceptionView.xaml.cs">
       <DependentUpon>ExceptionView.xaml</DependentUpon>
     </Compile>
@@ -166,6 +169,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\ApplicationPages\Blank.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\ApplicationPages\ExceptionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -254,11 +254,11 @@
                                 Stretch="Uniform"
                                 RenderOptions.BitmapScalingMode="HighQuality"/>
                         </Border.OpacityMask>
-                        <Border.Effect>
+                        <!--<Border.Effect>
                             <DropShadowEffect
                                 BlurRadius="10"
                                 ShadowDepth="1"/>
-                        </Border.Effect>
+                        </Border.Effect>-->
                         <Border.Style>
                             <Style TargetType="{x:Type Border}">
                                 <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ImageBackgroundBrush}"/>
@@ -304,9 +304,9 @@
                                         RenderOptions.BitmapScalingMode="HighQuality"/>
                                 </Rectangle.OpacityMask>
 
-                                <Rectangle.Effect>
+                                <!--<Rectangle.Effect>
                                     <DropShadowEffect BlurRadius="10" ShadowDepth="0" Opacity="0.5"/>
-                                </Rectangle.Effect>
+                                </Rectangle.Effect>-->
 
                                 <Rectangle.Style>
                                     <Style TargetType="{x:Type Rectangle}">
