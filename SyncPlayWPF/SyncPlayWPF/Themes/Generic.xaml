@@ -110,6 +110,15 @@
         </LinearGradientBrush.Transform>
     </LinearGradientBrush>
 
+    <LinearGradientBrush x:Key="DarkMode_ScaleGradientAccent">
+        <GradientStop Color="#7D5F00" Offset="0"/>
+        <GradientStop Color="#8D3C2C" Offset="0.5"/>
+        <GradientStop Color="#9D1743" Offset="1"/>
+        <LinearGradientBrush.Transform>
+            <RotateTransform Angle="45"/>
+        </LinearGradientBrush.Transform>
+    </LinearGradientBrush>
+
     <LinearGradientBrush x:Key="DarkMode_ScaleGradientTransparent">
         <GradientStop Color="#ABFFC206" Offset="0"/>
         <GradientStop Color="#ABff5f41" Offset="0.5"/>
@@ -899,12 +908,13 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
                     <Border Width="auto" Background="Transparent" HorizontalAlignment="Left" Name="ContainerBorder" Margin="3">
-                        <Grid Margin="0,1,0,1">
+                        <Grid Margin="0,0,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Grid Grid.Column="0">
+                            <Grid Grid.Column="0"
+                                  Height="23">
 
                                 
                                 <Border 
@@ -912,8 +922,8 @@
                                     Margin="0,0,10,0"
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center"
-                                    Height="26"
-                                    Width="26"
+                                    Height="20"
+                                    Width="20"
                                     CornerRadius="4"
                                     BorderThickness="2"
                                     
@@ -923,10 +933,10 @@
                                 </Border>
                                 <Path Fill="{StaticResource DarkMode_ScaleGradient}"
                                       x:Name="CheckIcon"
-                                      VerticalAlignment="Center"
+                                      VerticalAlignment="Top"
                                       HorizontalAlignment="Left"
                                       
-                                      Margin="3,0,0,3"
+                                      Margin="2,-1,0,5"
                                       Data="m1.5,9.81739l1.12597,-1.29064l5.51853,3.66633l9.51508,-9.94252l0.96542,1.07474l-9.98959,14.80027l-7.13542,-8.30818z"/>
 
                             </Grid>
@@ -946,6 +956,7 @@
 
                         <Trigger Property="IsChecked" Value="True">
                             <Setter Property="Visibility" TargetName="CheckIcon" Value="Visible"/>
+                            <Setter Property="BorderBrush" TargetName="ToggleContainer" Value="{StaticResource DarkMode_ScaleGradientAccent}"/>
                         </Trigger>
 
                         <Trigger Property="IsChecked" Value="False">
@@ -956,25 +967,27 @@
                             <Setter Property="Fill" Value="{StaticResource DarkMode_ScaleHoverGradient}" TargetName="CheckIcon"/>
                         </Trigger>
 
-                        <!--<MultiTrigger>
+                        <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="true"/>
                                 <Condition Property="IsChecked" Value="true"/>
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter Property="Background" Value="{StaticResource DarkMode_ScaleDisabledGradient}" TargetName="ToggleContainer"/>
+                                <Setter Property="Fill" Value="{StaticResource DarkMode_ScaleDisabledGradient}" TargetName="CheckIcon"/>
                             </MultiTrigger.Setters>
                         </MultiTrigger>
-
+                        
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="true"/>
                                 <Condition Property="IsChecked" Value="false"/>
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter Property="Background" Value="{StaticResource DarkMode_ScaleHoverGradient}" TargetName="ToggleContainer"/>
+                                <Setter Property="Fill" Value="{StaticResource DarkMode_AccentColorE}" TargetName="CheckIcon"/>
+                                <Setter Property="Visibility" Value="Visible" TargetName="CheckIcon"/>
+                                <Setter Property="Opacity" Value="0.50" TargetName="CheckIcon"/>
                             </MultiTrigger.Setters>
-                        </MultiTrigger>-->
+                        </MultiTrigger>
 
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

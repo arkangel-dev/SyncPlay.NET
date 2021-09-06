@@ -10,13 +10,13 @@
     <UserControl.Resources>
         <ResourceDictionary Source="../Themes/Generic.xaml"/>
     </UserControl.Resources>
-    <Grid Margin="10">
+    <Grid Margin="10,10,10,15">
         
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <TabControl Margin="10,10,10,0" Grid.ColumnSpan="3">
+        <TabControl Margin="10,10,10,5" Grid.ColumnSpan="3">
             <TabItem Header="Basics">
 
              
