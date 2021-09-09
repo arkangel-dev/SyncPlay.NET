@@ -51,10 +51,10 @@ namespace SyncPlayWPF.Misc.SyncPlay {
                         )
                     )
                 );
-
             var sresult = result.ToString(Newtonsoft.Json.Formatting.None) + "\r\n";
             return sresult;
         }
+
         public static string CraftTLS() {
             var result = new JObject(
                     new JProperty("TLS",
@@ -66,6 +66,7 @@ namespace SyncPlayWPF.Misc.SyncPlay {
             var sresult = result.ToString(Newtonsoft.Json.Formatting.None) + "\r\n";
             return sresult;
         }
+
         public static string CraftPingMessage(
             double clientRtt,
             double clientLatencyCalculation,
@@ -75,11 +76,7 @@ namespace SyncPlayWPF.Misc.SyncPlay {
             bool clientIgnoreOnFly = false,
             bool doSeek = false,
             bool? playerPaused = null
-            
-
         ) {
-
-
             var result = new JObject(
                 new JProperty("State",
                     new JObject(
@@ -94,28 +91,22 @@ namespace SyncPlayWPF.Misc.SyncPlay {
                 )
             );
             if (clientIgnoreOnFly || serverIgnoreOnFly) {
-
                 var Container = new JObject();
                 if (serverIgnoreOnFly) Container.Add(new JProperty("server", 1));
                 if (clientIgnoreOnFly) Container.Add(new JProperty("client", 1));
-
                 ((JObject)result["State"]).Add(new JProperty("ignoringOnTheFly", Container));
             }
-
-
             if (playerPosition != -1 && playerPaused != null) {
                 var container = new JObject();
                 container.Add(new JProperty("doSeek", doSeek));
                 container.Add(new JProperty("position", playerPosition));
                 container.Add(new JProperty("paused", (bool)playerPaused));
-
                 ((JObject)result["State"]).Add(new JProperty("playstate", container));
             }
-
-
             var sresult = result.ToString(Newtonsoft.Json.Formatting.None) + "\r\n";
             return sresult;
         }
+
         public static string CraftSetClientReadiness(bool isReady, bool manuallyInitiated) {
             var result = new JObject(
                 new JProperty("Set",
@@ -142,8 +133,6 @@ namespace SyncPlayWPF.Misc.SyncPlay {
             return sresult;
         }
 
-
-
         public static string CraftSendList() {
             var result = new JObject(
                 new JProperty("List", null)
@@ -151,9 +140,5 @@ namespace SyncPlayWPF.Misc.SyncPlay {
             var sresult = result.ToString(Newtonsoft.Json.Formatting.None) + "\r\n";
             return sresult;
         }
-
-
-
-
     }  
 }

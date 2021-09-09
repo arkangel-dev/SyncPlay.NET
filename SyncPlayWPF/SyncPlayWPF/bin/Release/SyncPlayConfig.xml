@@ -1,10 +1,10 @@
 <Config>
   <!--Basics and Stuff-->
   <Basics>
-    <Address></Address>
-    <Username></Username>
+    <Address>syncplay.pl:8995</Address>
+    <Username>Sam</Username>
     <Password></Password>
-    <RoomName></RoomName>
+    <RoomName>ck</RoomName>
     <PathToMediaPlayer></PathToMediaPlayer>
     <PathToVideo></PathToVideo>
     <AdditionalArguments></AdditionalArguments>

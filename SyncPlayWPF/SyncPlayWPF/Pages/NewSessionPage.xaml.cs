@@ -21,6 +21,14 @@ namespace SyncPlayWPF.Pages {
     public partial class NewSessionPage : UserControl {
         public NewSessionPage() {
             InitializeComponent();
+
+            this.Loaded += PageLoaded;
+        }
+
+        private void PageLoaded(object sender, RoutedEventArgs e) {
+            ServerAddressField.Text = Common.Shared.CurrentConfig.Element("Config").Element("Basics").Element("Address").Value;
+            UsernameField.Text = Common.Shared.CurrentConfig.Element("Config").Element("Basics").Element("Username").Value;
+            RoomNameField.Text = Common.Shared.CurrentConfig.Element("Config").Element("Basics").Element("RoomName").Value;
         }
 
         Pages.ApplicationPages.LoadingScreen LoadingPage = null;
@@ -32,12 +40,6 @@ namespace SyncPlayWPF.Pages {
             var username = UsernameField.Text;
             var password = PasswordField.ActualPassword;
             var roomName = RoomNameField.Text;
-
-            Console.WriteLine(
-                $"Server  : {serverIp}:{serverPort}\n" +
-                $"Username  : {username}\n" +
-                $"Password  : {password}\n" +
-                $"Room Name : {roomName}");
 
             Common.Shared.Wrapper = new SyncPlayWrapper(
                 serverIp,
@@ -62,7 +64,6 @@ namespace SyncPlayWPF.Pages {
                 LoadingPage = null;
                 Common.Shared.MasterOverrideTransition.UnloadCurrentPage();
                 Common.Shared.MasterOverrideTransition.ShowPage(new ApplicationPages.Blank());
-                GC.Collect();
                 Common.Shared.Wrapper.SyncPlayClient.OnConnect -= SyncPlayClient_OnConnect;
                 Common.Shared.Wrapper.SyncPlayClient.OnDisconnect -= SyncPlayClient_OnDisconnect;
             });
@@ -79,12 +80,19 @@ namespace SyncPlayWPF.Pages {
                 Common.Shared.MasterOverrideTransition.UnloadCurrentPage();
                 Common.Shared.MasterOverrideTransition.ShowPage(new ApplicationPages.Blank());
                 Common.Shared.WindowPageTransition.ShowPage(new Pages.SessionLandingPage());
+
+                Common.Shared.CurrentConfig.Element("Config").Element("Basics").Element("Address").Value = ServerAddressField.Text;
+                Common.Shared.CurrentConfig.Element("Config").Element("Basics").Element("Username").Value = UsernameField.Text;
+                Common.Shared.CurrentConfig.Element("Config").Element("Basics").Element("RoomName").Value = RoomNameField.Text;
+                Common.Settings.WriteConfigurationToFile();
             });
         }
 
         private void ShowMoreSettings_Clicked(object sender, RoutedEventArgs e) {
             Common.Shared.PreviousScreen = this;
             Common.Shared.WindowPageTransition.ShowPage(new Pages.SettingsPage());
+
+            
         }
     }
 }

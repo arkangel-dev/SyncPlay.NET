@@ -176,6 +176,13 @@ namespace SyncPlayWPF.Common {
             System.IO.File.WriteAllText("SyncPlayConfig.xml", doc.ToString());
         }
 
-        
+        public static void WriteConfigurationToFile(XDocument doc) {
+            System.IO.File.WriteAllText("SyncPlayConfig.xml", doc.ToString());
+        }
+        public static void WriteConfigurationToFile() {
+            System.IO.File.WriteAllText("SyncPlayConfig.xml", Common.Shared.CurrentConfig.ToString());
+        }
+
+
     }
 }

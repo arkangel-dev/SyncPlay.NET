@@ -50,7 +50,7 @@ namespace SyncPlayWPF.SyncPlay.MediaPlayers.MPVPlayer {
 
         public void StartPlayerInstance() {
             StartMPVINstance();
-            Thread.Sleep(3000);
+            //Thread.Sleep(3000);
             ConnectToMPVInstance();
             var readThread = new Thread(() => {
                 ReadData();
