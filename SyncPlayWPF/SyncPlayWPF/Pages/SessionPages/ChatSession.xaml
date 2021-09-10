@@ -68,22 +68,29 @@
 
             <Border Grid.Row="0"
                     CornerRadius="0,0,0,0"
-                    MaxHeight="100"
+                    MaxHeight="10000"
                     x:Name="UserListBorder"
                     Background="{StaticResource DarkMode_AccentColorD}">
                 <!--<ScrollViewer Style="{StaticResource FavsScrollViewer}">-->
-                <StackPanel Margin="0,5,0,0" x:Name="UserStack" MaxHeight="1000">
-                    <!--<custom:UserSessionView
-                        Username="Jimbo"
-                        FileDuration="1:45:02"
-                        FileSize="1.53 GB"
-                        FileName="The Office (US) - S06E01 - Gossip SDTV.avi"/>
+                <StackPanel Margin="0,5,0,0" x:Name="TopView" MaxHeight="1000">
+                    <StackPanel x:Name="UserStack">
+                        <!--<custom:UserSessionView
+                            Username="Jimbo"
+                            FileDuration="1:45:02"
+                            FileSize="1.53 GB"
+                            FileName="The Office (US) - S06E01 - Gossip SDTV.avi"/>
 
-                    <custom:UserSessionView
+                        <custom:UserSessionView
                             Username="Sammy"
                             FileDuration="1:45:02"
                             FileSize="1.53 GB"
                             FileName="The Office (US) - S06E01 - Gossip SDTV.avi"/>-->
+
+
+                    </StackPanel>
+                    <StackPanel Margin="10,0,0,5">
+                        <CheckBox x:Name="IgnorePlayerStateChangeToggle" Style="{StaticResource GenericCheckboxLowFidelity}" Content="Enable Unsync Mode" Click="IgnorePlayerStateChangeClick"/>
+                    </StackPanel>
                 </StackPanel>
                 <!--</ScrollViewer>-->
             </Border>

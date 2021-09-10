@@ -126,6 +126,8 @@ namespace SyncPlayWPF.SyncPlay.MediaPlayers.MPVPlayer {
             try {
                 var json_obj = JObject.Parse(json);
 
+                if (Common.Shared.IgnorePlayerStateChanges) return;
+
                 if (json_obj.ContainsKey("event")) {
                     if (json_obj.Value<string>("event") == "property-change") {
                         switch (json_obj.Value<string>("name")) {

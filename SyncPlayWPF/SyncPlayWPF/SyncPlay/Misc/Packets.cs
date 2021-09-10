@@ -8,6 +8,13 @@ using Newtonsoft.Json.Linq;
 
 namespace SyncPlayWPF.Misc.SyncPlay {
     public class Packets {
+        /// <summary>
+        /// Create a set file packet. This is used to notify the server what the client is playing.
+        /// </summary>
+        /// <param name="filename">Filenamme of the file. Can be hashed</param>
+        /// <param name="duration">Duration of the media file</param>
+        /// <param name="size">Size of the media file</param>
+        /// <returns>JSON Packet</returns>
         public static string CraftSetFileMessage(String filename, float duration, int size) {
             var result = new JObject(
                 new JProperty("Set",
@@ -25,6 +32,16 @@ namespace SyncPlayWPF.Misc.SyncPlay {
             var sresult = result.ToString(Newtonsoft.Json.Formatting.None) + "\r\n";
             return sresult;
         }
+
+        /// <summary>
+        /// Craft a hello packet. This is used to authenicate into the server and to comminicate the version
+        /// of the server
+        /// </summary>
+        /// <param name="username">Username of the user</param>
+        /// <param name="password">Password of the server</param>
+        /// <param name="roomname">Room name to connect to</param>
+        /// <param name="version">Version of the client</param>
+        /// <returns>JSON Packet</returns>
         public static string CraftIdentificationMessage(String username, String password, String roomname, String version) {
             var hashedpassword = String.IsNullOrEmpty(password) ? "" : SyncPlayWPF.SyncPlay.Security.ToMD5(password);
             var result = new JObject(
@@ -55,6 +72,10 @@ namespace SyncPlayWPF.Misc.SyncPlay {
             return sresult;
         }
 
+        /// <summary>
+        /// Craft a TLS packet. This is used to establish a secure connection with the server.
+        /// </summary>
+        /// <returns>JSON Packet</returns>
         public static string CraftTLS() {
             var result = new JObject(
                     new JProperty("TLS",
@@ -67,16 +88,19 @@ namespace SyncPlayWPF.Misc.SyncPlay {
             return sresult;
         }
 
-        public static string CraftPingMessage(
-            double clientRtt,
-            double clientLatencyCalculation,
-            double latencyCalculation,
-            double playerPosition = -1,
-            bool serverIgnoreOnFly = false,
-            bool clientIgnoreOnFly = false,
-            bool doSeek = false,
-            bool? playerPaused = null
-        ) {
+        /// <summary>
+        /// This is used to maintain the connection between the server the client. Its also used to communicate data to calculate latency and stuff
+        /// </summary>
+        /// <param name="clientRtt"></param>
+        /// <param name="clientLatencyCalculation"></param>
+        /// <param name="latencyCalculation"></param>
+        /// <param name="playerPosition"></param>
+        /// <param name="serverIgnoreOnFly"></param>
+        /// <param name="clientIgnoreOnFly"></param>
+        /// <param name="doSeek"></param>
+        /// <param name="playerPaused"></param>
+        /// <returns></returns>
+        public static string CraftPingMessage(double clientRtt, double clientLatencyCalculation, double latencyCalculation, double playerPosition = -1, bool serverIgnoreOnFly = false, bool clientIgnoreOnFly = false, bool doSeek = false, bool? playerPaused = null) {
             var result = new JObject(
                 new JProperty("State",
                     new JObject(

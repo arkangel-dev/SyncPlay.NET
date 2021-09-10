@@ -17,10 +17,7 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <TabControl Margin="10,10,10,5" Grid.ColumnSpan="3">
-            <TabItem Header="Basics">
-
-             
-                
+            <TabItem Header="Basics">   
                 <StackPanel Margin="10">
                     <Label Grid.Row="2" Margin="0,0,0,0" Content="Default Connection Settings" Foreground="{StaticResource DarkMode_TextColorE}" FontWeight="DemiBold"/>
                     <StackPanel Margin="10">
@@ -46,7 +43,7 @@
                             <custom:PromptingLabel x:Name="PathToVideo" Grid.Column="0" Grid.Row="1" PromptingText="Path to video (optional)"/>
                             <custom:PromptingLabel x:Name="AdditionalArguments" Grid.Column="0" Grid.Row="2" PromptingText="Additional Arguments"/>
                             <!-- Browse Buttons -->
-                            <Button Grid.Column="1" Grid.Row="0" Margin="5,0,0,0" Style="{StaticResource GenericPrimaryActionButton}" Content="Browse"/>
+                            <Button Grid.Column="1" Grid.Row="0" Margin="5,0,0,0" Style="{StaticResource GenericPrimaryActionButton}" Content="Browse" Click="MediaPlayerBrowse_Click"/>
                             <Button Grid.Column="1" Grid.Row="1" Margin="5,0,0,0" Style="{StaticResource GenericPrimaryActionButton}" Content="Browse"/>
                         </Grid>
                     </StackPanel>
@@ -56,13 +53,8 @@
 
 
             <TabItem Header="Behaviour" Height="26" VerticalAlignment="Top">
-                <Grid Margin="10">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
+                <StackPanel Margin="10">
+                    
                     <Label Grid.Row="0" Margin="0,0,0,0" Content="Play / Pause" Foreground="{StaticResource DarkMode_TextColorE}" FontWeight="DemiBold"/>
                     <StackPanel Grid.Row="1">
                         <CheckBox x:Name="SetAsReadyToPlayByDefault" Margin="20,0,0,0" Content="Set me as Ready to watch by default" Style="{StaticResource GenericCheckboxLowFidelity}"/>
@@ -72,10 +64,27 @@
 
                     <Label Grid.Row="2" Margin="0,15,0,0" Content="If you are lagging behind..." Foreground="{StaticResource DarkMode_TextColorE}" FontWeight="DemiBold"/>
                     <StackPanel Grid.Row="3">
-                        <CheckBox x:Name="NeverSlowDownOrRewindOthers" Grid.Row="4" Margin="20,0,0,0" Content="Never show down or rewind others" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                        <CheckBox x:Name="NeverSlowDownOrRewindOthers" Grid.Row="4" Margin="20,0,0,0" Content="Never slow down or rewind others" Style="{StaticResource GenericCheckboxLowFidelity}"/>
                         <CheckBox x:Name="FastForwardIfLagginingBehind" Grid.Row="5" Margin="20,0,0,0" IsChecked="True" Content="Fast-forward if lagging behind" Style="{StaticResource GenericCheckboxLowFidelity}"/>
                     </StackPanel>
-                </Grid>
+
+                    <Label Grid.Row="6" Margin="0,15,0,0" Content="Unsync Mode" Foreground="{StaticResource DarkMode_TextColorE}" FontWeight="DemiBold"/>
+                    <StackPanel Grid.Row="7">
+                        <CheckBox Margin="20,0,0,0" Content="Disable unsync after remote file change" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                    </StackPanel>
+                    
+                    <Label Grid.Row="4" Margin="0,15,0,0" Content="After disabling unsync mode... " Foreground="{StaticResource DarkMode_TextColorE}" FontWeight="DemiBold"/>
+                    <StackPanel Grid.Row="5">
+                        <CheckBox Margin="20,0,0,0" Content="Resync with others" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                        <CheckBox Margin="20,0,0,0" Content="Change local state to re-sync with others" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                    </StackPanel>
+
+                    
+
+
+
+
+                </StackPanel>
             </TabItem>
 
             <TabItem Header="Chat">

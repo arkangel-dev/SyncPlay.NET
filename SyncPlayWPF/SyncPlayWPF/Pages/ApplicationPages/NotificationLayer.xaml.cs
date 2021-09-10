@@ -28,7 +28,7 @@ namespace SyncPlayWPF.Pages.ApplicationPages {
             Common.Shared.NotificationLayer = this;
         }
 
-        public void CreateNotification(String title, String message, int dur = 2000) {
+        public void CreateNotification(String title, String message, int dur = 10000) {
             
 
 

@@ -4,6 +4,11 @@
     xmlns:custom="clr-namespace:SyncPlayWPF.CustomControls"
     xmlns:dataconverters="clr-namespace:SyncPlayWPF.Converters">
 
+    <!-- Fonts -->
+    <FontFamily x:Key="IBMRegular" >../Fonts/#IBM Plex Sans</FontFamily>
+    <FontFamily x:Key="IBMSemiBold" >../Fonts/#IBM Plex Sans SemiBold</FontFamily>
+ 
+    
     <!-- Dataconverters -->
     <dataconverters:TextBoxValueToBoolean x:Key="TextBoxValueToBoolean"/>
     <dataconverters:PercentageConverter x:Key="PercentageConverter"/>
@@ -150,10 +155,10 @@
     <!-- Stylez -->
     <Style x:Key="DarkMode_TitleBarText" TargetType="Label">
         <Setter Property="FontWeight" Value="Normal"/>
-        <Setter Property="FontFamily" Value="Open Sans"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Foreground" Value="{StaticResource DarkMode_TextColorA}"/>
     </Style>
+
 
     <!-- Control templates -->
     
@@ -745,6 +750,7 @@
                         </TextBlock>
                         <Border 
                             SnapsToDevicePixels="True"
+                            UseLayoutRounding="True"
                             Name="Underline"
                             Grid.Row="1"
                             BorderThickness="0">
@@ -1730,7 +1736,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type custom:ToastNotification}">
                     <Border Margin="0,-100,0,0">
-                        <Border Background="{StaticResource DarkMode_AccentColorD}" Margin="7,2,0,2" CornerRadius="10">
+                        <Border Background="{StaticResource DarkMode_AccentColorD}" Margin="7,2,0,2" CornerRadius="10" Padding="5">
                             <Grid Margin="7" ShowGridLines="False">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>

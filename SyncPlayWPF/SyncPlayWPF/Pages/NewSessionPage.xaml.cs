@@ -21,7 +21,6 @@ namespace SyncPlayWPF.Pages {
     public partial class NewSessionPage : UserControl {
         public NewSessionPage() {
             InitializeComponent();
-
             this.Loaded += PageLoaded;
         }
 
@@ -34,28 +33,39 @@ namespace SyncPlayWPF.Pages {
         Pages.ApplicationPages.LoadingScreen LoadingPage = null;
 
         private void JoinRoom_Clicked(object sender, RoutedEventArgs e) {
-
             var serverIp = ServerAddressField.Text.Split(':')[0];
             var serverPort = Int32.Parse(ServerAddressField.Text.Split(':')[1]);
             var username = UsernameField.Text;
             var password = PasswordField.ActualPassword;
             var roomName = RoomNameField.Text;
+            var connector = GetPlayerType(Common.Settings.GetCurrentConfigStringValue("Basics", "PathToMediaPlayer"));
+            if (connector == null) {
+                Common.Shared.NotificationLayer.CreateNotification("Incompatible Player", "The player you selected is not compatible with this version of SyncPlay.NET");
+                return;
+            }
 
-            Common.Shared.Wrapper = new SyncPlayWrapper(
-                serverIp,
-                serverPort,
-                username,
-                password,
-                roomName,
-                new SyncPlay.MediaPlayers.MPVPlayer.Connector());
-
+            Common.Shared.Wrapper = new SyncPlayWrapper(serverIp, serverPort, username, password, roomName, connector);
             Common.Shared.Wrapper.SyncPlayClient.OnConnect += SyncPlayClient_OnConnect;
             Common.Shared.Wrapper.SyncPlayClient.OnDisconnect += SyncPlayClient_OnDisconnect;
-
             Common.Shared.Wrapper.SyncPlayClient.ConnectAsync();
             LoadingPage = new Pages.ApplicationPages.LoadingScreen();
             Common.Shared.MasterOverrideTransition.ShowPage(LoadingPage);
+        }
 
+
+        private MediaPlayerInterface GetPlayerType(string path) {
+            var exename = System.IO.Path.GetFileName(path);
+
+            switch (exename) {
+                case "mpvnet.exe":
+                    return new SyncPlay.MediaPlayers.MPVPlayer.Connector();
+
+                case "vlc.exe":
+                    return new SyncPlay.MediaPlayers.VLCMediaPlayer.Connector();
+
+                default:
+                    return null;
+            }
         }
 
         private void SyncPlayClient_OnDisconnect(SyncPlayClient sender, SyncPlay.SPEventArgs.ServerDisconnectedEventArgs e) {

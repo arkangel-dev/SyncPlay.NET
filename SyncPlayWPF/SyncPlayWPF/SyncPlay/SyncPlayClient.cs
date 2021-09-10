@@ -153,8 +153,6 @@ namespace SyncPlayWPF.SyncPlay {
         public bool Connect() {
             try {
                 nclient = new NetworkClient(ServerIP, Port);
-                
-
                 if (!nclient.Connect()) {
                     Console.WriteLine("Failed to connect to server");
                     this.OnDisconnect(this, new SPEventArgs.ServerDisconnectedEventArgs(false, "Connection Timed out"));
@@ -164,7 +162,14 @@ namespace SyncPlayWPF.SyncPlay {
                 pingService = new PingService();
                 HelloMessage = Packets.CraftIdentificationMessage(LUsername, Password, RoomName, Version);
                 nclient.OnNewMessage += NewIncomingMessage;
-                nclient.SendMessage(Packets.CraftTLS());
+
+                if (Common.Settings.GetCurrentConfigBoolValue("Security", "EnableTLS")) {
+                    nclient.SendMessage(Packets.CraftTLS());
+                } else {
+                    nclient.SendMessage(HelloMessage);
+                    AuthCompleted = true;
+                }
+                
                 UserDictionary = new Dictionary<string, User>();
                 Playlist = new List<MediaFile>();
                 var incremement_pos = new Thread(() => { IncrementPosition(); });
@@ -307,19 +312,25 @@ namespace SyncPlayWPF.SyncPlay {
             }
         }
 
+        private bool AuthCompleted = false;
+
         private void NewIncomingMessage(NetworkClient sender, string message) {
             try {
                 if (String.IsNullOrWhiteSpace(message)) return;
                 var jobj = JObject.Parse(message);
 
-
-                // This the TLS negotiation packet
                 if (jobj.ContainsKey("TLS")) {
                     var tlskey = jobj.Value<JObject>("TLS");
                     if (tlskey.Value<String>("startTLS").Equals("true")) {
+                        Console.WriteLine("Activating TLS...");
                         this.nclient.ActivateTLS();
                     }
+                }
+            
+
+                if (!AuthCompleted) {
                     nclient.SendMessage(HelloMessage);
+                    AuthCompleted = true;
                 }
 
                 // Check if the server hates us or something...

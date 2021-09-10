@@ -195,5 +195,9 @@ namespace SyncPlayWPF.Pages.SessionPages {
             ChatScrollView.ScrollToEnd();
             DropDownToBottomButton.Visibility = Visibility.Collapsed;
         }
+
+        private void IgnorePlayerStateChangeClick(object sender, RoutedEventArgs e) {
+            Common.Shared.IgnorePlayerStateChanges = (bool)IgnorePlayerStateChangeToggle.IsChecked;
+        }
     }
 }

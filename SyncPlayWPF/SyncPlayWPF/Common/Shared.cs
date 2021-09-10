@@ -25,6 +25,8 @@ namespace SyncPlayWPF.Common {
         public static Common.LogFileDump MasterLogDump;
         public static XDocument CurrentConfig;
 
+        public static bool IgnorePlayerStateChanges = false;
+
         public static void ThrowException(Exception e) {
             MasterOverrideTransition.IsHitTestVisible = true;
             var exp_view = new Pages.ApplicationPages.ExceptionView();

@@ -13,7 +13,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.65*"/>
-            <ColumnDefinition Width="0.35*"/>
+            <ColumnDefinition Width="0.35*" MinWidth="400"/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="1" Margin="6" x:Name="NotificationStack">
             <!--<custom:ToastNotification

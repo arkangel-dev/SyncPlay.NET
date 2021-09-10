@@ -5,7 +5,7 @@
     <Username>Sam</Username>
     <Password></Password>
     <RoomName>ck</RoomName>
-    <PathToMediaPlayer></PathToMediaPlayer>
+    <PathToMediaPlayer>C:\Program Files\mpv.net\mpvnet.exe</PathToMediaPlayer>
     <PathToVideo></PathToVideo>
     <AdditionalArguments></AdditionalArguments>
   </Basics>
@@ -24,8 +24,8 @@
     <DisableAnimations>False</DisableAnimations>
     <AutoplayGifs>False</AutoplayGifs>
     <PreviewLinks>False</PreviewLinks>
-    <EnableOSDMessages></EnableOSDMessages>
-    <ShowEventsInYourRoom>True</ShowEventsInYourRoom>
+    <EnableOSDMessages>False</EnableOSDMessages>
+    <ShowEventsInYourRoom>False</ShowEventsInYourRoom>
     <ShowEventsFromNonOperatorsInManagedRooms>False</ShowEventsFromNonOperatorsInManagedRooms>
     <ShowEventsInOtherRooms>False</ShowEventsInOtherRooms>
     <ShowSlowingDownRevertingNotifications>True</ShowSlowingDownRevertingNotifications>
@@ -33,7 +33,7 @@
   </Chat>
   <!--Security Settings. Sekuriti-->
   <Security>
-    <EnableTLS>True</EnableTLS>
+    <EnableTLS>False</EnableTLS>
     <HashFileNamesBeforeSending>False</HashFileNamesBeforeSending>
     <HashPasswords>True</HashPasswords>
   </Security>

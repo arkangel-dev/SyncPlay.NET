@@ -42,6 +42,8 @@ namespace SyncPlayWPF.SyncPlay.MediaPlayers.VLCMediaPlayer  {
         private void ParseMessages(string s) {
             var parts = s.Split();
             var keyword = parts[3];
+
+            if (Common.Shared.IgnorePlayerStateChanges) return;
   
             switch (keyword) {
                 case "pause":

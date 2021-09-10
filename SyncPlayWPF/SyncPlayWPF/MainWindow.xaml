@@ -71,7 +71,8 @@
                 Grid.Column="0"
                 Style="{StaticResource DarkMode_TitleBarText}"
                 Foreground="{StaticResource DarkMode_ScaleGradient}"
-                FontWeight="DemiBold">SyncPlay.NET</Label>
+                FontFamily="Open Sans"
+                FontWeight="SemiBold">SyncPlay.NET</Label>
             <custom:ImageButton 
                 Grid.Column="1" 
                 x:Name="WindowMinimiseButton"

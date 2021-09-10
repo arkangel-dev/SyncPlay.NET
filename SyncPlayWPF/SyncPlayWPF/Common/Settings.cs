@@ -107,12 +107,19 @@ namespace SyncPlayWPF.Common {
             return doc.Element("Config").Element(section).Element(attribute).Value == "True" ? true : false;
         }
 
+        public static bool GetCurrentConfigBoolValue(string section, string attribute) {
+            return GetBooleanValue(Common.Shared.CurrentConfig, section, attribute);
+        }
+
+        public static string GetCurrentConfigStringValue(string section, string attribute) {
+            return GetStringValue(Common.Shared.CurrentConfig, section, attribute);
+        }
+
         public static void WriteConfigurationToView(Pages.SettingsPage Page) {
             XDocument doc = XDocument.Parse(System.IO.File.ReadAllText("SyncPlayConfig.xml"));
 
             Page.ServerAddressField.Text = GetStringValue(doc, "Basics", "Address");
             Page.UsernameField.Text = GetStringValue(doc, "Basics", "Username");
-            //Page.PasswordField.ActualPassword = "BLANKPASSWORDS";
             Page.RoomNameField.Text = GetStringValue(doc, "Basics", "RoomName");
             Page.PathToMediaPlayer.Text = GetStringValue(doc, "Basics", "PathToMediaPlayer");
             Page.PathToVideo.Text = GetStringValue(doc, "Basics", "PathToVideo");
