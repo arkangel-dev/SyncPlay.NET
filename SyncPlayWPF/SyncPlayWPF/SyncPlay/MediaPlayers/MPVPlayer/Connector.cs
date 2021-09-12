@@ -48,15 +48,31 @@ namespace SyncPlayWPF.SyncPlay.MediaPlayers.MPVPlayer {
             this.WriteData(MPVPackets.CraftSeekAbsolutePacket(f, GetRequestNewID()));
         }
 
-        public void StartPlayerInstance() {
-            StartMPVINstance();
-            //Thread.Sleep(3000);
-            ConnectToMPVInstance();
+        public bool StartPlayerInstance() {
+            var ProcessAlreadyRunning = StartMPVINstance();
+            var ConnectionSuccessful = ConnectToMPVInstance();
+
+            if (ProcessAlreadyRunning && !ConnectionSuccessful) {
+
+                // MPV is running but the connection failed. Most likely because MPV is already running
+                Console.WriteLine("MPV Connector : MPV already running...");
+                Common.Shared.NotificationLayer.CreateNotification("MPV.NET", "MPV.NET is already running. Please close it and try again");
+                return false;
+            } else if (!ConnectionSuccessful) {
+                // Connection failed with MPV
+                Console.WriteLine("MPV Connector : Failed to connect");
+                Common.Shared.NotificationLayer.CreateNotification("MPV.NET", "Failed to connect to MPV instance");
+                return false;
+            }
+
+
+
             var readThread = new Thread(() => {
                 ReadData();
             });
             readThread.IsBackground = true;
             readThread.Start();
+            return true;
         }
 
         
@@ -66,32 +82,39 @@ namespace SyncPlayWPF.SyncPlay.MediaPlayers.MPVPlayer {
         private StreamReader ReadPipe;
         private StreamWriter WritePipe;
         private NamedPipeClientStream pipe;
-        private string PipeName;
+        private string PipeName = "SyncPlaympv";
 
         private Task<string> ReadTask;
         
-        private void StartMPVINstance() {
+        private bool StartMPVINstance() {
+            var processList = Process.GetProcessesByName("mpvnet");
 
-            var prng = new System.Security.Cryptography.RNGCryptoServiceProvider();
-            var bytes = new byte[4];
-            prng.GetNonZeroBytes(bytes);
-            this.PipeName = string.Join("", bytes.Select(b => b.ToString("x2"))).ToUpper();
-            ProcessStartInfo processInfo = new ProcessStartInfo();
-            processInfo.FileName = "C:\\Program Files\\mpv.net\\mpvnet.exe";
-            processInfo.Arguments = "--input-ipc-server=//./" + PipeName;
-            processInfo.ErrorDialog = true;
-            processInfo.UseShellExecute = false;
-            processInfo.RedirectStandardOutput = true;
-            processInfo.RedirectStandardError = true;
-            processInfo.WorkingDirectory = "C:\\Program Files\\mpv.net\\";
-            PlayerProcess = Process.Start(processInfo);
-
+            if (processList.Length == 0) {
+                ProcessStartInfo processInfo = new ProcessStartInfo();
+                processInfo.FileName = "C:\\Program Files\\mpv.net\\mpvnet.exe";
+                processInfo.Arguments = "--input-ipc-server=//./" + PipeName;
+                processInfo.ErrorDialog = true;
+                processInfo.UseShellExecute = false;
+                processInfo.RedirectStandardOutput = true;
+                processInfo.RedirectStandardError = true;
+                processInfo.WorkingDirectory = "C:\\Program Files\\mpv.net\\";
+                PlayerProcess = Process.Start(processInfo);
+                return false;
+            } else {
+                PlayerProcess = processList[0];
+                return true;
+            }
         }
 
-        private void ConnectToMPVInstance() {
-            Console.WriteLine("Connecting to MPV.net pipe...");
-            pipe = new NamedPipeClientStream(".", PipeName, PipeDirection.InOut, PipeOptions.Asynchronous, TokenImpersonationLevel.Anonymous);
-            pipe.Connect();
+        private bool ConnectToMPVInstance() {
+            try {
+                Console.WriteLine("Connecting to MPV.net pipe...");
+                pipe = new NamedPipeClientStream(".", PipeName, PipeDirection.InOut, PipeOptions.Asynchronous, TokenImpersonationLevel.Anonymous);
+                pipe.Connect(5000);
+            } catch (TimeoutException) {
+                Console.WriteLine("Connectiion to MPV.net pipe timed out");
+                return false;
+            }
             ReadPipe = new StreamReader(pipe);
             WritePipe = new StreamWriter(pipe);
             WritePipe.AutoFlush = true;
@@ -102,6 +125,7 @@ namespace SyncPlayWPF.SyncPlay.MediaPlayers.MPVPlayer {
             this.WriteData(MPVPackets.CraftObservePropertyPacket("pause", 1, GetRequestNewID()));
             this.WriteData(MPVPackets.CraftObservePropertyPacket("seeking", 2, GetRequestNewID()));
             this.WriteData(MPVPackets.CraftObservePropertyPacket("filename", 3, GetRequestNewID()));
+            return true;
         }
 
         private void ReadData() {

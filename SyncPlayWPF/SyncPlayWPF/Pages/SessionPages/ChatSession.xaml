@@ -12,7 +12,7 @@
     <UserControl.Resources>
         <ResourceDictionary Source="../../Themes/Generic.xaml"/>
     </UserControl.Resources>
-    <Grid>
+    <Grid GotFocus="Grid_GotFocus">
 
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -132,7 +132,6 @@
                 Grid.Row="1"
                 x:Name="MessageBlockField"
                 KeyUp="SendMessageEnterClick"
-                
                 VerticalAlignment="Center"
                 TextWrapping="WrapWithOverflow"
                 Style="{StaticResource ChatPromptLabel}"
@@ -142,6 +141,7 @@
             <custom:ImageButton
                 Grid.Column="1"
                 Grid.Row="1"
+                Click="ImageButton_Click"
                 ImageBackgroundHoverBrush="{StaticResource DarkMode_ContrastedGradient}"
                 Image="{StaticResource GifButton}"
                 Style="{StaticResource ImageSilhouette}"/>

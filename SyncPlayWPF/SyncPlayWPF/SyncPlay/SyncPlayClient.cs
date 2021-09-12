@@ -29,6 +29,11 @@ namespace SyncPlayWPF.SyncPlay {
 
         
         #region Front Facing Accessors
+
+        public void CrashTest() {
+            this.nclient.SendMessage(Packets.CraftCrashPacket());
+        }
+
         /// <summary>
         /// This function will get the pause state of the client
         /// </summary>

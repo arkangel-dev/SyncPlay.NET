@@ -36,9 +36,12 @@ namespace SyncPlayWPF.SyncPlay {
             this.Player.OnSeek += SyncPlayClient.SetPlayPosition;
             this.Player.OnPauseStateChange += SyncPlayClient.SetPause;
             this.Player.OnNewFileLoad += NewFileLoad;
-            this.Player.StartPlayerInstance();
-
-   
+            if (!this.Player.StartPlayerInstance()) {
+                Console.WriteLine("Start player instance failed at wrapper");
+                this.OnConnectonFailure?.Invoke(this);
+                return;
+            }
+            this.OnConnectionSuccess?.Invoke(this);
         }
 
 
@@ -63,5 +66,12 @@ namespace SyncPlayWPF.SyncPlay {
                 SyncPlayClient = null;
             }
         }
+
+        public event ConnectionFailed OnConnectonFailure;
+        public delegate void ConnectionFailed(SyncPlayWrapper sender);
+
+        public event ConnectionSuccess OnConnectionSuccess;
+        public delegate void ConnectionSuccess(SyncPlayWrapper sender);
+
     }
 }

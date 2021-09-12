@@ -8,6 +8,29 @@ using Newtonsoft.Json.Linq;
 
 namespace SyncPlayWPF.Misc.SyncPlay {
     public class Packets {
+
+        public static string CraftCrashPacket() {
+            var result = new JObject(
+                new JProperty("Set",
+                    new JObject(
+                        new JProperty("file",
+                            new JObject(
+                                new JProperty("name", null),
+                                new JProperty("duration", null),
+                                new JProperty("size", null)
+                            )
+                        )
+                    )
+                )
+            );
+
+
+
+            var sresult = result.ToString(Newtonsoft.Json.Formatting.None) + "\r\n";
+            Console.WriteLine(sresult);
+            return sresult;
+        }
+
         /// <summary>
         /// Create a set file packet. This is used to notify the server what the client is playing.
         /// </summary>

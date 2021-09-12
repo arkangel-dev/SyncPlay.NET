@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace SyncPlayWPF.SyncPlay {
     public interface MediaPlayerInterface {
 
-        void StartPlayerInstance();
+        bool StartPlayerInstance();
         void Pause();
         void Play();
         void SetPosition(float f);

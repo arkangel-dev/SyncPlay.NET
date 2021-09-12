@@ -5,6 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace SyncPlayWPF.Common {
-    class SensitiveConstants {
+    public class SensitiveConstants {
     }
 }

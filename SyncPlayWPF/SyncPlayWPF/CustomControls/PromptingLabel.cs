@@ -66,5 +66,20 @@ namespace SyncPlayWPF.CustomControls {
             get { return (Brush)GetValue(HoverUnderlineBrushProperty); }
             set { SetValue(HoverUnderlineBrushProperty, value); }
         }
+
+        public override void OnApplyTemplate() {
+          
+           
+        }
+
+        public void FocusOnControl() {
+            var tempchild = GetTemplateChild("UserInputBox") as TextBox;
+            tempchild.Focus();
+            Keyboard.Focus(tempchild);
+        }
+
+       
+
+        
     }
 }

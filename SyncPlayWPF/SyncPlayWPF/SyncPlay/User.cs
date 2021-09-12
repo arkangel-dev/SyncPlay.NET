@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace SyncPlayWPF.SyncPlay {
+    /// <summary>
+    /// This class defines the user that connects to the server...
+    /// </summary>
     public class User {
         public string Username;
         public string Room;
@@ -13,6 +16,9 @@ namespace SyncPlayWPF.SyncPlay {
         public float Position;
         public MediaFile File;
 
+        /// <summary>
+        /// Constructor for this class
+        /// </summary>
         public User() {
             this.Username = "";
             this.Room = "";
@@ -21,6 +27,10 @@ namespace SyncPlayWPF.SyncPlay {
             this.Position = 0.0f;
         }
 
+        /// <summary>
+        /// Skedadle skedoodle... your class is now a string
+        /// </summary>
+        /// <returns>Name of the username</returns>
         public override string ToString() {
             return this.Username;
         }

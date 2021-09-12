@@ -56,7 +56,7 @@ namespace SyncPlayWPF.Pages {
         }
 
         private void ToggleSidePanel(object sender, RoutedEventArgs e) {
-            Common.Shared.MasterLogDump.Save();
+            Common.Shared.Wrapper.SyncPlayClient.CrashTest();
         }
 
         private void SidePanelButtonClick(object sender, RoutedEventArgs e) {
@@ -79,5 +79,7 @@ namespace SyncPlayWPF.Pages {
                     break;
             }
         }
+
+        
     }
 }

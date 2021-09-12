@@ -135,9 +135,10 @@ namespace SyncPlayWPF.SyncPlay.MediaPlayers.VLCMediaPlayer  {
             }
         }
 
-        public void StartPlayerInstance() {
+        public bool StartPlayerInstance() {
             StartVLCServer();
             ConnectToVLCServer();
+            return true;
         }
 
         public void SetPosition(float f) {

@@ -24,15 +24,29 @@ namespace SyncPlayWPF.Pages.SessionPages {
             this.Loaded += OnPageLoad;
         }
 
+        private bool InitialPageLoaded = false;
         private bool LastAdditionWasChatInfo = false;
         private User LastSender = null;
 
         private void OnPageLoad(object sender, RoutedEventArgs e) {
-            Common.Shared.Wrapper.SyncPlayClient.OnNewChatMessage += NewChatMessage;
-            Common.Shared.Wrapper.SyncPlayClient.OnChatInfoEvent += NewChatEvent;
-            Common.Shared.Wrapper.SyncPlayClient.OnFileSet += SyncPlayClient_OnFileSet;
-            Common.Shared.Wrapper.SyncPlayClient.OnUserRoomEvent += SyncPlayClient_OnUserRoomEvent;
-            LoadUserName();
+            if (!InitialPageLoaded) {
+                Common.Shared.Wrapper.SyncPlayClient.OnNewChatMessage += NewChatMessage;
+                Common.Shared.Wrapper.SyncPlayClient.OnChatInfoEvent += NewChatEvent;
+                Common.Shared.Wrapper.SyncPlayClient.OnFileSet += SyncPlayClient_OnFileSet;
+                Common.Shared.Wrapper.SyncPlayClient.OnUserRoomEvent += SyncPlayClient_OnUserRoomEvent;
+                LoadUserName();
+                InitialPageLoaded = true;
+            }
+        }
+        private void LoadUserName() {
+            foreach (var u in Common.Shared.Wrapper.SyncPlayClient.UserDictionary.Values) {
+                var newControl = new CustomControls.UserSessionView();
+                newControl.Username = u.Username;
+                newControl.FileDuration = "";
+                newControl.FileName = "";
+                newControl.FileSize = "";
+                UserStack.Children.Add(newControl);
+            }
         }
 
         private void ChatScrollView_PreviewMouseWheel(object sender, MouseWheelEventArgs e) {
@@ -71,16 +85,7 @@ namespace SyncPlayWPF.Pages.SessionPages {
             }
         }
 
-        private void LoadUserName() {
-            foreach (var u in Common.Shared.Wrapper.SyncPlayClient.UserDictionary.Values) {
-                var newControl = new CustomControls.UserSessionView();
-                newControl.Username = u.Username;
-                newControl.FileDuration = "";
-                newControl.FileName = "";
-                newControl.FileSize = "";
-                UserStack.Children.Add(newControl);
-            }
-        }
+        
 
         private void SyncPlayClient_OnUserRoomEvent(SyncPlayClient sender, SyncPlay.SPEventArgs.UserRoomStateEventArgs e) {
             if (e.EventType == SyncPlay.SPEventArgs.UserRoomStateEventArgs.EventTypes.JOINED) {
@@ -198,6 +203,16 @@ namespace SyncPlayWPF.Pages.SessionPages {
 
         private void IgnorePlayerStateChangeClick(object sender, RoutedEventArgs e) {
             Common.Shared.IgnorePlayerStateChanges = (bool)IgnorePlayerStateChangeToggle.IsChecked;
+        }
+
+
+
+        private void ImageButton_Click(object sender, RoutedEventArgs e) {
+            MessageBlockField.FocusOnControl();
+        }
+
+        private void Grid_GotFocus(object sender, RoutedEventArgs e) {
+            MessageBlockField.FocusOnControl();
         }
     }
 }

@@ -45,13 +45,38 @@ namespace SyncPlayWPF.Pages {
             }
 
             Common.Shared.Wrapper = new SyncPlayWrapper(serverIp, serverPort, username, password, roomName, connector);
-            Common.Shared.Wrapper.SyncPlayClient.OnConnect += SyncPlayClient_OnConnect;
             Common.Shared.Wrapper.SyncPlayClient.OnDisconnect += SyncPlayClient_OnDisconnect;
             Common.Shared.Wrapper.SyncPlayClient.ConnectAsync();
+            Common.Shared.Wrapper.OnConnectonFailure += Wrapper_OnConnectonFailure;
+            Common.Shared.Wrapper.OnConnectionSuccess += Wrapper_OnConnectionSuccess;
             LoadingPage = new Pages.ApplicationPages.LoadingScreen();
             Common.Shared.MasterOverrideTransition.ShowPage(LoadingPage);
         }
 
+        private void Wrapper_OnConnectionSuccess(SyncPlayWrapper sender) {
+            Dispatcher.Invoke(() => {
+                Console.WriteLine("Connection established at connector");
+                LoadingPage = null;
+                Common.Shared.MasterOverrideTransition.UnloadCurrentPage();
+                Common.Shared.MasterOverrideTransition.ShowPage(new ApplicationPages.Blank());
+                Common.Shared.WindowPageTransition.ShowPage(new Pages.SessionLandingPage());
+
+                Common.Shared.CurrentConfig.Element("Config").Element("Basics").Element("Address").Value = ServerAddressField.Text;
+                Common.Shared.CurrentConfig.Element("Config").Element("Basics").Element("Username").Value = UsernameField.Text;
+                Common.Shared.CurrentConfig.Element("Config").Element("Basics").Element("RoomName").Value = RoomNameField.Text;
+                Common.Settings.WriteConfigurationToFile();
+            });
+        }
+
+        private void Wrapper_OnConnectonFailure(SyncPlayWrapper sender) {
+            Dispatcher.Invoke(() => {
+                LoadingPage = null;
+                Common.Shared.MasterOverrideTransition.UnloadCurrentPage();
+                Common.Shared.MasterOverrideTransition.ShowPage(new ApplicationPages.Blank());
+                Common.Shared.Wrapper.SyncPlayClient.OnDisconnect -= SyncPlayClient_OnDisconnect;
+            });
+            Common.Shared.Wrapper.Dispose();
+        }
 
         private MediaPlayerInterface GetPlayerType(string path) {
             var exename = System.IO.Path.GetFileName(path);
@@ -74,7 +99,6 @@ namespace SyncPlayWPF.Pages {
                 LoadingPage = null;
                 Common.Shared.MasterOverrideTransition.UnloadCurrentPage();
                 Common.Shared.MasterOverrideTransition.ShowPage(new ApplicationPages.Blank());
-                Common.Shared.Wrapper.SyncPlayClient.OnConnect -= SyncPlayClient_OnConnect;
                 Common.Shared.Wrapper.SyncPlayClient.OnDisconnect -= SyncPlayClient_OnDisconnect;
             });
             
@@ -82,21 +106,7 @@ namespace SyncPlayWPF.Pages {
             Common.Shared.Wrapper.Dispose();
         }
 
-        private void SyncPlayClient_OnConnect(SyncPlayClient sender, SyncPlay.SPEventArgs.ServerConnectedEventArgs e) {
-            
-            Dispatcher.Invoke(() => {
-                Console.WriteLine("Connection established at connector");
-                LoadingPage = null;
-                Common.Shared.MasterOverrideTransition.UnloadCurrentPage();
-                Common.Shared.MasterOverrideTransition.ShowPage(new ApplicationPages.Blank());
-                Common.Shared.WindowPageTransition.ShowPage(new Pages.SessionLandingPage());
-
-                Common.Shared.CurrentConfig.Element("Config").Element("Basics").Element("Address").Value = ServerAddressField.Text;
-                Common.Shared.CurrentConfig.Element("Config").Element("Basics").Element("Username").Value = UsernameField.Text;
-                Common.Shared.CurrentConfig.Element("Config").Element("Basics").Element("RoomName").Value = RoomNameField.Text;
-                Common.Settings.WriteConfigurationToFile();
-            });
-        }
+       
 
         private void ShowMoreSettings_Clicked(object sender, RoutedEventArgs e) {
             Common.Shared.PreviousScreen = this;
