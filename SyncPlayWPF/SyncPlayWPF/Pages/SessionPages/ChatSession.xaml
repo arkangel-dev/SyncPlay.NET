@@ -132,10 +132,12 @@
                 Grid.Row="1"
                 x:Name="MessageBlockField"
                 KeyUp="SendMessageEnterClick"
+                KeyDown="SendMessageShiftEnter"
                 VerticalAlignment="Center"
-                TextWrapping="WrapWithOverflow"
+                TextWrapping="Wrap"
+                
                 Style="{StaticResource ChatPromptLabel}"
-                PromptingText="Enter Message Here" Margin="0,0,0,-0.2"/>
+                PromptingText="Enter Message Here" Margin="0,0,-2,-0.2"/>
 
 
             <custom:ImageButton

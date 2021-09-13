@@ -1,8 +1,8 @@
 <Config>
   <!--Basics and Stuff-->
   <Basics>
-    <Address>syncplay.pl:8995</Address>
-    <Username>Sam</Username>
+    <Address>localhost:5005</Address>
+    <Username>User 2</Username>
     <Password></Password>
     <RoomName>ck</RoomName>
     <PathToMediaPlayer>C:\Program Files\mpv.net\mpvnet.exe</PathToMediaPlayer>

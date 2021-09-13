@@ -793,19 +793,18 @@
                     <Grid Margin="3,6,3,6" ShowGridLines="True" x:Name="ContainerGrid"
                           MinWidth="{Binding Path=ActualWidth, ElementName=ContainerGrid, Converter={StaticResource PercentageConverter}, ConverterParameter='0.5'}">
 
-                        <TextBox
-                                Margin="10,0,0,0"
-                                Grid.Row="0"
-                                BorderThickness="0"
-                                FontSize="13"
-                                Name="UserInputBox"
-                                TextWrapping="Wrap"
-                                Background="Transparent"
-                                CaretBrush="{StaticResource DarkMode_TextColorF}"
-                                Foreground="{StaticResource DarkMode_TextColorF}"
-                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Text,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                Width="{Binding Path=ActualWidth, ElementName=ContainerGrid}"
-                                MaxWidth="{Binding Path=ActualWidth, ElementName=ContainerGrid}">
+                        <TextBox Margin="10,0,0,0"
+                                 Grid.Row="0"
+                                 BorderThickness="0"
+                                 FontSize="13"
+                                 Name="UserInputBox"
+                                 TextWrapping="Wrap"
+                                 Background="Transparent"
+                                 CaretBrush="{StaticResource DarkMode_TextColorF}"
+                                 Foreground="{StaticResource DarkMode_TextColorF}"
+                                 Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Text,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="{Binding Path=ActualWidth, ElementName=ContainerGrid, Converter={StaticResource PercentageConverter}, ConverterParameter='0.9'}"
+                                 MaxWidth="{Binding Path=ActualWidth, ElementName=ContainerGrid}">
 
                         </TextBox>
                         <TextBlock 
@@ -1245,7 +1244,7 @@
                                     Margin="0,0,10,0"
                                     Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=MessageContent}"
                                     Foreground="{StaticResource DarkMode_TextColorF}"
-                                    TextWrapping="WrapWithOverflow"
+                                    TextWrapping="Wrap"
                                     VerticalAlignment="Bottom"
                                     Grid.ColumnSpan="1"
                                     Width="auto"/>
@@ -1263,11 +1262,11 @@
                             <EventTrigger RoutedEvent="Border.Loaded">
                                 <BeginStoryboard>
                                     <Storyboard >
-                                        <ThicknessAnimation Duration="0:0:0.1"
+                                        <ThicknessAnimation Duration="0:0:0.25"
                                                             To="0,0,0,0"
                                                             From="0,0,0,-55"
                                                             Storyboard.TargetProperty="Margin"/>
-                                        <DoubleAnimation Duration="0:0:0.05"
+                                        <DoubleAnimation Duration="0:0:0.25"
                                                          To="1"
                                                          From="0"
                                                          Storyboard.TargetProperty="Opacity"/>
@@ -1337,7 +1336,7 @@
                                     Margin="0,0,10,0"
                                     Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=MessageContent}"
                                     Foreground="{StaticResource DarkMode_TextColorF}"
-                                    TextWrapping="WrapWithOverflow"
+                                    TextWrapping="Wrap"
                                     VerticalAlignment="Bottom"
                                     
                                     Width="auto"/>
@@ -1355,11 +1354,11 @@
                             <EventTrigger RoutedEvent="Border.Loaded">
                                 <BeginStoryboard>
                                     <Storyboard >
-                                        <ThicknessAnimation Duration="0:0:0.1"
+                                        <ThicknessAnimation Duration="0:0:0.25"
                                                             To="0,0,0,0"
                                                             From="0,0,0,-55"
                                                             Storyboard.TargetProperty="Margin"/>
-                                        <DoubleAnimation Duration="0:0:0.05"
+                                        <DoubleAnimation Duration="0:0:0.25"
                                                          To="1"
                                                          From="0"
                                                          Storyboard.TargetProperty="Opacity"/>

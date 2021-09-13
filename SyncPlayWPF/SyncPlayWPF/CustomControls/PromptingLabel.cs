@@ -72,6 +72,11 @@ namespace SyncPlayWPF.CustomControls {
            
         }
 
+        public void MoveToEndPosition() {
+            var tempchild = GetTemplateChild("UserInputBox") as TextBox;
+            tempchild.CaretIndex = tempchild.Text.Length;
+        }
+
         public void FocusOnControl() {
             var tempchild = GetTemplateChild("UserInputBox") as TextBox;
             tempchild.Focus();

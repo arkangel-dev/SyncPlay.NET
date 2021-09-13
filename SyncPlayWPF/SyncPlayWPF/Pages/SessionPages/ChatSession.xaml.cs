@@ -85,8 +85,6 @@ namespace SyncPlayWPF.Pages.SessionPages {
             }
         }
 
-        
-
         private void SyncPlayClient_OnUserRoomEvent(SyncPlayClient sender, SyncPlay.SPEventArgs.UserRoomStateEventArgs e) {
             if (e.EventType == SyncPlay.SPEventArgs.UserRoomStateEventArgs.EventTypes.JOINED) {
                 Dispatcher.Invoke(() => {
@@ -111,7 +109,6 @@ namespace SyncPlayWPF.Pages.SessionPages {
         }
 
         private void SyncPlayClient_OnFileSet(SyncPlay.SyncPlayClient sender, SyncPlay.SPEventArgs.RemoteSetFileEventArgs e) {
-
             Dispatcher.Invoke(() => {
                 Console.WriteLine("File loaded event");
                 foreach (CustomControls.UserSessionView uc in UserStack.Children) {
@@ -164,9 +161,20 @@ namespace SyncPlayWPF.Pages.SessionPages {
         }
 
         private void SendMessageEnterClick(object sender, KeyEventArgs e) {
-            if (e.Key == Key.Enter) {
-                SendMessage();
+            if (e.Key != Key.Enter) return;
+            if (String.IsNullOrWhiteSpace(MessageBlockField.Text)) {
+                MessageBlockField.Text = "";
+                return;
+            };
+            if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift)) {
+                MessageBlockField.Text += "\n";
+                MessageBlockField.MoveToEndPosition();
+                return;
             }
+            SendMessage();
+        }
+        private void SendMessageShiftEnter(object sender, KeyEventArgs e) {
+            
         }
 
         private bool UserListExpanded = false;
@@ -205,14 +213,12 @@ namespace SyncPlayWPF.Pages.SessionPages {
             Common.Shared.IgnorePlayerStateChanges = (bool)IgnorePlayerStateChangeToggle.IsChecked;
         }
 
-
-
         private void ImageButton_Click(object sender, RoutedEventArgs e) {
-            MessageBlockField.FocusOnControl();
+            MessageBlockField.Text += "\n";
         }
 
         private void Grid_GotFocus(object sender, RoutedEventArgs e) {
             MessageBlockField.FocusOnControl();
-        }
+        }        
     }
 }

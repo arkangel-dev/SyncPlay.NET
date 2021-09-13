@@ -56,7 +56,7 @@ namespace SyncPlayWPF.Pages {
         }
 
         private void ToggleSidePanel(object sender, RoutedEventArgs e) {
-            Common.Shared.Wrapper.SyncPlayClient.CrashTest();
+            Common.Shared.MasterLogDump.Save();
         }
 
         private void SidePanelButtonClick(object sender, RoutedEventArgs e) {
@@ -72,6 +72,10 @@ namespace SyncPlayWPF.Pages {
                         ((Pages.SettingsPage)(this.SettingsPageSingleton)).EnableNoReturn();
                     }
                     SessionPageWindow.ShowPage(this.SettingsPageSingleton);
+                    break;
+
+                case "AboutSideButton":
+                    SessionPageWindow.ShowPage(new Pages.ApplicationPages.AboutPage());
                     break;
 
                 default:

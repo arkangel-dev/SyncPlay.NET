@@ -16,6 +16,7 @@
     <Deterministic>true</Deterministic>
     <LangVersion>latest</LangVersion>
     <TargetFrameworkProfile />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -26,10 +27,10 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationRevision>1</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -55,6 +56,18 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>SyncplayOriginal_Logo.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>F5A927EA46B7F3679BD7989AF71BDA627417F5F3</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>SyncPlayWPF_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommonServiceLocator, Version=2.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
@@ -109,6 +122,9 @@
     <Compile Include="CustomControls\StatusImage.cs" />
     <Compile Include="CustomControls\ToastNotification.cs" />
     <Compile Include="CustomControls\UserSessionView.cs" />
+    <Compile Include="Pages\ApplicationPages\AboutPage.xaml.cs">
+      <DependentUpon>AboutPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\ApplicationPages\Blank.xaml.cs">
       <DependentUpon>Blank.xaml</DependentUpon>
     </Compile>
@@ -169,6 +185,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\ApplicationPages\AboutPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\ApplicationPages\Blank.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -233,6 +253,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="SyncPlayWPF_TemporaryKey.pfx" />
     <Resource Include="Fonts\IBMPlexSans-Regular.ttf" />
     <Resource Include="Fonts\Quicksand-Regular.ttf" />
     <None Include="packages.config" />
@@ -251,16 +272,6 @@
     <Resource Include="ImageLib\close-line.png" />
     <Resource Include="ImageLib\minus-line.png" />
     <Resource Include="ImageLib\restore-window-line.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\symphony-pos\WpfPageTransitions\WpfPageTransitions.csproj">
-      <Project>{22a46d61-1d40-43a9-802c-b9d43dadd9ec}</Project>
-      <Name>WpfPageTransitions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\WPF-Masonry\Masonry\Masonry.csproj">
-      <Project>{e2ba75bf-c535-46b9-a180-e10533a1c1d1}</Project>
-      <Name>Masonry</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ImageLib\emoji.png" />
@@ -334,6 +345,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ImageLib\PoweredByGiphy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\External\WPF-Masonry\Masonry\Masonry.csproj">
+      <Project>{e2ba75bf-c535-46b9-a180-e10533a1c1d1}</Project>
+      <Name>Masonry</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\External\WpfPageTransitions\WpfPageTransitions.csproj">
+      <Project>{22a46d61-1d40-43a9-802c-b9d43dadd9ec}</Project>
+      <Name>WpfPageTransitions</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

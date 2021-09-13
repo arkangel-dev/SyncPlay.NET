@@ -11,7 +11,8 @@ namespace SyncPlayWPF.Converters {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
             var text = value as string;
 
-            return !string.IsNullOrWhiteSpace(text);
+            //return !string.IsNullOrWhiteSpace(text);
+            return text.Length != 0;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {

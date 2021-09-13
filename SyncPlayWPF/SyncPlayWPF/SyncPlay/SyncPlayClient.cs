@@ -532,7 +532,7 @@ namespace SyncPlayWPF.SyncPlay {
                                         remoteseekingeventargs.Position = serverPosition;
                                         remoteseekingeventargs.Seeked = true;
 
-                                        var seekinfomsg = $"{setByUser.Username} has seeked to {serverPosition} seconds";
+                                        var seekinfomsg = $"{setByUser.Username} has seeked to {Misc.Common.ConvertSecondsToTimeStamp((int)remoteseekingeventargs.Position)} seconds";
                                         this.OnChatInfoEvent?.Invoke(this, new SPEventArgs.ChatInfoMessageArgs(setByUser, seekinfomsg));
 
 
