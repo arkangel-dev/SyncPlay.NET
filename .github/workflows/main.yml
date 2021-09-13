@@ -19,9 +19,15 @@ jobs:
       - name: Setup NuGet
         uses: NuGet/setup-nuget@v1.0.5
 
+      - name: Print Workspace
+        run: echo $GITHUB_WORKSPACE
+
       - name: Navigate to Workspace
         run: cd $GITHUB_WORKSPACE/SyncPlayWPF
-
+        
+      - name: List Workspace
+        run: ls -la
+        
       - name: Restore Packages
         run: nuget restore SyncPlayWPF.sln
 
