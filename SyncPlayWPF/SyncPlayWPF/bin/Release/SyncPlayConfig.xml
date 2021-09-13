@@ -1,8 +1,8 @@
 <Config>
   <!--Basics and Stuff-->
   <Basics>
-    <Address>localhost:5005</Address>
-    <Username>User 2</Username>
+    <Address>SyncPlay.pl:8995</Address>
+    <Username>Sam</Username>
     <Password></Password>
     <RoomName>ck</RoomName>
     <PathToMediaPlayer>C:\Program Files\mpv.net\mpvnet.exe</PathToMediaPlayer>
@@ -16,6 +16,9 @@
     <SyncMyReadyToWatchStatusWithPlayState>True</SyncMyReadyToWatchStatusWithPlayState>
     <NeverSlowDownOrRewindOther>False</NeverSlowDownOrRewindOther>
     <FastForwardIfLaggingBehind>True</FastForwardIfLaggingBehind>
+    <DisableUnsyncModeAfterRemoteFileChange>True</DisableUnsyncModeAfterRemoteFileChange>
+    <ResyncWithOthersAfterDisablingUnsyncMode>True</ResyncWithOthersAfterDisablingUnsyncMode>
+    <ChangeLocalStateToReSyncWithOthers>True</ChangeLocalStateToReSyncWithOthers>
   </Behaviour>
   <!--Chat Behaviour Settings-->
   <Chat>
@@ -23,17 +26,18 @@
     <PlayNotificationSound>False</PlayNotificationSound>
     <DisableAnimations>False</DisableAnimations>
     <AutoplayGifs>False</AutoplayGifs>
-    <PreviewLinks>False</PreviewLinks>
-    <EnableOSDMessages>False</EnableOSDMessages>
-    <ShowEventsInYourRoom>False</ShowEventsInYourRoom>
     <ShowEventsFromNonOperatorsInManagedRooms>False</ShowEventsFromNonOperatorsInManagedRooms>
     <ShowEventsInOtherRooms>False</ShowEventsInOtherRooms>
     <ShowSlowingDownRevertingNotifications>True</ShowSlowingDownRevertingNotifications>
     <ShowWarnings>True</ShowWarnings>
+    <AllowMultiLineMessages>False</AllowMultiLineMessages>
+    <PreviewLinks>False</PreviewLinks>
+    <EnableOSDMessages>True</EnableOSDMessages>
+    <ShowEventsInYourRoom>False</ShowEventsInYourRoom>
   </Chat>
   <!--Security Settings. Sekuriti-->
   <Security>
-    <EnableTLS>False</EnableTLS>
+    <EnableTLS>True</EnableTLS>
     <HashFileNamesBeforeSending>False</HashFileNamesBeforeSending>
     <HashPasswords>True</HashPasswords>
   </Security>

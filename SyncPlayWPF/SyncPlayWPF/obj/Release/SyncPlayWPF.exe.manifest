@@ -4,7 +4,7 @@
   <description asmv2:iconFile="SyncplayOriginal_Logo.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="SyncPlayWPF" version="2021.256.15.0" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="SyncPlayWPF" version="2021.256.28.0" language="neutral" processorArchitecture="msil" />
     <commandLine file="SyncPlayWPF.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -127,14 +127,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SyncPlayWPF.exe" size="5503376">
-      <assemblyIdentity name="SyncPlayWPF" version="2021.256.15.0" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SyncPlayWPF.exe" size="5505424">
+      <assemblyIdentity name="SyncPlayWPF" version="2021.256.28.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>mLDMrsmry6YUe4NKJ4oZ+LO2kPWAVmlp4GPRxD1Dzok=</dsig:DigestValue>
+        <dsig:DigestValue>L6+V0QyGGWLDUBpcJ3qb8ksaWewEoGvhoGOjZvysqqE=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

@@ -70,13 +70,13 @@
 
                     <Label Grid.Row="6" Margin="0,15,0,0" Content="Unsync Mode" Foreground="{StaticResource DarkMode_TextColorE}" FontWeight="DemiBold"/>
                     <StackPanel Grid.Row="7">
-                        <CheckBox Margin="20,0,0,0" Content="Disable unsync after remote file change" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                        <CheckBox x:Name="DisableUnsyncModeAfterRemoteFileChange" Margin="20,0,0,0" Content="Disable unsync after remote file change" Style="{StaticResource GenericCheckboxLowFidelity}"/>
                     </StackPanel>
                     
                     <Label Grid.Row="4" Margin="0,15,0,0" Content="After disabling unsync mode... " Foreground="{StaticResource DarkMode_TextColorE}" FontWeight="DemiBold"/>
                     <StackPanel Grid.Row="5">
-                        <CheckBox Margin="20,0,0,0" Content="Resync with others" Style="{StaticResource GenericCheckboxLowFidelity}"/>
-                        <CheckBox Margin="20,0,0,0" Content="Change local state to re-sync with others" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                        <CheckBox x:Name="ResyncWithOthersAfterDisablingUnsyncMode" Margin="20,0,0,0" Content="Resync with others" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                        <CheckBox x:Name="ChangeLocalStateToReSyncWithOthers" Margin="20,0,0,0" Content="Change local state to re-sync with others" Style="{StaticResource GenericCheckboxLowFidelity}"/>
                     </StackPanel>
 
                     
@@ -94,6 +94,7 @@
                             <Label Margin="0,0,0,0" Content="Chat settings" Foreground="{StaticResource DarkMode_TextColorE}" FontWeight="DemiBold"/>
                             <StackPanel Grid.Row="1">
                                 <CheckBox x:Name="ShowMessagesInPlayerWindow" Margin="20,0,0,0" Content="Show messages in player window" IsChecked="True" Style="{StaticResource GenericCheckboxLowFidelity}"/>
+                                <CheckBox x:Name="AllowMultiLineMessages" Margin="20,0,0,0" Content="Allow sending multi-line messages" IsChecked="False" Style="{StaticResource GenericCheckboxLowFidelity}"/>
                                 <CheckBox x:Name="PlayNotificationSound" Margin="20,0,0,0" Content="Play notification sound" Style="{StaticResource GenericCheckboxLowFidelity}"/>
                                 <CheckBox x:Name="DisableAnimations" Margin="20,0,0,0" Content="Disable animations" Style="{StaticResource GenericCheckboxLowFidelity}"/>
                                 <CheckBox x:Name="AutoPlayGIFs" Margin="20,0,0,0" Content="Autoplay GIFs" Style="{StaticResource GenericCheckboxLowFidelity}"/>

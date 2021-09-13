@@ -800,6 +800,7 @@
                                  Name="UserInputBox"
                                  TextWrapping="Wrap"
                                  Background="Transparent"
+                                 HorizontalAlignment="Left"
                                  CaretBrush="{StaticResource DarkMode_TextColorF}"
                                  Foreground="{StaticResource DarkMode_TextColorF}"
                                  Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Text,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -815,6 +816,8 @@
                                 Focusable="False"
                                 FontStyle="Italic"
                                 FontWeight="Normal"
+                                HorizontalAlignment="Left"
+                                Width="{Binding Path=ActualWidth, ElementName=ContainerGrid, Converter={StaticResource PercentageConverter}, ConverterParameter='0.9'}"
                                 Foreground="{StaticResource DarkMode_TextColorC}"
                                 Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PromptingText}">
                             <TextBlock.Style>

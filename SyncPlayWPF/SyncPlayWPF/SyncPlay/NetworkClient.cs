@@ -46,8 +46,12 @@ namespace SyncPlayWPF.SyncPlay {
 
 
         public void Disconnect() {
-            this.client.GetStream().Close();
-            this.client.Close();
+            try {
+                this.client.GetStream().Close();
+                this.client.Close();
+            } catch (Exception _) {
+
+            }
         }
 
         public void ActivateTLS() {

@@ -11,7 +11,7 @@ namespace SyncPlayWPF.Common {
 
 
         private static XElement basics = new XElement("Basics",
-                            new XElement("Address", ""),
+                            new XElement("Address", "SyncPlay.pl:8995"),
                             new XElement("Username", ""),
                             new XElement("Password", ""),
                             new XElement("RoomName", ""),
@@ -25,16 +25,20 @@ namespace SyncPlayWPF.Common {
                             new XElement("PauseWhenAUserLeavesOrGetDisconnected", "True"),
                             new XElement("SyncMyReadyToWatchStatusWithPlayState", "True"),
                             new XElement("NeverSlowDownOrRewindOther", "False"),
-                            new XElement("FastForwardIfLaggingBehind", "True")
+                            new XElement("FastForwardIfLaggingBehind", "True"),
+                            new XElement("DisableUnsyncModeAfterRemoteFileChange", "True"),
+                            new XElement("ResyncWithOthersAfterDisablingUnsyncMode", "True"),
+                            new XElement("ChangeLocalStateToReSyncWithOthers", "True")
                         );
 
         private static XElement chatbehaviour = new XElement("Chat",
                             new XElement("ShowMessagesInPlayerWindow", "True"),
+                            new XElement("AllowMultiLineMessages", "False"),
                             new XElement("PlayNotificationSound", "False"),
                             new XElement("DisableAnimations", "False"),
                             new XElement("AutoplayGifs", "False"),
                             new XElement("PreviewLinks", "False"),
-                            new XElement("EnableOSDMessages", ""),
+                            new XElement("EnableOSDMessages", "True"),
                             new XElement("ShowEventsInYourRoom", "True"),
                             new XElement("ShowEventsFromNonOperatorsInManagedRooms", "False"),
                             new XElement("ShowEventsInOtherRooms", "False"),
@@ -62,7 +66,9 @@ namespace SyncPlayWPF.Common {
         );
 
         public static void DefineSharedSettings() {
+            
             Common.Shared.CurrentConfig = XDocument.Parse(System.IO.File.ReadAllText("SyncPlayConfig.xml"));
+            
         }
 
         public static void RestoreDefaultConfiguration() {
@@ -70,6 +76,11 @@ namespace SyncPlayWPF.Common {
                 XDocument doc = XDocument.Parse(System.IO.File.ReadAllText("SyncPlayConfig.xml"));
                 foreach (var sectiontag in NewConfig.Element("Config").Elements()) {
                     foreach (var proptag in sectiontag.Elements()) {
+
+                        if (!doc.Element("Config").Element(sectiontag.Name).Elements().Any(t => t.Name == proptag.Name)) {
+                            doc.Element("Config").Element(sectiontag.Name).Add(new XElement(proptag.Name));
+                        }
+
                         doc.Element("Config").Element(sectiontag.Name).Element(proptag.Name).Value = proptag.Value;
                     }
                 }
@@ -116,8 +127,20 @@ namespace SyncPlayWPF.Common {
         }
 
         public static void WriteConfigurationToView(Pages.SettingsPage Page) {
-            XDocument doc = XDocument.Parse(System.IO.File.ReadAllText("SyncPlayConfig.xml"));
+            XDocument doc = null;
+            doc = XDocument.Parse(System.IO.File.ReadAllText("SyncPlayConfig.xml"));
+            try {
+                WriteConfig(Page, doc);
+            } catch (Exception) {
+                RestoreDefaultConfiguration();
+                DefineSharedSettings();
+                WriteConfig(Page, doc);
+            }
 
+            
+        }
+
+        private static void WriteConfig(Pages.SettingsPage Page, XDocument doc) {
             Page.ServerAddressField.Text = GetStringValue(doc, "Basics", "Address");
             Page.UsernameField.Text = GetStringValue(doc, "Basics", "Username");
             Page.RoomNameField.Text = GetStringValue(doc, "Basics", "RoomName");
@@ -130,8 +153,13 @@ namespace SyncPlayWPF.Common {
             Page.SyncReadyToPlayWithPauseState.IsChecked = GetBooleanValue(doc, "Behaviour", "SyncMyReadyToWatchStatusWithPlayState");
             Page.NeverSlowDownOrRewindOthers.IsChecked = GetBooleanValue(doc, "Behaviour", "NeverSlowDownOrRewindOther");
             Page.FastForwardIfLagginingBehind.IsChecked = GetBooleanValue(doc, "Behaviour", "FastForwardIfLaggingBehind");
+            Page.DisableUnsyncModeAfterRemoteFileChange.IsChecked = GetBooleanValue(doc, "Behaviour", "DisableUnsyncModeAfterRemoteFileChange");
+            Page.ResyncWithOthersAfterDisablingUnsyncMode.IsChecked = GetBooleanValue(doc, "Behaviour", "ResyncWithOthersAfterDisablingUnsyncMode");
+            Page.ChangeLocalStateToReSyncWithOthers.IsChecked = GetBooleanValue(doc, "Behaviour", "DisableUnsyncModeAfterRemoteFileChange");
+
 
             Page.ShowMessagesInPlayerWindow.IsChecked = GetBooleanValue(doc, "Chat", "ShowMessagesInPlayerWindow");
+            Page.AllowMultiLineMessages.IsChecked = GetBooleanValue(doc, "Chat", "AllowMultiLineMessages");
             Page.PlayNotificationSound.IsChecked = GetBooleanValue(doc, "Chat", "PlayNotificationSound");
             Page.DisableAnimations.IsChecked = GetBooleanValue(doc, "Chat", "DisableAnimations");
             Page.AutoPlayGIFs.IsChecked = GetBooleanValue(doc, "Chat", "AutoplayGifs");

@@ -167,9 +167,14 @@ namespace SyncPlayWPF.Pages.SessionPages {
                 return;
             };
             if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift)) {
-                MessageBlockField.Text += "\n";
-                MessageBlockField.MoveToEndPosition();
-                return;
+                if (Common.Settings.GetCurrentConfigBoolValue("Chat", "AllowMultiLineMessages")) {
+                    MessageBlockField.Text += "\n";
+                    MessageBlockField.MoveToEndPosition();
+                    return;
+                } else {
+                    Common.Shared.NotificationLayer.CreateNotification("Multi-line Chat", "Multi-line chat messages have been disabled. Enable it and try again");
+                    return;
+                }
             }
             SendMessage();
         }

@@ -1,5 +1,5 @@
 
-![](https://github.com/arkangel-dev/SyncPlay.NET/actions/workflows/main.yml/badge.svg)![](https://img.shields.io/badge/Minimal%20Compatible%20Version-1.2.8-green) ![](https://img.shields.io/badge/Stage-Beta-yellow)
+![](https://github.com/arkangel-dev/SyncPlay.NET/actions/workflows/main.yml/badge.svg) ![](https://img.shields.io/badge/Stage-Beta-yellow)
 
 <img src="readme.assets/banner.png" alt="Banner" style="zoom: 67%;" />
 
