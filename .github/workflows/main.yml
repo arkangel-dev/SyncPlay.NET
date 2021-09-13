@@ -1,0 +1,29 @@
+name: Build and Tests
+
+on:  
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:  
+  build:    
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: SyncPlayWPF
+    steps:      
+      - uses: actions/checkout@v2
+      
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.0.5
+        
+      - name: Restore Packages
+        run: nuget restore SyncPlayWPF.sln
+
+      - name: Build Solution
+        run: |
+          msbuild.exe SyncPlayWPF.sln /p:platform="Any CPU" /p:configuration="Release"
