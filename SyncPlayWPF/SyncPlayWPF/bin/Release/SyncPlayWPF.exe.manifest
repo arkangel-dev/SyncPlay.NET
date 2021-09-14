@@ -4,7 +4,7 @@
   <description asmv2:iconFile="SyncplayOriginal_Logo.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="SyncPlayWPF" version="2021.256.28.0" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="SyncPlayWPF" version="2021.256.42.0" language="neutral" processorArchitecture="msil" />
     <commandLine file="SyncPlayWPF.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -68,13 +68,13 @@
   </dependency>
   <dependency>
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Masonry.dll" size="11776">
-      <assemblyIdentity name="Masonry" version="2021.256.1.0" language="neutral" processorArchitecture="msil" />
+      <assemblyIdentity name="Masonry" version="2021.256.5.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>dH9mgbAVU1xBnidvrtQfi9+vL61cu6sMHFePUuxFmWY=</dsig:DigestValue>
+        <dsig:DigestValue>1myitFp9geAN8kSFveTY/y9papctHoX8GPqxg8kPcUA=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -127,14 +127,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SyncPlayWPF.exe" size="5505424">
-      <assemblyIdentity name="SyncPlayWPF" version="2021.256.28.0" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SyncPlayWPF.exe" size="5506960">
+      <assemblyIdentity name="SyncPlayWPF" version="2021.256.42.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>L6+V0QyGGWLDUBpcJ3qb8ksaWewEoGvhoGOjZvysqqE=</dsig:DigestValue>
+        <dsig:DigestValue>0iG3He+JPI9kq6J8hsrRcFWsJ+BIeos4WETQ76PZ9Zg=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -152,13 +152,13 @@
   </dependency>
   <dependency>
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="WpfPageTransitions.dll" size="17920">
-      <assemblyIdentity name="WpfPageTransitions" version="2021.256.1.0" language="neutral" processorArchitecture="msil" />
+      <assemblyIdentity name="WpfPageTransitions" version="2021.256.5.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>z3qnb9wkde1JtIO/XGNaMJTf056YO/ztDho9XNemx6Y=</dsig:DigestValue>
+        <dsig:DigestValue>5QY+WitNCCYXXvsLE48+Kz0oUs3jM+OCqUIHRNzNR4E=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

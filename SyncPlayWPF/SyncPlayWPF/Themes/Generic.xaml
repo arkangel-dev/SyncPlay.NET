@@ -706,6 +706,8 @@
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="FocusedUnderlineBrush" Value="{StaticResource DarkMode_AccentColorB}"/>
         <Setter Property="HoverUnderlineBrush" Value="{StaticResource DarkMode_AccentColorE}"/>
+        <Setter Property="InvalidDataLoaded" Value="False"/>
+        <Setter Property="InvalidDataBrush" Value="#FF6767"/>
         <Setter Property="Template">
             
             <Setter.Value>
@@ -722,10 +724,21 @@
                             FontSize="13"
                             Name="UserInputBox"
                             Background="Transparent"
-                            Foreground="{StaticResource DarkMode_TextColorB}"
+                            
                             CaretBrush="{StaticResource DarkMode_TextColorF}"
                             Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Text}">
-                            
+                            <TextBox.Style>
+                                <Style TargetType="{x:Type TextBox}">
+                                    <Setter Property="Foreground" Value="{StaticResource DarkMode_TextColorB}"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=InvalidDataLoaded}" Value="True">
+                                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=InvalidDataBrush}"/>
+                                 
+
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
                         </TextBox>
                         <TextBlock 
                             Grid.Row="0"
@@ -765,11 +778,19 @@
                                         <DataTrigger Binding="{Binding ElementName=UserInputBox, Path=IsMouseOver}" Value="True">
                                             <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=HoverUnderlineBrush}"/>
                                         </DataTrigger>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=InvalidDataLoaded}" Value="True">
+                                            <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=InvalidDataBrush}"/>
+                                            <Setter Property="Height" Value="2"/>
+                                            <Setter Property="Margin" Value="0,0,0,0"/>
+
+                                        </DataTrigger>
+                                        
                                         <DataTrigger Binding="{Binding ElementName=UserInputBox, Path=IsFocused}" Value="True">
                                             <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FocusedUnderlineBrush}"/>
                                             <Setter Property="Height" Value="2"/>
                                             <Setter Property="Margin" Value="0,0,0,0"/>
                                         </DataTrigger>
+                                        
                                         
                                     </Style.Triggers>
                                 </Style>

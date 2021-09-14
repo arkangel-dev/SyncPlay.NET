@@ -33,11 +33,37 @@ namespace SyncPlayWPF.Pages {
         Pages.ApplicationPages.LoadingScreen LoadingPage = null;
 
         private void JoinRoom_Clicked(object sender, RoutedEventArgs e) {
+            var InvalidDataFound = false;
+            if (String.IsNullOrWhiteSpace(ServerAddressField.Text)) {
+                InvalidDataFound = true;
+                ServerAddressField.InvalidDataLoaded = true;
+            }
+
+            if (String.IsNullOrWhiteSpace(UsernameField.Text)) {
+                InvalidDataFound = true;
+                UsernameField.InvalidDataLoaded = true;
+            }
+
+            if (String.IsNullOrWhiteSpace(RoomNameField.Text)) {
+                InvalidDataFound = true;
+                RoomNameField.InvalidDataLoaded = true;
+            }
+
+            if (InvalidDataFound) {
+                Common.Shared.NotificationLayer.CreateNotification("Invalid Data", "One more field of the data you entered is invalid");
+                return;
+            }
+
+
             var serverIp = ServerAddressField.Text.Split(':')[0];
             var serverPort = Int32.Parse(ServerAddressField.Text.Split(':')[1]);
             var username = UsernameField.Text;
             var password = PasswordField.ActualPassword;
             var roomName = RoomNameField.Text;
+
+            
+
+            
             var connector = GetPlayerType(Common.Settings.GetCurrentConfigStringValue("Basics", "PathToMediaPlayer"));
             if (connector == null) {
                 Common.Shared.NotificationLayer.CreateNotification("Incompatible Player", "The player you selected is not compatible with this version of SyncPlay.NET");
@@ -100,6 +126,7 @@ namespace SyncPlayWPF.Pages {
                 Common.Shared.MasterOverrideTransition.UnloadCurrentPage();
                 Common.Shared.MasterOverrideTransition.ShowPage(new ApplicationPages.Blank());
                 Common.Shared.Wrapper.SyncPlayClient.OnDisconnect -= SyncPlayClient_OnDisconnect;
+                ServerAddressField.InvalidDataLoaded = true;
             });
             
             Common.Shared.NotificationLayer.CreateNotification("Server Disconnected", e.ReasonForDisconnection);

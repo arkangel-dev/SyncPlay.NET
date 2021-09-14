@@ -32,8 +32,11 @@ namespace SyncPlayWPF.Pages {
             Common.Shared.WindowPageTransition.ShowPage(Common.Shared.PreviousScreen);
         }
 
+        private bool NoReturnMode = false;
+
         public void EnableNoReturn() {
             CancelConfigurationButton.Visibility = Visibility.Collapsed;
+            NoReturnMode = true;
         }
 
         private void RestoreDefault(object sender, RoutedEventArgs e) {
@@ -43,7 +46,12 @@ namespace SyncPlayWPF.Pages {
         private void SaveConfiguration(object sender, RoutedEventArgs e) {
             Common.Settings.ReadConfigurationFromView(this);
             Common.Settings.DefineSharedSettings();
-            Common.Shared.WindowPageTransition.ShowPage(Common.Shared.PreviousScreen);
+            if (!NoReturnMode) {
+                Common.Shared.WindowPageTransition.ShowPage(Common.Shared.PreviousScreen);
+            } else {
+                Common.Shared.NotificationLayer.CreateNotification("Settings", "New configuration saved to disk");
+            }
+
         }
 
         private void MediaPlayerBrowse_Click(object sender, RoutedEventArgs e) {

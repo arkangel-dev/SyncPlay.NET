@@ -14,7 +14,6 @@ D:\GitHub\symphony-pos\WpfPageTransitions\obj\Release\WpfPageTransitions.pdb
 D:\GitHub\symphony-pos\WpfPageTransitions\obj\Release\WpfPageTransitions.csproj.AssemblyReference.cache
 D:\GitHub\SyncPlayWPF\SyncPlayWPF\External\WpfPageTransitions\bin\Release\WpfPageTransitions.dll
 D:\GitHub\SyncPlayWPF\SyncPlayWPF\External\WpfPageTransitions\bin\Release\WpfPageTransitions.pdb
-D:\GitHub\SyncPlayWPF\SyncPlayWPF\External\WpfPageTransitions\obj\Release\WpfPageTransitions.csproj.AssemblyReference.cache
 D:\GitHub\SyncPlayWPF\SyncPlayWPF\External\WpfPageTransitions\obj\Release\PageTransition.g.cs
 D:\GitHub\SyncPlayWPF\SyncPlayWPF\External\WpfPageTransitions\obj\Release\GeneratedInternalTypeHelper.g.cs
 D:\GitHub\SyncPlayWPF\SyncPlayWPF\External\WpfPageTransitions\obj\Release\WpfPageTransitions_MarkupCompile.cache

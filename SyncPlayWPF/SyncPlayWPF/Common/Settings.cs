@@ -191,8 +191,12 @@ namespace SyncPlayWPF.Common {
             UpdateAttribute(doc, "Behaviour", "SyncMyReadyToWatchStatusWithPlayState", ConvertBoolean(Page.SyncReadyToPlayWithPauseState.IsChecked));
             UpdateAttribute(doc, "Behaviour", "NeverSlowDownOrRewindOther", ConvertBoolean(Page.NeverSlowDownOrRewindOthers.IsChecked));
             UpdateAttribute(doc, "Behaviour", "FastForwardIfLaggingBehind", ConvertBoolean(Page.FastForwardIfLagginingBehind.IsChecked));
+            UpdateAttribute(doc, "Behaviour", "DisableUnsyncModeAfterRemoteFileChange", ConvertBoolean(Page.DisableUnsyncModeAfterRemoteFileChange.IsChecked));
+            UpdateAttribute(doc, "Behaviour", "ResyncWithOthersAfterDisablingUnsyncMode", ConvertBoolean(Page.ResyncWithOthersAfterDisablingUnsyncMode.IsChecked));
+            UpdateAttribute(doc, "Behaviour", "DisableUnsyncModeAfterRemoteFileChange", ConvertBoolean(Page.ResyncWithOthersAfterDisablingUnsyncMode.IsChecked));
 
             UpdateAttribute(doc, "Chat", "ShowMessagesInPlayerWindow", ConvertBoolean(Page.ShowMessagesInPlayerWindow.IsChecked));
+            UpdateAttribute(doc, "Chat", "AllowMultiLineMessages", ConvertBoolean(Page.AllowMultiLineMessages.IsChecked));
             UpdateAttribute(doc, "Chat", "PlayNotificationSound", ConvertBoolean(Page.PlayNotificationSound.IsChecked));
             UpdateAttribute(doc, "Chat", "DisableAnimations", ConvertBoolean(Page.DisableAnimations.IsChecked));
             UpdateAttribute(doc, "Chat", "AutoplayGifs", ConvertBoolean(Page.AutoPlayGIFs.IsChecked));

@@ -26,11 +26,9 @@ This project, the Syncplay released binaries, and all the files included in this
 
 
 <p align="center">
-	<img src="readme.assets/image-20210719221724780.png" width="80%"
+	<img src="readme.assets/image-20210719221724780.png" width="45%">
+	<img src="readme.assets/image-20210719221517521.png" width="45%">
 </p>
 
-<p align="center">
-	<img src="readme.assets/image-20210719221517521.png" width="80%"
-</p>
 
 

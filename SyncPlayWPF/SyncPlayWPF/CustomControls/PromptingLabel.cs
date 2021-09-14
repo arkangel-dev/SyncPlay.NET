@@ -51,10 +51,24 @@ namespace SyncPlayWPF.CustomControls {
         public static readonly DependencyProperty PromptingTextProperty = DependencyProperty.Register("PromptingText", typeof(string), typeof(PromptingLabel), new PropertyMetadata(""));
         public static readonly DependencyProperty FocusedUnderlineBrushProperty = DependencyProperty.Register("FocusedUnderlineBrush", typeof(Brush), typeof(PromptingLabel), new PropertyMetadata(default(Brush)));
         public static readonly DependencyProperty HoverUnderlineBrushProperty = DependencyProperty.Register("HoverUnderlineBrush", typeof(Brush), typeof(PromptingLabel), new PropertyMetadata(default(Brush)));
+        public static readonly DependencyProperty InvalidDataBrushProperty = DependencyProperty.Register("InvalidDataBrush", typeof(Brush), typeof(PromptingLabel), new PropertyMetadata(default(Brush)));
+        public static readonly DependencyProperty InvalidDataLoadedProperty = DependencyProperty.Register("InvalidDataLoaded", typeof(bool), typeof(PromptingLabel), new PropertyMetadata(true));
+
+        
+
+        public bool InvalidDataLoaded {
+            get { return (bool)GetValue(InvalidDataLoadedProperty); }
+            set { SetValue(InvalidDataLoadedProperty, value); }
+        }
 
         public string PromptingText {
             get { return (string)GetValue(PromptingTextProperty); }
             set { SetValue(PromptingTextProperty, value); }
+        }
+
+        public Brush InvalidDataBrush {
+            get { return (Brush)GetValue(InvalidDataBrushProperty); }
+            set { SetValue(InvalidDataBrushProperty, value); }
         }
 
         public Brush FocusedUnderlineBrush {
@@ -69,7 +83,6 @@ namespace SyncPlayWPF.CustomControls {
 
         public override void OnApplyTemplate() {
           
-           
         }
 
         public void MoveToEndPosition() {
@@ -83,8 +96,5 @@ namespace SyncPlayWPF.CustomControls {
             Keyboard.Focus(tempchild);
         }
 
-       
-
-        
     }
 }

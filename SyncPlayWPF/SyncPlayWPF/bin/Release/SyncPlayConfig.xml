@@ -30,7 +30,7 @@
     <ShowEventsInOtherRooms>False</ShowEventsInOtherRooms>
     <ShowSlowingDownRevertingNotifications>True</ShowSlowingDownRevertingNotifications>
     <ShowWarnings>True</ShowWarnings>
-    <AllowMultiLineMessages>False</AllowMultiLineMessages>
+    <AllowMultiLineMessages>True</AllowMultiLineMessages>
     <PreviewLinks>False</PreviewLinks>
     <EnableOSDMessages>True</EnableOSDMessages>
     <ShowEventsInYourRoom>False</ShowEventsInYourRoom>
