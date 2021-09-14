@@ -2,9 +2,9 @@
   <!--Basics and Stuff-->
   <Basics>
     <Address>SyncPlay.pl:8995</Address>
-    <Username>Sam</Username>
+    <Username></Username>
     <Password></Password>
-    <RoomName>ck</RoomName>
+    <RoomName></RoomName>
     <PathToMediaPlayer>C:\Program Files\mpv.net\mpvnet.exe</PathToMediaPlayer>
     <PathToVideo></PathToVideo>
     <AdditionalArguments></AdditionalArguments>

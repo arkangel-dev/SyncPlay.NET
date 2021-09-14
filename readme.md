@@ -1,5 +1,5 @@
 
-![](https://github.com/arkangel-dev/SyncPlay.NET/actions/workflows/main.yml/badge.svg) ![](https://img.shields.io/badge/Stage-Beta-yellow)
+![](https://github.com/arkangel-dev/SyncPlay.NET/actions/workflows/main.yml/badge.svg) ![](https://img.shields.io/badge/Stage-Release-green)
 
 <img src="readme.assets/banner.png" alt="Banner" style="zoom: 67%;" />
 
