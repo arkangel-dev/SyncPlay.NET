@@ -1,0 +1,39 @@
+name: Final Release
+
+jobs:  
+  build:    
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: SyncPlayWPF
+    steps:      
+      - uses: actions/checkout@v2
+      
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.0.5
+        
+      - name: Restore Packages
+        run: nuget restore SyncPlayWPF.sln
+
+      - name: Build Solution
+        run: |
+          msbuild.exe SyncPlayWPF.sln /p:platform="Any CPU" /p:configuration="Release"
+          
+      - name: Upload Package
+        uses: actions/upload-artifact@v2
+        with:
+          name: BuildArtifact
+          path: D:\a\SyncPlay.NET\SyncPlay.NET\SyncPlayWPF\SyncPlayWPF\bin\Release\
+          
+      - name: Release
+        uses: actions/create-release@v1
+        id: create_release
+        with:
+          draft: true
+          prerelease: false
+          tag_name: ${{ github.ref }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
