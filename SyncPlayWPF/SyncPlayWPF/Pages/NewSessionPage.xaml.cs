@@ -19,6 +19,9 @@ namespace SyncPlayWPF.Pages {
     /// Interaction logic for NewSessionPage.xaml
     /// </summary>
     public partial class NewSessionPage : UserControl {
+
+        Pages.ApplicationPages.LoadingScreen LoadingPage = null;
+
         public NewSessionPage() {
             InitializeComponent();
             this.Loaded += PageLoaded;
@@ -30,7 +33,7 @@ namespace SyncPlayWPF.Pages {
             RoomNameField.Text = Common.Shared.CurrentConfig.Element("Config").Element("Basics").Element("RoomName").Value;
         }
 
-        Pages.ApplicationPages.LoadingScreen LoadingPage = null;
+        
 
         private void JoinRoom_Clicked(object sender, RoutedEventArgs e) {
             var InvalidDataFound = false;
@@ -54,16 +57,11 @@ namespace SyncPlayWPF.Pages {
                 return;
             }
 
-
             var serverIp = ServerAddressField.Text.Split(':')[0];
             var serverPort = Int32.Parse(ServerAddressField.Text.Split(':')[1]);
             var username = UsernameField.Text;
             var password = PasswordField.ActualPassword;
             var roomName = RoomNameField.Text;
-
-            
-
-            
             var connector = GetPlayerType(Common.Settings.GetCurrentConfigStringValue("Basics", "PathToMediaPlayer"));
             if (connector == null) {
                 Common.Shared.NotificationLayer.CreateNotification("Incompatible Player", "The player you selected is not compatible with this version of SyncPlay.NET");
@@ -108,14 +106,9 @@ namespace SyncPlayWPF.Pages {
             var exename = System.IO.Path.GetFileName(path);
 
             switch (exename) {
-                case "mpvnet.exe":
-                    return new SyncPlay.MediaPlayers.MPVPlayer.Connector();
-
-                case "vlc.exe":
-                    return new SyncPlay.MediaPlayers.VLCMediaPlayer.Connector();
-
-                default:
-                    return null;
+                case "mpvnet.exe": return new SyncPlay.MediaPlayers.MPVPlayer.Connector();
+                case "vlc.exe": return new SyncPlay.MediaPlayers.VLCMediaPlayer.Connector();
+                default: return null;
             }
         }
 
@@ -132,14 +125,10 @@ namespace SyncPlayWPF.Pages {
             Common.Shared.NotificationLayer.CreateNotification("Server Disconnected", e.ReasonForDisconnection);
             Common.Shared.Wrapper.Dispose();
         }
-
-       
-
+        
         private void ShowMoreSettings_Clicked(object sender, RoutedEventArgs e) {
             Common.Shared.PreviousScreen = this;
             Common.Shared.WindowPageTransition.ShowPage(new Pages.SettingsPage());
-
-            
         }
     }
 }

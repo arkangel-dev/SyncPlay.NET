@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:SyncPlayWPF.Pages"
              xmlns:custom="clr-namespace:SyncPlayWPF.CustomControls"
              mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="500">
+             d:DesignHeight="800" d:DesignWidth="400">
     <UserControl.Resources>
         <ResourceDictionary Source="../Themes/Generic.xaml"/>
     </UserControl.Resources>

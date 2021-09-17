@@ -45,9 +45,15 @@ namespace SyncPlayWPF.Pages {
 
         private void MasterWindow_SizeChanged(object sender, SizeChangedEventArgs e) {
             if (e.NewSize.Width <= 400) {
-                SidePanel.Visibility = Visibility.Collapsed;
+                ChatSideButton.EnableCompactMode();
+                MediaSideButton.EnableCompactMode();
+                SettingsSideButton.EnableCompactMode();
+                AboutSideButton.EnableCompactMode();
             } else {
-                SidePanel.Visibility = Visibility.Visible;
+                ChatSideButton.DisableCompactMode();
+                MediaSideButton.DisableCompactMode();
+                SettingsSideButton.DisableCompactMode();
+                AboutSideButton.DisableCompactMode();
             }
         }
 
@@ -56,7 +62,7 @@ namespace SyncPlayWPF.Pages {
         }
 
         private void ToggleSidePanel(object sender, RoutedEventArgs e) {
-            Common.Shared.MasterLogDump.Save();
+            
         }
 
         private void SidePanelButtonClick(object sender, RoutedEventArgs e) {

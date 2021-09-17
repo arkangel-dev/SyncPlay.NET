@@ -299,7 +299,7 @@
                         <Grid Margin="20,12,20,12">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition/>
+                                <ColumnDefinition x:Name="LabelColumn" Width="auto"/>
                             </Grid.ColumnDefinitions>
 
                             <Rectangle Grid.Column="0" Width="30" Height="30" VerticalAlignment="Center">
@@ -330,6 +330,8 @@
                             </Rectangle>
 
                             <TextBlock
+                             
+                                x:Name="ButtonLabel"
                                 Grid.Column="1"
                                 FontSize="13"
                                 Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Content}"
@@ -882,7 +884,7 @@
                         </PasswordBox>
                         <TextBlock 
                             Grid.Row="0"
-                            Margin="10,0,0,0"
+                            Margin="15,0,0,0"
                             FontSize="13"
                             IsHitTestVisible="False"
                             Focusable="False"
@@ -895,9 +897,9 @@
                                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=FieldCompleted}" Value="True">
                                             <Setter Property="Visibility" Value="Hidden"/>
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding ElementName=UserInputBox, Path=IsFocused}" Value="True">
+                                        <!--<DataTrigger Binding="{Binding ElementName=UserInputBox, Path=IsFocused}" Value="True">
                                             <Setter Property="Visibility" Value="Hidden"/>
-                                        </DataTrigger>
+                                        </DataTrigger>-->
                                     </Style.Triggers>
                                 </Style>
                             </TextBlock.Style>
@@ -944,13 +946,14 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Grid Grid.Column="0"
-                                  Height="23">
+                                  Height="23"
+                                  VerticalAlignment="Top">
 
                                 
                                 <Border 
                                     x:Name="ToggleContainer"
                                     Margin="0,0,10,0"
-                                    VerticalAlignment="Center"
+                                    VerticalAlignment="Top"
                                     HorizontalAlignment="Center"
                                     Height="20"
                                     Width="20"
@@ -975,6 +978,7 @@
                                     VerticalAlignment="Center"
                                     Text="{TemplateBinding Content}"
                                     FontSize="12"
+                                    TextWrapping="Wrap"
                                     Foreground="{StaticResource DarkMode_AccentColorE}"
                                     FontWeight="DemiBold">
                                 </TextBlock>
@@ -1034,7 +1038,8 @@
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Grid Grid.Column="0">
+                            <Grid Grid.Column="0"
+                                  VerticalAlignment="Top">
 
 
                                 <Border 
@@ -1054,6 +1059,7 @@
                                     VerticalAlignment="Center"
                                     Text="{TemplateBinding Content}"
                                     FontSize="12"
+                                    TextWrapping="WrapWithOverflow"
                                     Foreground="{StaticResource DarkMode_AccentColorE}"
                                     FontWeight="DemiBold">
                                 </TextBlock>
@@ -1262,6 +1268,7 @@
                                         </Style>
                                     </TextBlock.Style>
                                 </TextBlock>
+                                
                                 <TextBlock 
                                     Grid.Row="1"
                                     Grid.Column="0"
@@ -1271,15 +1278,27 @@
                                     TextWrapping="Wrap"
                                     VerticalAlignment="Bottom"
                                     Grid.ColumnSpan="1"
-                                    Width="auto"/>
+                                    Width="auto">
+                                        
+                                   
+                                    
+                                     
+                                       
+                                           
+                                       
+                                </TextBlock>
                                 <TextBlock
-                                    Grid.Row="2"
-                                    Grid.Column="1"
-                                    FontSize="10"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Bottom"
-                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=MessageTime}"
-                                    Foreground="{StaticResource DarkMode_TextColorD}"/>
+                                                Grid.Row="2"
+                                                Grid.Column="1"
+                                                FontSize="10"
+                                                Margin="0,0,0,0"
+                                                HorizontalAlignment="Right"
+                                                TextAlignment="Right"
+                               
+                                            
+                                                VerticalAlignment="Bottom"
+                                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=MessageTime}"
+                                                Foreground="{StaticResource DarkMode_TextColorD}"/>
                             </Grid>
                         </Border>
                         <Border.Triggers>

@@ -1,10 +1,10 @@
 <Config>
   <!--Basics and Stuff-->
   <Basics>
-    <Address>SyncPlay.pl:8995</Address>
-    <Username></Username>
+    <Address>syncplay.pl:8995</Address>
+    <Username>Sammy</Username>
     <Password></Password>
-    <RoomName></RoomName>
+    <RoomName>ck</RoomName>
     <PathToMediaPlayer>C:\Program Files\mpv.net\mpvnet.exe</PathToMediaPlayer>
     <PathToVideo></PathToVideo>
     <AdditionalArguments></AdditionalArguments>

@@ -219,7 +219,7 @@ namespace SyncPlayWPF.Pages.SessionPages {
         }
 
         private void ImageButton_Click(object sender, RoutedEventArgs e) {
-            MessageBlockField.Text += "\n";
+            
         }
 
         private void Grid_GotFocus(object sender, RoutedEventArgs e) {

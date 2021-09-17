@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -68,6 +69,16 @@ namespace SyncPlayWPF.CustomControls {
         // Text Colors
         public static readonly DependencyProperty TextForegroundBrushProperty = DependencyProperty.Register("TextForegroundBrush", typeof(Brush), typeof(ImageButton), new PropertyMetadata(default(Brush)));
 
+        public static readonly DependencyProperty IsCompactProperty = DependencyProperty.Register("IsCompact", typeof(bool), typeof(ImageButton), new PropertyMetadata(true));
+        
+        public bool IsCompact {
+            get { return (bool)GetValue(IsCompactProperty); }
+        }
+
+        private bool _isCompact {
+            get { return (bool)GetValue(IsCompactProperty); }
+            set { SetValue(IsCompactProperty, value); }
+        }
 
         public BitmapImage Image {
             get { return (BitmapImage)GetValue(ImageProperty); }
@@ -117,6 +128,47 @@ namespace SyncPlayWPF.CustomControls {
         public Brush TextForegroundBrush {
             get { return (Brush)GetValue(TextForegroundBrushProperty); }
             set { SetValue(TextForegroundBrushProperty, value); }
+        }
+
+        public void FadeOutLegend(int duration) {
+            var content_label = GetTemplateChild("ButtonLabel") as TextBlock;
+
+            var fadeOutAnim = new DoubleAnimation();
+            fadeOutAnim.Duration = new Duration(TimeSpan.FromMilliseconds(duration));
+            fadeOutAnim.To = 0;
+            fadeOutAnim.From = content_label.Opacity;
+            content_label.BeginAnimation(TextBlock.OpacityProperty, fadeOutAnim);
+        }
+
+        public void FadeInLegend(int duration) {
+            var content_label = GetTemplateChild("ButtonLabel") as TextBlock;
+            var fadeInAnim = new DoubleAnimation();
+            fadeInAnim.Duration = new Duration(TimeSpan.FromMilliseconds(duration));
+            fadeInAnim.To = 1;
+            fadeInAnim.From = content_label.Opacity;
+            content_label.BeginAnimation(TextBlock.OpacityProperty, fadeInAnim);
+        }
+
+        public void EnableCompactMode() {
+            var content_label = GetTemplateChild("ButtonLabel") as TextBlock;
+            content_label.MaxWidth = 0;
+            content_label.Margin = new Thickness(0, 0, 0, 0);
+            _isCompact = true;
+        } 
+
+        public void DisableCompactMode() {
+            var content_label = GetTemplateChild("ButtonLabel") as TextBlock;
+            content_label.MaxWidth = double.PositiveInfinity;
+            content_label.Margin = new Thickness(15, 0, 0, 0);
+            _isCompact = true;
+        }
+
+        public void ToggleCompactMode() {
+            if (_isCompact) {
+                DisableCompactMode();
+                return;
+            }
+            EnableCompactMode();
         }
     }
 }

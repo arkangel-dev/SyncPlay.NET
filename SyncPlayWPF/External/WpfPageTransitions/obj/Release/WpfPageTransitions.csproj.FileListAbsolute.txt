@@ -25,3 +25,4 @@ D:\GitHub\SyncPlayWPF\SyncPlayWPF\External\WpfPageTransitions\obj\Release\WpfPag
 D:\GitHub\SyncPlayWPF\SyncPlayWPF\External\WpfPageTransitions\obj\Release\WpfPageTransitions.csproj.CoreCompileInputs.cache
 D:\GitHub\SyncPlayWPF\SyncPlayWPF\External\WpfPageTransitions\obj\Release\WpfPageTransitions.dll
 D:\GitHub\SyncPlayWPF\SyncPlayWPF\External\WpfPageTransitions\obj\Release\WpfPageTransitions.pdb
+D:\GitHub\SyncPlayWPF\SyncPlayWPF\External\WpfPageTransitions\obj\Release\WpfPageTransitions.csproj.AssemblyReference.cache
