@@ -11,6 +11,7 @@ namespace SyncPlayWPF.SyncPlay {
         void Pause();
         void Play();
         void SetPosition(float f);
+        float GetPosition();
         void SetPauseState(bool p);
         bool IsPaused();
         void ClosePlayer();

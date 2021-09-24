@@ -296,7 +296,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type custom:ImageButton}">
                     <Border x:Name="MainBorder">
-                        <Grid Margin="20,12,20,12">
+                        <Grid Margin="20,12,20,12" x:Name="ContainerGrid">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition x:Name="LabelColumn" Width="auto"/>

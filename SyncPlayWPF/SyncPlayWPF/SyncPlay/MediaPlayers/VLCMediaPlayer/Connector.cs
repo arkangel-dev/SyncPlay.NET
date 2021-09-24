@@ -166,6 +166,11 @@ namespace SyncPlayWPF.SyncPlay.MediaPlayers.VLCMediaPlayer  {
             
         }
 
+        public float GetPosition() {
+            // Heh. Nope
+            return 0.0f;
+        }
+
         public event MediaPlayerInterface.HandleDebugMessages OnDebugMessage;
         public event MediaPlayerInterface.HandlePlayerServerMessages OnPlayerMessage;
         public event MediaPlayerInterface.HandleFileLoadEvent OnNewFileLoad;

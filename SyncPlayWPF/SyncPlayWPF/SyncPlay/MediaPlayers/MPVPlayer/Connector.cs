@@ -26,26 +26,35 @@ namespace SyncPlayWPF.SyncPlay.MediaPlayers.MPVPlayer {
         }
 
         public bool IsPaused() {
-            var req_id = GetRequestNewID();
+            var req_id = GetNewPacketID();
             this.WritePipe.WriteLine(MPVPackets.CraftGetPauseStatePacket(req_id));
             var jobj = AwaitForResponse(req_id);
             return jobj.Value<bool>("data");
         }
 
+     
+
         public void Pause() {
-            this.WriteData(MPVPackets.CraftPausePacket(GetRequestNewID()));
+            this.WriteData(MPVPackets.CraftPausePacket(GetNewPacketID()));
         }
 
         public void Play() {
-            this.WriteData(MPVPackets.CraftPlayPacket(GetRequestNewID()));
+            this.WriteData(MPVPackets.CraftPlayPacket(GetNewPacketID()));
         }
 
         public void SetPauseState(bool p) {
-            this.WriteData(MPVPackets.CraftPauseStatePacket(p, GetRequestNewID()));
+            this.WriteData(MPVPackets.CraftPauseStatePacket(p, GetNewPacketID()));
         }
 
         public void SetPosition(float f) {
-            this.WriteData(MPVPackets.CraftSeekAbsolutePacket(f, GetRequestNewID()));
+            this.WriteData(MPVPackets.CraftSeekAbsolutePacket(f, GetNewPacketID()));
+        }
+
+        public float GetPosition() {
+            var req_id = GetNewPacketID();
+            WriteData(MPVPackets.CraftGetCurrentPlayPositionPacket(req_id));
+            var json_obj = AwaitForResponse(req_id);
+            return json_obj.Value<float>("data");
         }
 
         public bool StartPlayerInstance() {
@@ -65,15 +74,16 @@ namespace SyncPlayWPF.SyncPlay.MediaPlayers.MPVPlayer {
                 return false;
             }
 
-
-
             var readThread = new Thread(() => {
                 ReadData();
             });
             readThread.IsBackground = true;
             readThread.Start();
+            
             return true;
         }
+
+        
 
         
 
@@ -122,9 +132,9 @@ namespace SyncPlayWPF.SyncPlay.MediaPlayers.MPVPlayer {
             Thread.Sleep(300);
 
             // Send Requests to observe the stuff we want
-            this.WriteData(MPVPackets.CraftObservePropertyPacket("pause", 1, GetRequestNewID()));
-            this.WriteData(MPVPackets.CraftObservePropertyPacket("seeking", 2, GetRequestNewID()));
-            this.WriteData(MPVPackets.CraftObservePropertyPacket("filename", 3, GetRequestNewID()));
+            this.WriteData(MPVPackets.CraftObservePropertyPacket("pause", 1, GetNewPacketID()));
+            this.WriteData(MPVPackets.CraftObservePropertyPacket("seeking", 2, GetNewPacketID()));
+            this.WriteData(MPVPackets.CraftObservePropertyPacket("filename", 3, GetNewPacketID()));
             return true;
         }
 
@@ -145,13 +155,10 @@ namespace SyncPlayWPF.SyncPlay.MediaPlayers.MPVPlayer {
 
 
         private void ProcessIncomingData(String json) {
-
             Debug(" << " + json);
             try {
                 var json_obj = JObject.Parse(json);
-
                 if (Common.Shared.IgnorePlayerStateChanges) return;
-
                 if (json_obj.ContainsKey("event")) {
                     if (json_obj.Value<string>("event") == "property-change") {
                         switch (json_obj.Value<string>("name")) {
@@ -182,7 +189,7 @@ namespace SyncPlayWPF.SyncPlay.MediaPlayers.MPVPlayer {
         } 
 
         private void GetCurrentPosAndNotify() {
-            var req_id = GetRequestNewID();
+            var req_id = GetNewPacketID();
             WriteData(MPVPackets.CraftGetCurrentPlayPositionPacket(req_id));
             var json_obj = AwaitForResponse(req_id);
             var position = json_obj.Value<float>("data");
@@ -203,39 +210,43 @@ namespace SyncPlayWPF.SyncPlay.MediaPlayers.MPVPlayer {
         }
 
         private JObject AwaitForResponse(int request_id) {
-            JObject json_obj = null;
-            while (true) {
-                Task.WaitAll(this.ReadTask);
-                json_obj = JObject.Parse(this.ReadTask.Result);
-                if (json_obj.Value<int>("request_id") == request_id) break;
+            try {
+                JObject json_obj = null;
+                while (true) {
+                    Task.WaitAll(this.ReadTask);
+                    json_obj = JObject.Parse(this.ReadTask.Result);
+                    if (json_obj.Value<int>("request_id") == request_id) break;
+                }
+                Debug("Request Match : " + json_obj.ToString(Newtonsoft.Json.Formatting.None));
+                return json_obj;
+            } catch (Exception e) {
+                return null;
             }
-            Debug("Request Match : " + json_obj.ToString(Newtonsoft.Json.Formatting.None));
-            return json_obj;
         }
 
         private string GetCurrentFileName() {
-            var request_id = GetRequestNewID();
+            var request_id = GetNewPacketID();
             WriteData(MPVPackets.CraftGetFileNamePacket(request_id));
             var json_obj = AwaitForResponse(request_id);
             return json_obj.Value<string>("error") != "success" ? "" : json_obj.Value<string>("data");
         }
 
         private float GetCurrentFileDuration() {
-            var request_id = GetRequestNewID();
+            var request_id = GetNewPacketID();
             WriteData(MPVPackets.CraftGetFileDurationPacket(request_id));
             var json_obj = AwaitForResponse(request_id);
             return json_obj.Value<string>("error") != "success" ? 0.0f : json_obj.Value<float>("data");
         }
 
         private int GetCurrentFileSize() {
-            var request_id = GetRequestNewID();
+            var request_id = GetNewPacketID();
             WriteData(MPVPackets.CraftGetFileSizePacket(request_id));
             var json_obj = AwaitForResponse(request_id);
             return json_obj.Value<string>("error") != "success" ? 0 : json_obj.Value<int>("data");
         }
 
         private string GetCurrentFilePath() {
-            var request_id = GetRequestNewID();
+            var request_id = GetNewPacketID();
             WriteData(MPVPackets.CraftGetFilePathPacket(request_id));
             var json_obj = AwaitForResponse(request_id);
             return json_obj.Value<string>("error") != "success" ? "" : json_obj.Value<string>("data");
@@ -249,7 +260,7 @@ namespace SyncPlayWPF.SyncPlay.MediaPlayers.MPVPlayer {
         }
 
         private int req_counter = 0;
-        private int GetRequestNewID() {
+        private int GetNewPacketID() {
             req_counter++;
             return req_counter;
         }
@@ -259,7 +270,9 @@ namespace SyncPlayWPF.SyncPlay.MediaPlayers.MPVPlayer {
         }
 
         public void DisplayOSDMessage(string msg) {
-            this.WriteData(MPVPackets.CraftShowOSDMessagePacket(msg, this.GetRequestNewID()));
+            this.WriteData(MPVPackets.CraftShowOSDMessagePacket(msg, this.GetNewPacketID()));
         }
+
+       
     }
 }

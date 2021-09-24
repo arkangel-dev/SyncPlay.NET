@@ -69,6 +69,7 @@ namespace SyncPlayWPF.CustomControls {
         // Text Colors
         public static readonly DependencyProperty TextForegroundBrushProperty = DependencyProperty.Register("TextForegroundBrush", typeof(Brush), typeof(ImageButton), new PropertyMetadata(default(Brush)));
 
+        // Boolean stuff
         public static readonly DependencyProperty IsCompactProperty = DependencyProperty.Register("IsCompact", typeof(bool), typeof(ImageButton), new PropertyMetadata(true));
         
         public bool IsCompact {
@@ -150,16 +151,20 @@ namespace SyncPlayWPF.CustomControls {
         }
 
         public void EnableCompactMode() {
+            //var container_grid = GetTemplateChild("ContainerGrid") as Grid;
             var content_label = GetTemplateChild("ButtonLabel") as TextBlock;
             content_label.MaxWidth = 0;
             content_label.Margin = new Thickness(0, 0, 0, 0);
+            //container_grid.Margin = new Thickness(12, 12, 12, 12);
             _isCompact = true;
         } 
 
         public void DisableCompactMode() {
             var content_label = GetTemplateChild("ButtonLabel") as TextBlock;
+            //var container_grid = GetTemplateChild("ContainerGrid") as Grid;
             content_label.MaxWidth = double.PositiveInfinity;
             content_label.Margin = new Thickness(15, 0, 0, 0);
+            //container_grid.Margin = new Thickness(20, 12, 20, 12);
             _isCompact = true;
         }
 

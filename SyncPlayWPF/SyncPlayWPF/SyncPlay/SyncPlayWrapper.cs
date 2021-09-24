@@ -42,9 +42,10 @@ namespace SyncPlayWPF.SyncPlay {
                 return;
             }
             this.OnConnectionSuccess?.Invoke(this);
+            var SyncStateThread = new System.Threading.Thread(() => { SyncStateWithPlayer(); });
+            SyncStateThread.IsBackground = true;
+            SyncStateThread.Start();
         }
-
-
 
         private void NewFileLoad(SPEventArgs.NewFileLoadEventArgs e) {
             SyncPlayClient.AddFileToPlayList(e.AbsoluteFilePath);
@@ -53,6 +54,19 @@ namespace SyncPlayWPF.SyncPlay {
         private void PlayerStateChanged(SyncPlayClient sender, SPEventArgs.RemoteStateChangeEventArgs e) {
             Player.SetPauseState(e.Paused);
             Player.SetPosition(e.Position + RemoteSeekOffset);
+        }
+
+        public void SyncStateWithPlayer() {
+            while (true) {
+                if (this.Player.IsPaused() ^ this.SyncPlayClient.GetPause()) {
+                    this.Player.SetPauseState(this.SyncPlayClient.GetPause());
+                }
+
+                if (Math.Abs(this.Player.GetPosition() - this.SyncPlayClient.GetPlayPosition()) > 1) {
+                    this.Player.SetPosition(this.SyncPlayClient.GetPlayPosition());
+                }
+                System.Threading.Thread.Sleep(250);
+            }
         }
 
         public void Dispose() {

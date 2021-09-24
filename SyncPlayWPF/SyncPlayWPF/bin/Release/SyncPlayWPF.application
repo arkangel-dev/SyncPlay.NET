@@ -7,14 +7,14 @@
     <framework targetVersion="4.7.1" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="SyncPlayWPF.exe.manifest" size="10063">
+    <dependentAssembly dependencyType="install" codebase="SyncPlayWPF.exe.manifest" size="10061">
       <assemblyIdentity name="SyncPlayWPF.exe" version="1.0.0.1" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>2cupYw9B6x70eJ0XKk8L568VJ0ygMQl9oMmsONkXvnI=</dsig:DigestValue>
+        <dsig:DigestValue>FEc33tBskwvU9E8oQpMLPXwpQHOR8WJ99gfNv03OsUs=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
